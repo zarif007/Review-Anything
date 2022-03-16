@@ -1,32 +1,40 @@
 import Image from "next/image";
 import React from "react";
 import logo from "../images/logo.png";
+import sm_logo from "../images/sm_logo.png";
 import { IoNotificationsSharp, IoAddCircleSharp } from "react-icons/io5";
 
 
 const styles = {
+  nav: "pt-6 shadow-sm bg-[#060809] sticky top-0 z-50 shadow-[#2b3c53] pb-2 sm:pb-0",
   wrapper: "flex justify-between max-w-6xl mx-5 lg:mx-auto",
-  logo: "relative h-24 w-24",
+  logo: "relative h-8 w-8 sm:h-24 sm:w-24",
   searchWrapper: "relative text-gray-600 focus-within:text-gray-400",
   searchIcon: "absolute inset-y-0 left-0 flex items-center pl-2",
-  searchInput: "py-2 w-32 md:w-72 xl:w-100 text-large font-semibold text-white bg-[#0c1012] border-2 border-[#1f2937] rounded-md pl-10 focus:outline-none focus:bg-gray-900",
-  iconsWrapper: "text-white flex flex-row",
-  icon: "h-7 w-7 text-gray-200",
-  notificationWrapper: "bg-blue-700 text-xs p-1 rounded-md absolute m-3 ml-4",
+  searchInput: "py-2 w-32 sm:w-72 xl:w-100 text-large font-semibold text-white bg-[#0c1012] border-2 border-[#2b3c53] rounded-md pl-10 focus:outline-none focus:bg-gray-900",
+  iconsWrapper: "text-white flex flex-row md:space-x-4",
+  icon: "h-6 w-6 sm:h-8 sm:w-8 text-gray-200 iconAnimation",
+  notificationWrapper: "bg-blue-700 text-xs p-1 animate-pulse rounded-md absolute m-3 ml-4",
+  userImage: "h-8 sm:h-10 rounded-full cursor-pointer",
 }
 
 const Header = () => {
   return (
-    <div className="pt-3">
+    <div className={styles.nav}>
       <div className={styles.wrapper} >
 
         {/* Logo  */}
         <div className={styles.logo}>
-          <Image src={logo} objectFit="contain" />
+          <div className="sm:hidden">
+            <Image src={sm_logo} objectFit="contain" />
+          </div>
+          <div className="hidden sm:inline">
+            <Image src={logo} objectFit="contain" />
+          </div>
         </div>
 
         {/* Search Field  */}
-        <div className="mt-1">
+        <div className="">
           <div className={styles.searchWrapper}>
             <span className={styles.searchIcon}>
               <svg
@@ -43,9 +51,8 @@ const Header = () => {
             </span>
             <input
               type="search"
-              name="q"
               className={styles.searchInput}
-              placeholder="Search..."
+              placeholder="Search(D.Trump, Nissan GTR)..."
               autoComplete="off"
             />
           </div>
@@ -54,10 +61,16 @@ const Header = () => {
         {/* Icons  */}
         <div className={styles.iconsWrapper}>
           <IoAddCircleSharp className={styles.icon} />
-          <div className="flex flex-row">
+          <div className="flex flex-row mr-3">
             <IoNotificationsSharp className={styles.icon} />
             <span className={styles.notificationWrapper}>10</span>
           </div>
+          
+          <img 
+            src='https://yt3.ggpht.com/FjeN785fVWx0Pr6xCbwPhhq8hHj_gocc3FygDXYDEQgp2gE_FQzRNsFHFAjQ3oE-VJaeGR1a=s48-c-k-c0x00ffffff-no-rj'
+            alt='dp'
+            className={styles.userImage}
+          />
         </div>
 
       </div>
