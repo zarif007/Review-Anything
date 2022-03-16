@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Feed from '../components/Feed'
 import Header from '../components/Header'
 
 
@@ -27,7 +28,7 @@ const Home: NextPage = () => {
         <div className='bg-[#0c1012] border-2 border-[#2b3c53] p-3 rounded-md  mx-auto m-2  w-1/6'>Helddddddso</div>
         
       </div> */}
-      
+      <Feed />
     </div>
   )
 }
