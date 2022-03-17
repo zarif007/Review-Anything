@@ -6,7 +6,7 @@ import Header from '../components/Header'
 
 const Home: NextPage = () => {
   return (
-    <div className='min-h-screen bg-[#060809]'>
+    <div className='min-h-screen bg-[#0E0E10]'>
       <Head>
         <title>RAT</title>
         <meta name="description" content="Review Anything" />
@@ -14,18 +14,22 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       {/* <div className='bg-[#0c1012] p-12 border-2 border-[#1f2937] rounded-md text-white m-2'>
+        BG -> #0E0E10
+        POST - > #0f0f0f
+        SHADOW -> #1f2937
         hi
       </div> */}
-{/* 
-      <div className='font-bold text-5xl text-white flex flex-col lg:flex-row   flex-wrap'>
+
+      {/* <div className='font-bold text-5xl text-white flex flex-col lg:flex-row   flex-wrap'>
         <div className='bg-gray-900 p-3 rounded-md  mx-auto m-2 border-blue-600 border-2 w-1/6'>Hi</div>
+        <div className='bg-[#0f0f0f] shadow-md shadow-[#060809] p-3 rounded-md  mx-auto m-2  w-1/6'>Helddddddso</div>
         <div className='p-3 rounded-md  mx-auto m-2  w-3/6 flex flex-col'>
           <h1 className='bg-[#0c1012] border-2 border-[#1f2937] m-4'>hiiiiii</h1>
           <h1 className='bg-[#0c1012] border-2 border-[#1f2937] m-4'>hiiiiii</h1>
           <h1 className='bg-[#0c1012] border-2 border-[#1f2937] m-4'>hiiiiii</h1>
           <h1 className='bg-[#0c1012] border-2 border-[#1f2937] m-4'>hiiiiii</h1>
         </div>
-        <div className='bg-[#0c1012] border-2 border-[#2b3c53] p-3 rounded-md  mx-auto m-2  w-1/6'>Helddddddso</div>
+        
         
       </div> */}
       <Feed />
