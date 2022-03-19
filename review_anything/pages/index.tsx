@@ -16,7 +16,7 @@ const Home: NextPage = () => {
       {/* <div className='bg-[#0c1012] p-12 border-2 border-[#1f2937] rounded-md text-white m-2'>
         BG -> #0E0E10
         POST - > #0f0f0f
-        SHADOW -> #1f2937
+        SHADOW -> black
         hi
       </div> */}
 

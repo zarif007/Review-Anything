@@ -25,4 +25,9 @@ a {
     cursor-pointer hover:scale-125
     transition-all duration-150 ease-out;
   }
+
+  .btn {
+    @apply h-7 hover:scale-125 cursor-pointer
+    hover:bg-gray-900 transition-all duration-150 ease-out
+  }
 }
