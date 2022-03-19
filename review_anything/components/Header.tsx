@@ -73,7 +73,7 @@ const Header = () => {
             }
           
           </div>
-          <IoAddCircleSharp className={styles.icon} />
+          <IoAddCircleSharp className={`${styles.icon} hidden md:inline`} />
           <div className="flex flex-row mr-3">
             <IoNotificationsSharp className={styles.icon} />
             <span className={styles.notificationWrapper}>10</span>

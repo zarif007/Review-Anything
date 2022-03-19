@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import BottomNav from '../components/BottomNav'
 import Feed from '../components/Feed'
 import Header from '../components/Header'
 
@@ -40,6 +41,9 @@ const Home: NextPage = () => {
         
       </div> */}
       <Feed />
+      <div className='inline md:hidden'>
+        <BottomNav />
+      </div>
     </div>
   )
 }
