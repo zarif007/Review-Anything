@@ -6,7 +6,7 @@ import { FaSwimmingPool } from 'react-icons/fa';
 const BottomNav = () => {
 
     const styles = {
-        wrapper: `w-full h-screen`,
+        wrapper: `w-full h-24`,
         itemsWrapper: `block fixed inset-x-0 bottom-0 z-50 bg-[#131313] shadow-black border-2 border-gray-900`,
         iconsWrapper: `w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-1 pb-1`,
         icon: `h-10 w-6 sm:h-12 sm:w-8 text-gray-200  iconAnimation`,
