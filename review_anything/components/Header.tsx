@@ -13,8 +13,8 @@ const Header = () => {
   const [isDark, setIsDark] = useState(true)
 
   const styles = {
-    nav: `pt-3 shadow-sm ${isDark ? 'bg-[#0f0f0f] shadow-black' : 'bg-[#FAF9F6] shadow-[#a1a1aa]'}  sticky top-0 z-50 pb-2`,
-    wrapper: `flex justify-between max-w-7xl mx-5 lg:mx-auto`,
+    nav: `pt-3 shadow-sm ${isDark ? 'bg-[#131313] shadow-black' : 'bg-[#FAF9F6] shadow-[#a1a1aa]'}  sticky top-0 z-50 pb-2`,
+    wrapper: `flex justify-between max-w-6xl mx-5 lg:mx-auto`,
     logo: `relative h-8 w-8 sm:h-12 sm:w-24`,
     searchWrapper: `relative text-gray-600 focus-within:text-gray-400`,
     searchIcon: `absolute inset-y-0 left-0 flex items-center pl-2`,

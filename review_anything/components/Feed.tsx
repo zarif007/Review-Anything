@@ -3,12 +3,14 @@ import Posts from './Posts'
 
 const Feed: React.FC = () => {
   return (
-    <main className='text-white grid grid-cols-1 md:grid-cols-2 md:mx-w-3xl xl:grid-cols-3 xl:max-w-6xl mx-auto max-w-7xl'>
-      <section> 
+    <main className='text-white flex mx-auto max-w-6xl'>
+      <section className='sm:w-full md:w-4/6'> 
         <Posts />
       </section>
-      <section>
-        <Posts />
+      <section className='hidden md:inline w-2/6 pt-12'>
+        <div className='bg-gray-900 w-full'>
+          hio
+        </div>
       </section>
     </main>
   )

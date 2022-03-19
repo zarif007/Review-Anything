@@ -1,41 +1,65 @@
 import React from 'react'
 import postInterface from '../interfaces/Post'
-import { FcLike, FcDislike, FcComments } from "react-icons/fc";
+import { FcComments, FcApproval, FcCancel } from "react-icons/fc";
+import { BsFillStarFill } from "react-icons/bs";
 
 
 const Post : React.FC<postInterface> = ( post ) => {
+
+  const styles = {
+    wrapper: 'text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm mt-4 md:m-2 md:mt-6',
+    topWrapper: 'flex items-center p-3 border-b border-gray-900',
+    userImgIcon: 'rounded-full h-12 w-12 object-contain border border-blue-500 p-1 mr-3',
+    mainImg: 'object-contain h-96 w-full',
+    captionWrapper: 'border-gray-900',
+    caption: 'p-5 font-semibold',
+    totalReactionCounter: 'w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1',
+    iconsWrapper: 'flex justify-between',
+    icons: 'btn border flex justify-center items-center border-gray-900 w-full',
+  }
+
   const { id, userImg, userName, img, caption } = post
   return (
-    <div className='text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm m-12'>
+    <div className={styles.wrapper}>
       
       {/* Top part  */}
-      <div className='flex items-center p-5'>
+      <div className={styles.topWrapper}>
         <img 
-          className='rounded-full h-12 w-12
-          onject-contain border border-blue-500 p-1 mr-3'
+          className={styles.userImgIcon}
           src={userImg} alt='dp'
         />
         <p className='flex-1 font-bold'>{userName}</p>
       </div>
 
       {/* Main Image  */}
-      <img src={img} className='object-cover w-full' alt='img' />
+      <img src={img} className={styles.mainImg} alt='img' />
 
-      {/* Icons  */}
-      <div className='flex justify-between'>
-        <div className='btn border flex justify-center items-center border-gray-900 w-full pt-5 pb-5'>
-          <FcLike />
-          <span className='text-blue-300 font-semibold'>Agree</span>
-        </div>
-        <div className='btn border flex justify-center items-center  border-gray-900 w-full pt-5 pb-5'>
-          <FcDislike />
-          <span className='text-blue-300 font-semibold'>Disagree</span>
-        </div>
-        <div className='btn border flex justify-center items-center  border-gray-900 w-full pt-5 pb-5'>
-          <FcComments/>
-          <span className='text-blue-300 font-semibold'>Comment</span>
-        </div>
+      {/* Caption  */}
+      <div className={styles.captionWrapper}>
+        <p className={styles.caption}>{caption}</p>
       </div>
+
+      {/* Total Reactions  */}
+      <div className={styles.totalReactionCounter}> 
+        Total Reactions 22,123,266
+      </div>
+      
+      {/* Icons  */}
+      <div className={styles.iconsWrapper}>
+        <div className={styles.icons}>
+          <FcApproval className='mr-2' />
+          <span className='text-blue-400 text-sm font-semibold'> (67%)</span>
+        </div>
+        <div className={styles.icons}>
+          <BsFillStarFill className='text-yellow-500' />
+        </div>
+        <div className={styles.icons}>
+          <FcComments />
+        </div>
+        
+      </div>
+
+      
     </div>
   )
 }

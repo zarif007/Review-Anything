@@ -13,12 +13,19 @@ const Home: NextPage = () => {
         <link rel="icon" href="/sm_logo.ico" />
       </Head>
       <Header />
-      {/* <div className='bg-[#0c1012] p-12 border-2 border-[#1f2937] rounded-md text-white m-2'>
-        BG -> #0E0E10
-        POST - > #0f0f0f
-        SHADOW -> black
-        hi
-      </div> */}
+
+        {/* 
+        Dark => 
+          BG -> #0E0E10
+          POST -> #131313
+          SHADOW -> black
+          border -> bg-gray-900
+
+        Light => 
+          BG -> white
+          POST -> #FAF9F6
+          Shadow -> #a1a1aa
+        */}
 
       {/* <div className='font-bold text-5xl text-white flex flex-col lg:flex-row   flex-wrap'>
         <div className='bg-gray-900 p-3 rounded-md  mx-auto m-2 border-blue-600 border-2 w-1/6'>Hi</div>

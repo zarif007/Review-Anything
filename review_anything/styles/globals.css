@@ -27,7 +27,7 @@ a {
   }
 
   .btn {
-    @apply h-7 hover:scale-125 cursor-pointer
+    @apply h-12 hover:scale-125 cursor-pointer
     hover:bg-gray-900 transition-all duration-150 ease-out
   }
 }
