@@ -7,7 +7,7 @@ import { BsFillStarFill } from "react-icons/bs";
 const Post : React.FC<postInterface> = ( post ) => {
 
   const styles = {
-    wrapper: 'text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm mt-4 md:m-2 md:mt-6',
+    wrapper: 'text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm mt-4 md:m-2 md:mt-6 overflow-hidden',
     topWrapper: 'flex items-center p-3 border-b border-gray-900',
     userImgIcon: 'rounded-full h-12 w-12 object-contain border border-gray-800 p-1 mr-3',
     mainImg: 'object-contain h-96 w-full',

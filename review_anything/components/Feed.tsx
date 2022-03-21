@@ -1,6 +1,7 @@
 import React from 'react'
 import Pool from './Pool'
 import Posts from './Posts'
+import Trending from './Trending'
 
 const Feed: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const Feed: React.FC = () => {
           <Pool />
         </div>
         <div>
+          <Trending />
         </div>
       </section>
     </main>
