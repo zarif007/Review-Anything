@@ -13,7 +13,6 @@ const Feed: React.FC = () => {
           <Pool />
         </div>
         <div>
-          <Pool />
         </div>
       </section>
     </main>
