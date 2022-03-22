@@ -5,10 +5,14 @@ import sm_logo from "../images/sm_logo.png";
 import { IoNotificationsSharp, IoAddCircleSharp, IoLogOut } from "react-icons/io5";
 import { FaSun } from "react-icons/fa";
 import { BsFillMoonStarsFill } from "react-icons/bs";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { GoSignIn } from "react-icons/go";
 
 
 
 const Header = () => {
+
+  const { data: session } = useSession();
 
   const [isDark, setIsDark] = useState(true)
 
@@ -23,7 +27,7 @@ const Header = () => {
     icon: `h-10 w-6 sm:h-12 sm:w-8  ${isDark ? 'text-gray-200' : 'text-gray-700'} iconAnimation`,
     notificationWrapper: `bg-blue-700 text-xs p-1 animate-pulse rounded-md absolute m-4 ml-3 mt-5`,
     userImage: `h-8 sm:h-10 rounded-full cursor-pointer pt-2`,
-    addButton: `hidden md:flex bg-blue-700 hover:bg-blue-800 text-white rounded-sm font-bold px-3 items-center`,
+    buttons: `bg-blue-700 hover:bg-blue-800 text-white rounded-sm font-bold px-3 items-center`,
   }
   
 
@@ -67,28 +71,34 @@ const Header = () => {
         </div>
 
         {/* Icons  */}
-        <div className={styles.iconsWrapper}>
-          <div onClick={() => setIsDark(!isDark)}>
-            {
-              isDark ? <FaSun className={styles.icon} /> : <BsFillMoonStarsFill className={styles.icon} />
-            }
-          
+        {
+        session?.user ? 
+          <div className={styles.iconsWrapper}>
+            <div onClick={() => setIsDark(!isDark)}>
+              {
+                isDark ? <FaSun className={styles.icon} /> : <BsFillMoonStarsFill className={styles.icon} />
+              }
+            </div>
+            
+            <button className={`${styles.buttons} hidden md:flex`}>
+              <IoAddCircleSharp className="h-10 w-6 sm:h-12 sm:w-8 pr-2" />ADD
+            </button>
+            <div className="flex flex-row mr-3">
+              <IoNotificationsSharp className={styles.icon} />
+              <span className={styles.notificationWrapper}>10</span>
+            </div>
+            <IoLogOut className={styles.icon} onClick={() => signOut()} />
+            <img 
+              src={session?.user?.image || ''}
+              alt='dp'
+              className={styles.userImage}
+            />
+          </div> : <div className={styles.iconsWrapper}>
+            <button className={`${styles.buttons} flex`} onClick={() => signIn()} >
+              <GoSignIn className="h-10 w-6 sm:h-12 sm:w-8 pr-2" />Sign In
+            </button>
           </div>
-          
-          <button className={styles.addButton}>
-            <IoAddCircleSharp className="h-10 w-6 sm:h-12 sm:w-8 pr-2" />ADD
-          </button>
-          <div className="flex flex-row mr-3">
-            <IoNotificationsSharp className={styles.icon} />
-            <span className={styles.notificationWrapper}>10</span>
-          </div>
-          <IoLogOut className={styles.icon} />
-          <img 
-            src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/220px-Donald_Trump_official_portrait.jpg'
-            alt='dp'
-            className={styles.userImage}
-          />
-        </div>
+        } 
 
       </div>
     </div>
