@@ -3,7 +3,7 @@ import { IoAddCircleSharp } from 'react-icons/io5'
 import { BiTrendingUp } from "react-icons/bi";
 import { FaSwimmingPool } from 'react-icons/fa';
 
-const BottomNav = () => {
+const BottomNav: React.FC = () => {
 
     const styles = {
         wrapper: `w-full h-24`,

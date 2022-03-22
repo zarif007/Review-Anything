@@ -9,7 +9,7 @@ const objects: string[] = ['Animal 🐘', 'Cat 🐱', 'Dog 🐶', 'Person 🧍',
   'Couple 🧑🏻‍🤝‍🧑🏻', 'Group 👨‍👩‍👧‍👧', 'Toilet 🚽', 'Hotel 🛏️', 'Girlfriend 👧', 'BoyFriend 👦', 
   'Company 🏢', 'House 🏠'];
 
-const Pool = () => {
+const Pool: React.FC = () => {
   
   const styles = {
     wrapper: 'bg-slate-900 bg-opacity-25 border-2 border-gray-900 rounded-sm mr-2',

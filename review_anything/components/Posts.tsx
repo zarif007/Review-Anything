@@ -27,7 +27,7 @@ const posts: postInterface[]  = [
   },
 ]
 
-const Posts : React.FC = () => {
+const Posts: React.FC = () => {
   return (
     <div className=''>
       {

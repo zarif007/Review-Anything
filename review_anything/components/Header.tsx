@@ -7,19 +7,22 @@ import { FaSun } from "react-icons/fa";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { GoSignIn } from "react-icons/go";
+import { useRouter } from "next/router";
 
 
 
-const Header = () => {
+const Header: React.FC = () => {
 
   const { data: session } = useSession();
 
+  const router = useRouter();
+  
   const [isDark, setIsDark] = useState(true)
 
   const styles = {
     nav: `pt-3 shadow-sm ${isDark ? 'bg-[#131313] shadow-black' : 'bg-[#FAF9F6] shadow-[#a1a1aa]'}  sticky top-0 z-50 pb-2`,
     wrapper: `flex justify-between max-w-6xl mx-5 lg:mx-auto`,
-    logo: `relative h-8 w-8 sm:h-12 sm:w-24`,
+    logo: `relative h-8 w-8 sm:h-12 sm:w-24 cursor-pointer`,
     searchWrapper: `relative text-gray-600 focus-within:text-gray-400`,
     searchIcon: `absolute inset-y-0 left-0 flex items-center pl-2`,
     searchInput: `py-2 w-32 sm:w-72 xl:w-100 text-large font-semibold ${isDark ? 'text-white bg-[#0c1012] focus:bg-gray-900 border-[#2b3c53]' : 'text-black bg-[#FAF9F6] focus:bg-gray-100 border-[#a1a1aa]'} border-2  rounded-md pl-10 focus:outline-none`,
@@ -29,14 +32,13 @@ const Header = () => {
     userImage: `h-8 sm:h-10 rounded-full cursor-pointer pt-2`,
     buttons: `bg-blue-700 hover:bg-blue-800 text-white rounded-sm font-bold px-3 items-center`,
   }
-  
 
   return (
     <div className={styles.nav}>
       <div className={styles.wrapper} >
 
         {/* Logo  */}
-        <div className={styles.logo}>
+        <div className={styles.logo} onClick={() => router.push('/')}>
           <div className="sm:hidden">
             <Image src={sm_logo} objectFit="contain" />
           </div>
@@ -99,7 +101,6 @@ const Header = () => {
             </button>
           </div>
         } 
-
       </div>
     </div>
   );
