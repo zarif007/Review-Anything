@@ -40,7 +40,9 @@ const Home: NextPage = () => {
         
         
       </div> */}
-      <Feed />
+      <div className='overflow-hidden'>
+        <Feed />
+      </div>
       <div className='inline md:hidden'>
         <BottomNav />
       </div>

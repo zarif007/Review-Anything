@@ -28,19 +28,29 @@ const posts: postInterface[]  = [
 ]
 
 const Trending = () => {
+
+  const styles = {
+      wrapper: 'border-2 border-gray-900 text-gray-300 mr-2',
+      trendingText: 'font-bold text-2xl p-2',
+      trendingIcon: 'h-10 w-6 sm:h-12 sm:w-8 text-gray-200 iconAnimation pt-1',
+      postWrapper: 'flex flex-wrap space-x-2 items-centre m-2',
+      postImg: 'h-10 w-10 sm:h-12 sm:w-12 p-2 rounded-full cursor-pointer pt-2',
+      postDetailesWrapper: 'flex flex-col',
+  }
+
   return (
-    <div className='border-2 border-gray-900 text-gray-300 mr-2'>
+    <div className={styles.wrapper}>
       <div className='flex'>
-        <p className='font-bold text-2xl p-2'>Trending</p> 
-        <BiTrendingUp className='h-10 w-6 sm:h-12 sm:w-8 text-gray-200  iconAnimation' />  
+        <p className={styles.trendingText}>Trending</p> 
+        <BiTrendingUp className={styles.trendingIcon} />  
       </div>
       <div className='mb-8'>
         {
             posts.map(post => {
                 return (
-                    <div className='flex flex-wrap space-x-2 items-centre m-2'>
-                        <img src={post.img} className='h-10 w-10 sm:h-12 sm:w-12 p-2 rounded-full cursor-pointer pt-2' />
-                        <div className='flex flex-col'>
+                    <div className={styles.postWrapper}>
+                        <img src={post.img} className={styles.postImg} />
+                        <div className={styles.postDetailesWrapper}>
                             <p className='font-semibold text-lg'>wow llok at ehis</p>
                             <p className='text-sm'>wow llok at ehisdsadfasd dsa dad adasdsadd</p>
                         </div>
