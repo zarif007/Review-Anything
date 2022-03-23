@@ -2,8 +2,9 @@ import { getProviders, signIn  } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc';
 import Header from '../../components/Header';
 import  React  from 'react';
+import providersInterface from '../../interfaces/SignIn';
 
-const SignIn: React.FC<{providers: any}> = ({ providers }) => {
+const SignIn: React.FC<{providers: providersInterface}> = ({ providers }) => {
   console.log(providers)
   return (
     <div className=''>

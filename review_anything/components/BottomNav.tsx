@@ -2,8 +2,12 @@ import React from 'react'
 import { IoAddCircleSharp } from 'react-icons/io5'
 import { BiTrendingUp } from "react-icons/bi";
 import { FaSwimmingPool } from 'react-icons/fa';
+import { useRecoilState } from 'recoil';
+import { postModalState } from '../atoms/postModalAtom';
 
 const BottomNav: React.FC = () => {
+
+    const [open, setOpen] = useRecoilState(postModalState)
 
     const styles = {
         wrapper: `w-full h-24`,
@@ -23,7 +27,7 @@ const BottomNav: React.FC = () => {
                             <span className={styles.iconText}>Trending</span>
                         </div>
 
-                        <div className={styles.iconsWrapper}>
+                        <div className={styles.iconsWrapper} onClick={() => setOpen(true)} >
                             <IoAddCircleSharp className={styles.icon} />
                             <span className={styles.iconText}>Add</span>
                         </div>

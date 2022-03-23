@@ -8,12 +8,16 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { GoSignIn } from "react-icons/go";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { postModalState } from '../atoms/postModalAtom';
 
 
 
 const Header: React.FC = () => {
 
   const { data: session } = useSession();
+
+  const [open, setOpen] = useRecoilState(postModalState);
 
   const router = useRouter();
   
@@ -80,10 +84,12 @@ const Header: React.FC = () => {
               {
                 isDark ? <FaSun className={styles.icon} /> : <BsFillMoonStarsFill className={styles.icon} />
               }
-            </div>
-            
-            <button className={`${styles.buttons} hidden md:flex`}>
-              <IoAddCircleSharp className="h-10 w-6 sm:h-12 sm:w-8 pr-2" />ADD
+            </div>           
+            <button className={`${styles.buttons} hidden md:flex`}
+              onClick={() => setOpen(true)}>
+              <IoAddCircleSharp 
+                className="h-10 w-6 sm:h-12 sm:w-8 pr-2" 
+              />ADD
             </button>
             <div className="flex flex-row mr-3">
               <IoNotificationsSharp className={styles.icon} />

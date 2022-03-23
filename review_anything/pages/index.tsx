@@ -3,6 +3,7 @@ import Head from 'next/head'
 import BottomNav from '../components/BottomNav'
 import Feed from '../components/Feed'
 import Header from '../components/Header'
+import PostModal from '../components/PostModal'
 
 
 const Home: NextPage = () => {
@@ -46,6 +47,7 @@ const Home: NextPage = () => {
       <div className='inline md:hidden'>
         <BottomNav />
       </div>
+      <PostModal />
     </div>
   )
 }
