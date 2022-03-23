@@ -4,6 +4,8 @@ import { postModalState } from '../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
 import { FcAddImage } from 'react-icons/fc';
 import Axios from 'axios';
+import { addDoc, collection } from '@firebase/firestore'
+import { db } from '../firebase'
 
 const PostModal = () => {
 
@@ -14,6 +16,8 @@ const PostModal = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
 
   const [selectedImage, setSelectedImage] = useState<any>(null);
+
+  const [isLoading, setIsLoading] = useState<any>(false);
 
   const addImageToPost = (e: any) => {
     const reader = new FileReader();
@@ -28,14 +32,28 @@ const PostModal = () => {
     } 
   }
 
-  const uploadPost = () => {
+  const uploadPost = async () => {
+    if(isLoading) return;
+
+    setIsLoading(true);
+
     const formData = new FormData();
 
     formData.append('file', selectedImage);
     formData.append('upload_preset', 'review-at');
-
+    let imgUrl = ''
     Axios.post('https://api.cloudinary.com/v1_1/dypopqvai/image/upload', formData)
-      .then(response => console.log(response))
+      .then(response => imgUrl = response.data.secure_url);
+
+    const data = {
+      title: 'ok',
+    }
+
+    const docRef = await addDoc(collection(db, 'post'), data);
+
+    setOpen(false)
+    setIsLoading(false)
+    setSelectedFile(null)
   }
 
   return (
@@ -70,7 +88,7 @@ const PostModal = () => {
             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
           >
             <div className='inline-block align-bottom bg-[#131313] rounded-lg px-4 pt-5 pb-4 text-left
-            overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm w-full
+            overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm md:max-w-lg w-full
             sm:p-6 text-white '>
               <div className=''>
                 {
@@ -104,14 +122,14 @@ const PostModal = () => {
                   </div>
                   <div>
                     <textarea
-                      rows={2}
+                      rows={3}
                       className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
-                      placeholder='Enter Caption' />
+                      placeholder='Bump Review Here' />
                   </div>
                 </div>
 
                 <div className='mt-5 sm:mt-6'>
-                  <button onClick={uploadPost}
+                  <button onClick={uploadPost} disabled={isLoading}
                     className='bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold'
                     type='button'
                   >
