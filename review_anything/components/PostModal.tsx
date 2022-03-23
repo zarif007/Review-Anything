@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { postModalState } from '../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
 import { FcAddImage } from 'react-icons/fc';
+import Axios from 'axios';
 
 const PostModal = () => {
 
@@ -10,13 +11,32 @@ const PostModal = () => {
 
   const filePickerRef = useRef<any>(null);
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
+
+  const [selectedImage, setSelectedImage] = useState<any>(null);
 
   const addImageToPost = (e: any) => {
+    const reader = new FileReader();
 
+    if(e.target.files[0]){
+      reader.readAsDataURL(e.target.files[0]);
+      setSelectedImage(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setSelectedFile(readerEvent.target?.result);
+    } 
   }
 
-  console.log(open)
+  const uploadPost = () => {
+    const formData = new FormData();
+
+    formData.append('file', selectedImage);
+    formData.append('upload_preset', 'review-at');
+
+    Axios.post('https://api.cloudinary.com/v1_1/dypopqvai/image/upload', formData)
+      .then(response => console.log(response))
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -50,40 +70,48 @@ const PostModal = () => {
             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
           >
             <div className='inline-block align-bottom bg-[#131313] rounded-lg px-4 pt-5 pb-4 text-left
-            overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full
+            overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm w-full
             sm:p-6 text-white '>
-              <div>
-                <div 
-                  className='mx-auto flex items-center justify-center h-16 w-16 rounded-full cursor-pointer'
-                  onClick={() => filePickerRef?.current?.click()} >
-                  <FcAddImage className='h-16 w-16' aria-hidden='true' />
-                </div>
-                <div>
-                  <div className='mt-3 text-center sm:mt-5'>
-                    <Dialog.Title 
-                    as='h3'
-                    className='text-lg leading-6 font-medium text-gray-200 pb-3' >
-                      Upload Photo
-                    </Dialog.Title>
+              <div className=''>
+                {
+                  !selectedFile ? <div 
+                    className='mx-auto flex items-center justify-center h-16 w-16 rounded-full cursor-pointer'
+                    onClick={() => filePickerRef?.current?.click()} >
+                    <FcAddImage className='h-16 w-16' aria-hidden='true' />
+                  </div> : <div>
+                    <img src={selectedFile} alt='img' onClick={() => setSelectedFile(null)}
+                      className='w-full object-cover cursor-pointer' />
                   </div>
+                }
+                
+                <div>
+                  {
+                    !selectedFile && <div className='mt-3 text-center sm:mt-5'>
+                      <Dialog.Title 
+                      as='h3'
+                      className='text-lg leading-6 font-medium text-gray-200 pb-3' >
+                        Upload a Photo
+                      </Dialog.Title>
+                    </div>
+                  } 
                   <div>
                     <input
-                    ref={filePickerRef}
+                      ref={filePickerRef}
                       type='file'
                       hidden
                       onChange={addImageToPost} 
                     />
                   </div>
                   <div>
-                    <input
-                    className='border-none focus:ring-0 w-full text-center bg-black' 
-                    type='text'
-                    placeholder='Enter Caption' />
+                    <textarea
+                      rows={2}
+                      className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
+                      placeholder='Enter Caption' />
                   </div>
                 </div>
 
                 <div className='mt-5 sm:mt-6'>
-                  <button 
+                  <button onClick={uploadPost}
                     className='bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold'
                     type='button'
                   >
