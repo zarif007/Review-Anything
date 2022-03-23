@@ -1,11 +1,20 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil';
 import { postModalState } from '../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
+import { FcAddImage } from 'react-icons/fc';
 
 const PostModal = () => {
 
   const [open, setOpen] = useRecoilState(postModalState);
+
+  const filePickerRef = useRef<any>(null);
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const addImageToPost = (e: any) => {
+
+  }
 
   console.log(open)
 
@@ -44,13 +53,41 @@ const PostModal = () => {
             overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full
             sm:p-6 text-white '>
               <div>
-                <div className='mt-5 sm:mt-6'>
+                <div 
+                  className='mx-auto flex items-center justify-center h-16 w-16 rounded-full cursor-pointer'
+                  onClick={() => filePickerRef?.current?.click()} >
+                  <FcAddImage className='h-16 w-16' aria-hidden='true' />
+                </div>
+                <div>
+                  <div className='mt-3 text-center sm:mt-5'>
+                    <Dialog.Title 
+                    as='h3'
+                    className='text-lg leading-6 font-medium text-gray-200 pb-3' >
+                      Upload Photo
+                    </Dialog.Title>
+                  </div>
+                  <div>
+                    <input
+                    ref={filePickerRef}
+                      type='file'
+                      hidden
+                      onChange={addImageToPost} 
+                    />
+                  </div>
+                  <div>
+                    <input
+                    className='border-none focus:ring-0 w-full text-center bg-black' 
+                    type='text'
+                    placeholder='Enter Caption' />
+                  </div>
+                </div>
 
+                <div className='mt-5 sm:mt-6'>
                   <button 
                     className='bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold'
                     type='button'
                   >
-                    Upload
+                    Post
                   </button>
                 </div>
               </div>
