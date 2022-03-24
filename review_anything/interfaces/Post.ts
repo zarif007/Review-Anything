@@ -4,4 +4,8 @@ export default interface postInterface {
   userImg: string,
   img: string,
   caption: string,
+  genre: string,
+  type: string,
+  rating: string,
+  crowdRating: string,
 }

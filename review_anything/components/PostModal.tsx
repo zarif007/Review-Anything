@@ -4,8 +4,10 @@ import { postModalState } from '../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
 import { FcAddImage } from 'react-icons/fc';
 import Axios from 'axios';
-import { addDoc, collection } from '@firebase/firestore'
+import { addDoc, collection, doc, updateDoc } from '@firebase/firestore'
 import { db } from '../firebase'
+import { time } from 'console';
+import postInterface from '../interfaces/Post';
 
 const PostModal = () => {
 
@@ -18,6 +20,8 @@ const PostModal = () => {
   const [selectedImage, setSelectedImage] = useState<any>(null);
 
   const [isLoading, setIsLoading] = useState<any>(false);
+
+  const [post, setPost] = useState<postInterface>();
 
   const addImageToPost = (e: any) => {
     const reader = new FileReader();
@@ -43,13 +47,10 @@ const PostModal = () => {
     formData.append('upload_preset', 'review-at');
     let imgUrl = ''
     Axios.post('https://api.cloudinary.com/v1_1/dypopqvai/image/upload', formData)
-      .then(response => imgUrl = response.data.secure_url);
-
-    const data = {
-      title: 'ok',
-    }
-
-    const docRef = await addDoc(collection(db, 'post'), data);
+      .then(response => {
+        const docRef = addDoc(collection(db, 'posts'), {url: response.data.secure_url});
+      });
+    
 
     setOpen(false)
     setIsLoading(false)

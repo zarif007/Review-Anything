@@ -9,21 +9,33 @@ const posts: postInterface[]  = [
     userName: 'AKA',
     userImg: 'https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg',
     img: 'https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg',
-    caption: 'kire?'
+    caption: 'kire?',
+    genre: 'Girlfriend 👧',
+    type: 'non-paid',
+    rating: '4',
+    crowdRating: '3.7',
   },
   {
     id: '2',
     userName: 'llll',
     userImg: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
     img: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
-    caption: 'kirdadasdase?'
+    caption: 'kirdadasdase?',
+    genre: 'Girlfriend 👧',
+    type: 'non-paid',
+    rating: '4',
+    crowdRating: '3.7',
   },
   {
     id: '3',
     userName: 'dsadasd',
     userImg: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
     img: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
-    caption: 'kirdsaddsadsadsadasdasd d dsa dsadasd dsad dasd d adasdasdasdsad  ? '
+    caption: 'kirdsaddsadsadsadasdasd d dsa dsadasd dsad dasd d adasdasdasdsad  ? ',
+    genre: 'Girlfriend 👧',
+    type: 'non-paid',
+    rating: '4',
+    crowdRating: '3.7',
   },
 ]
 
@@ -33,7 +45,18 @@ const Posts: React.FC = () => {
       {
         posts.map(post => {
           return (
-            <Post key={post.id} id={post.id} userName={post.userName} userImg={post.userImg} img={post.img} caption={post.caption} />
+            <Post 
+              key={post.id} 
+              id={post.id} 
+              userName={post.userName} 
+              userImg={post.userImg} 
+              img={post.img} 
+              caption={post.caption}
+              genre={post.genre}
+              type={post.type}
+              rating={post.rating}
+              crowdRating={post.crowdRating}
+            />
           )
         })
       }
