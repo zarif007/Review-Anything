@@ -1,13 +1,6 @@
 import React from 'react'
+import { objects } from '../objects'
 
-
-const objects: string[] = ['Animal 🐘', 'Cat 🐱', 'Dog 🐶', 'Person 🧍', 
-  'Couple 🧑🏻‍🤝‍🧑🏻', 'Group 👨‍👩‍👧‍👧', 'Toilet 🚽', 'Hotel 🛏️', 'Girlfriend 👧', 'BoyFriend 👦', 
-  'Company 🏢', 'House 🏠',
-  'Couple 🧑🏻‍🤝‍🧑🏻', 'Group 👨‍👩‍👧‍👧', 'Toilet 🚽', 'Hotel 🛏️', 'Girlfriend 👧', 'BoyFriend 👦', 
-  'Company 🏢', 'House 🏠',
-  'Couple 🧑🏻‍🤝‍🧑🏻', 'Group 👨‍👩‍👧‍👧', 'Toilet 🚽', 'Hotel 🛏️', 'Girlfriend 👧', 'BoyFriend 👦', 
-  'Company 🏢', 'House 🏠'];
 
 const Pool: React.FC = () => {
   

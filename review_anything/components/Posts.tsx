@@ -9,6 +9,7 @@ const posts: postInterface[]  = [
     userName: 'AKA',
     userImg: 'https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg',
     img: 'https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg',
+    title: 'ooooo',
     caption: 'kire?',
     genre: 'Girlfriend 👧',
     type: 'non-paid',
@@ -20,6 +21,7 @@ const posts: postInterface[]  = [
     userName: 'llll',
     userImg: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
     img: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
+    title: 'ooooo',
     caption: 'kirdadasdase?',
     genre: 'Girlfriend 👧',
     type: 'non-paid',
@@ -31,6 +33,7 @@ const posts: postInterface[]  = [
     userName: 'dsadasd',
     userImg: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
     img: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
+    title: 'ooooo',
     caption: 'kirdsaddsadsadsadasdasd d dsa dsadasd dsad dasd d adasdasdasdsad  ? ',
     genre: 'Girlfriend 👧',
     type: 'non-paid',
@@ -51,6 +54,7 @@ const Posts: React.FC = () => {
               userName={post.userName} 
               userImg={post.userImg} 
               img={post.img} 
+              title={post.title}
               caption={post.caption}
               genre={post.genre}
               type={post.type}

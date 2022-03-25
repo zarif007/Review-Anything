@@ -7,6 +7,7 @@ import { RiUserStarFill } from "react-icons/ri";
 
 const Post : React.FC<postInterface> = ( post ) => {
 
+
   const styles = {
     wrapper: 'text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm mt-4 md:m-2 md:mt-6',
     topWrapper: 'flex items-center p-3 border-b border-gray-900 justify-between',

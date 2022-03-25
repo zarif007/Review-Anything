@@ -3,6 +3,7 @@ export default interface postInterface {
   userName: string,
   userImg: string,
   img: string,
+  title: string,
   caption: string,
   genre: string,
   type: string,

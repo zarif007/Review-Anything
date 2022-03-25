@@ -6,8 +6,11 @@ import { FcAddImage } from 'react-icons/fc';
 import Axios from 'axios';
 import { addDoc, collection, doc, updateDoc } from '@firebase/firestore'
 import { db } from '../firebase'
-import { time } from 'console';
 import postInterface from '../interfaces/Post';
+import StarsRating from "react-star-rate";
+import Select from 'react-select'
+
+
 
 const PostModal = () => {
 
@@ -19,9 +22,29 @@ const PostModal = () => {
 
   const [selectedImage, setSelectedImage] = useState<any>(null);
 
-  const [isLoading, setIsLoading] = useState<any>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [post, setPost] = useState<postInterface>();
+  const [starRating, setStarRating] = useState<string>('0');
+
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
+
+
+  const [post, setPost] = useState<postInterface>({
+    id: '66',
+    userName: '',
+    userImg: '',
+    img: '',
+    title: '',
+    caption: '',
+    genre: '',
+    type: '',
+    rating: '',
+    crowdRating: '',
+  });
 
   const addImageToPost = (e: any) => {
     const reader = new FileReader();
@@ -45,10 +68,11 @@ const PostModal = () => {
 
     formData.append('file', selectedImage);
     formData.append('upload_preset', 'review-at');
-    let imgUrl = ''
+
     Axios.post('https://api.cloudinary.com/v1_1/dypopqvai/image/upload', formData)
       .then(response => {
-        const docRef = addDoc(collection(db, 'posts'), {url: response.data.secure_url});
+        post['img'] = response.data.secure_url;
+        const docRef = addDoc(collection(db, 'posts'), post);
       });
     
 
@@ -121,11 +145,32 @@ const PostModal = () => {
                       onChange={addImageToPost} 
                     />
                   </div>
+
+                  <div className='flex items-center justify-center'> 
+                    <StarsRating
+                      value={parseFloat(starRating)}
+                      onChange={value => {
+                        let rt = value?.toString() || '';
+                        post['rating'] = rt;
+                        setStarRating(rt);
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <textarea 
+                      rows={1} 
+                      className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
+                      placeholder='Give a Title'
+                      onChange={e => post['title'] = e.target.value}
+                    />
+                  </div>
                   <div>
                     <textarea
                       rows={3}
                       className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
-                      placeholder='Bump Review Here' />
+                      placeholder='Bump Review Here' 
+                      onChange={e => post['caption'] = e.target.value}
+                    />
                   </div>
                 </div>
 
