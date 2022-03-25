@@ -17,7 +17,7 @@ const Pool: React.FC = () => {
         {
           objects.map(object => {
             return (
-              <div className={styles.object} >{object}</div>
+              <div className={styles.object} >{object.value}</div>
             )
           })
         }

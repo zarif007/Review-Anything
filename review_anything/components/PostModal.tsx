@@ -4,18 +4,22 @@ import { postModalState } from '../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
 import { FcAddImage } from 'react-icons/fc';
 import Axios from 'axios';
-import { addDoc, collection, doc, updateDoc } from '@firebase/firestore'
+import { addDoc, collection, serverTimestamp } from '@firebase/firestore'
 import { db } from '../firebase'
 import postInterface from '../interfaces/Post';
 import StarsRating from "react-star-rate";
 import Select from 'react-select'
 import { selectStyle } from '../customStyles/selectStyle';
+import { useSession } from 'next-auth/react';
+import { objects } from '../objects';
 
 
 
 const PostModal = () => {
 
   const [open, setOpen] = useRecoilState(postModalState);
+
+  const { data: session } = useSession();
 
   const filePickerRef = useRef<any>(null);
 
@@ -27,10 +31,10 @@ const PostModal = () => {
 
   const [starRating, setStarRating] = useState<string>('0');
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
+  const TypeOptions = [
+    { value: 'Paid🤑', label: 'Paid🤑' },
+    { value: 'Non-Paid✨', label: 'Non-Paid✨' },
+    { value: 'Non-Paid(sweared)🔥', label: 'Non-Paid(sweared)🔥' }
   ]
 
 
@@ -40,11 +44,12 @@ const PostModal = () => {
     userImg: '',
     img: '',
     title: '',
-    caption: '',
+    review: '',
     genre: '',
     type: '',
     rating: '',
     crowdRating: '',
+    timestamp: new Date()
   });
 
   const addImageToPost = (e: any) => {
@@ -64,6 +69,11 @@ const PostModal = () => {
     if(isLoading) return;
 
     setIsLoading(true);
+
+    post['userImg'] = session?.user?.image || '';
+    post['userName'] = session?.user?.name || '';
+    post['crowdRating'] = starRating;
+    post['timestamp'] = serverTimestamp()
 
     const formData = new FormData();
 
@@ -171,7 +181,7 @@ const PostModal = () => {
 
                     <Select
                         name="genre"
-                        options={options}
+                        options={objects}
                         className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
                         classNamePrefix="Select Genre"
                         placeholder='Genre'
@@ -185,13 +195,13 @@ const PostModal = () => {
                             neutral50: 'white',
                           },
                         })}
-                        onChange={(e: any)=> console.log(e)}
+                        onChange={(e: any) => post['genre'] = e.value}
                         styles={selectStyle}
                       />
 
                     <Select
                         name="type"
-                        options={options}
+                        options={TypeOptions}
                         className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
                         classNamePrefix="Select Type"
                         placeholder='Type'
@@ -205,6 +215,7 @@ const PostModal = () => {
                             neutral50: '#1A1A1A',
                           },
                         })}
+                        onChange={(e: any) => post['type'] = e.value}
                         styles={selectStyle}
                       />
                   </div>
@@ -214,7 +225,7 @@ const PostModal = () => {
                       rows={3}
                       className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
                       placeholder='Bump Review Here' 
-                      onChange={e => post['caption'] = e.target.value}
+                      onChange={e => post['review'] = e.target.value}
                     />
                   </div>
                 </div>

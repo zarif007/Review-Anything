@@ -15,6 +15,9 @@ const Post : React.FC<postInterface> = ( post ) => {
     mainImg: 'object-contain h-96 w-full bg-[#0E0E10]',
     captionWrapper: 'border-gray-900',
     caption: 'p-5 font-semibold',
+    titleAndTypeWrapper: 'border-gray-900 flex items-center',
+    title: 'p-5 pb-0 font-bold text-2xl text-blue-500 uppercase',
+    type: 'bg-[#0E0E10] p-2 border border-blue-900 font-semibold',
     totalReactionCounter: 'w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1',
     iconsWrapper: 'flex justify-between',
     icons: 'btn border flex justify-center items-center border-gray-900 w-full',
@@ -22,21 +25,21 @@ const Post : React.FC<postInterface> = ( post ) => {
     genreWrapper: 'bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white',
   }
 
-  const { id, userImg, userName, img, caption, genre, type, rating, crowdRating } = post
+  const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating } = post
   
   return (
     <div className={styles.wrapper}>
       
       {/* Top part  */}
       <div className={styles.topWrapper}>
-        <div className='flex'>
+        <div className='flex items-center'>
           <img 
             className={styles.userImgIcon}
             src={userImg} alt='dp'
           />
-          <p className='flex-1 font-bold pt-2'>{userName}</p>
+          <p className='flex-1 font-bold'>{userName}</p>
         </div>
-        <div className='flex items-center space-x-4'>
+        <div className='flex items-center sm:space-x-4 space-x-1'>
           <div className='flex items-center space-x-1'>
             <div className='font-bold text-lg'>{rating}</div>
             <BsFillStarFill className='text-yellow-500 h-12' />
@@ -48,9 +51,17 @@ const Post : React.FC<postInterface> = ( post ) => {
       {/* Main Image  */}
       <img src={img} className={styles.mainImg} alt='img' />
 
-      {/* Caption  */}
+      {/* Title & Type */}
+      <div className={styles.titleAndTypeWrapper}>
+        <h1 className={styles.title}>{title}</h1>
+        <div className='p-5 pb-0'>
+          <span className={styles.type}>{type}</span>
+        </div>
+      </div>
+
+      {/* Review  */}
       <div className={styles.captionWrapper}>
-        <p className={styles.caption}>{caption}</p>
+        <p className={styles.caption}>{review}</p>
       </div>
 
       {/* Total Reactions  */}
