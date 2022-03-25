@@ -9,6 +9,7 @@ import { db } from '../firebase'
 import postInterface from '../interfaces/Post';
 import StarsRating from "react-star-rate";
 import Select from 'react-select'
+import { selectStyle } from '../customStyles/selectStyle';
 
 
 
@@ -146,7 +147,16 @@ const PostModal = () => {
                     />
                   </div>
 
-                  <div className='flex items-center justify-center'> 
+                  <div>
+                    <textarea 
+                      rows={1} 
+                      className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
+                      placeholder='Give a Title'
+                      onChange={e => post['title'] = e.target.value}
+                    />
+                  </div>
+
+                  <div className='flex items-center justify-center pb-1'> 
                     <StarsRating
                       value={parseFloat(starRating)}
                       onChange={value => {
@@ -156,14 +166,49 @@ const PostModal = () => {
                       }}
                     />
                   </div>
-                  <div>
-                    <textarea 
-                      rows={1} 
-                      className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
-                      placeholder='Give a Title'
-                      onChange={e => post['title'] = e.target.value}
-                    />
+
+                  <div className='flex justify-between space-x-2'>
+
+                    <Select
+                        name="genre"
+                        options={options}
+                        className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
+                        classNamePrefix="Select Genre"
+                        placeholder='Genre'
+                        theme={(theme) => ({
+                          ...theme,
+                          borderRadius: 0,  
+                          colors: {
+                            ...theme.colors,
+                            primary25: 'liteblue',
+                            primary: 'black',
+                            neutral50: 'white',
+                          },
+                        })}
+                        onChange={(e: any)=> console.log(e)}
+                        styles={selectStyle}
+                      />
+
+                    <Select
+                        name="type"
+                        options={options}
+                        className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
+                        classNamePrefix="Select Type"
+                        placeholder='Type'
+                        theme={(theme) => ({
+                          ...theme,
+                          borderRadius: 0,  
+                          colors: {
+                            ...theme.colors,
+                            primary25: 'liteblue',
+                            primary: 'black',
+                            neutral50: '#1A1A1A',
+                          },
+                        })}
+                        styles={selectStyle}
+                      />
                   </div>
+                  
                   <div>
                     <textarea
                       rows={3}
