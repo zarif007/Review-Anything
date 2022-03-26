@@ -30,10 +30,10 @@ const BottomNav: React.FC = () => {
                             <span className={styles.iconText}>Trending</span>
                         </div>
                         {
-                            session?.user ? <div className={styles.iconsWrapper} onClick={() => setOpen(true)} >
+                            session?.user && <div className={styles.iconsWrapper} onClick={() => setOpen(true)} >
                                 <IoAddCircleSharp className={styles.icon} />
                                 <span className={styles.iconText}>Add</span>
-                            </div> : <></>
+                            </div> 
                         }
                         <div className={styles.iconsWrapper}>
                             <FaSwimmingPool className={styles.icon} />

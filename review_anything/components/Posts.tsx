@@ -5,77 +5,42 @@ import Post from './Post'
 import postInterface from './../interfaces/Post';
 
 
-// const posts: postInterface[]  = [
-//   {
-//     id: '1',
-//     userName: 'AKA',
-//     userImg: 'https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg',
-//     img: 'https://www.pictureframesexpress.co.uk/blog/wp-content/uploads/2020/05/7-Tips-to-Finding-Art-Inspiration-Header-1024x649.jpg',
-//     title: 'ooooo',
-//     review: 'kire?',
-//     genre: 'Girlfriend 👧',
-//     type: 'non-paid',
-//     rating: '4',
-//     crowdRating: '3.7',
-//     timestamp: new Date()
-//   },
-//   {
-//     id: '2',
-//     userName: 'llll',
-//     userImg: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
-//     img: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
-//     title: 'ooooo',
-//     review: 'kirdadasdase?',
-//     genre: 'Girlfriend 👧',
-//     type: 'non-paid',
-//     rating: '4',
-//     crowdRating: '3.7',
-//     timestamp: new Date()
-//   },
-//   {
-//     id: '3',
-//     userName: 'dsadasd',
-//     userImg: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
-//     img: 'https://cdn.britannica.com/87/2087-004-264616BB/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg',
-//     title: 'ooooo',
-//     review: 'kirdsaddsadsadsadasdasd d dsa dsadasd dsad dasd d adasdasdasdsad  ? ',
-//     genre: 'Girlfriend 👧',
-//     type: 'non-paid',
-//     rating: '4',
-//     crowdRating: '3.7',
-//     timestamp: new Date()
-//   },
-// ]
 
 const Posts: React.FC = () => {
 
-  const [posts, setPosts] = useState<any>([]);
+  const [posts, setPosts] = useState<postInterface[]>([]);
 
   useEffect(() => 
-    onSnapshot(query(collection(db, 'posts'), orderBy('timestamp', 'desc')), snapshot => {
-      setPosts(snapshot.docs);
-    }), [db]);
-
-  console.log(posts);
+    onSnapshot(
+      query(collection(db, 'posts'), 
+      orderBy('timestamp', 'desc')), 
+      snapshot => {
+        let arr: any = [];
+        snapshot.docs.map(sp => {
+          arr.push(sp.data());
+        })
+        setPosts(arr);
+      }), 
+  [db]);
 
   return (
     <div className=''>
       {
-        posts.map((post: any) => {
+        posts?.map((post: postInterface) => {
           return (
             <Post 
               key={post.id} 
               id={post.id} 
-              userName={post.data().userName} 
-              userImg={post.data().userImg} 
-              img={post.data().img} 
-              title={post.data().title}
-              review={post.data().review}
-              genre={post.data().genre}
-              type={post.data().type}
-              rating={post.data().rating}
-              crowdRating={post.data().crowdRating}
-              timestamp={post.data().timestamp}
+              userName={post.userName} 
+              userImg={post.userImg} 
+              img={post.img} 
+              title={post.title}
+              review={post.review}
+              genre={post.genre}
+              type={post.type}
+              rating={post.rating}
+              crowdRating={post.crowdRating}
+              timestamp={post.timestamp}
             />
           )
         })
@@ -83,5 +48,7 @@ const Posts: React.FC = () => {
     </div>
   )
 }
+
+
 
 export default Posts

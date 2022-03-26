@@ -3,10 +3,12 @@ import postInterface from '../interfaces/Post'
 import { FcComments, FcApproval, FcCancel } from "react-icons/fc";
 import { BsFillStarFill } from "react-icons/bs";
 import { RiUserStarFill } from "react-icons/ri";
+import { useSession } from 'next-auth/react';
 
 
 const Post : React.FC<postInterface> = ( post ) => {
 
+  const { data: session } = useSession();
 
   const styles = {
     wrapper: 'text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm mt-4 md:m-2 md:mt-6',
@@ -70,20 +72,22 @@ const Post : React.FC<postInterface> = ( post ) => {
       </div>
       
       {/* Icons  */}
-      <div className={styles.iconsWrapper}>
-        <div className={styles.icons}>
-          <FcApproval className='mr-2' />
-          <span className={styles.iconText}> (67%)</span>
+      {
+        session?.user && <div className={styles.iconsWrapper}>
+          <div className={styles.icons}>
+            <FcApproval className='mr-2' />
+            <span className={styles.iconText}> (67%)</span>
+          </div>
+          <div className={styles.icons}>
+            
+            <RiUserStarFill className='text-green-400 mr-2' />
+            <span className={styles.iconText}> {crowdRating}</span>
+          </div>
+          <div className={styles.icons}>
+            <FcComments />
+          </div>
         </div>
-        <div className={styles.icons}>
-          
-          <RiUserStarFill className='text-green-400 mr-2' />
-          <span className={styles.iconText}> {crowdRating}</span>
-        </div>
-        <div className={styles.icons}>
-          <FcComments />
-        </div>
-      </div>
+      }
     </div>
   )
 }

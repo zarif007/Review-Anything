@@ -34,7 +34,7 @@ const PostModal = () => {
   const TypeOptions = [
     { value: 'Paid🤑', label: 'Paid🤑' },
     { value: 'Non-Paid✨', label: 'Non-Paid✨' },
-    { value: 'Non-Paid(sweared)🔥', label: 'Non-Paid(sweared)🔥' }
+    { value: 'Non-Paid(I swear)🔥', label: 'Non-Paid(I swear)🔥' }
   ]
 
 
