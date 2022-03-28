@@ -78,9 +78,9 @@ const Post : React.FC<postInterface> = ( post ) => {
         }{
           review.split('\n').length > 2 && (
             reviewLineLimit === 2 ? <p className={styles.showButton}
-            onClick={() => setReviewLineLimit(review.split('\n').length)}>Show more...</p> : 
+              onClick={() => setReviewLineLimit(review.split('\n').length)}>Show more...</p> : 
             <p className={styles.showButton}
-            onClick={() => setReviewLineLimit(2)}>Show less...</p>
+              onClick={() => setReviewLineLimit(2)}>Show less...</p>
           )
         }</p>
       </div>

@@ -26,7 +26,7 @@ const Posts: React.FC = () => {
   return (
     <div className=''>
       {
-        posts?.map((post: postInterface) => {
+        posts.map((post: postInterface) => {
           return (
             <Post 
               key={post.id} 
