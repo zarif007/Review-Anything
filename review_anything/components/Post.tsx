@@ -19,7 +19,7 @@ const Post : React.FC<postInterface> = ( post ) => {
     mainImg: 'object-contain h-96 w-full bg-[#0E0E10]',
     captionWrapper: 'border-gray-900',
     caption: 'p-5 font-semibold',
-    titleAndTypeWrapper: 'border-gray-900 flex items-center',
+    titleAndTypeWrapper: 'border-gray-900 flex items-center flex-wrap',
     title: 'p-5 pb-0 font-bold text-2xl text-blue-500 uppercase',
     type: 'bg-[#0E0E10] p-2 border border-blue-900 font-semibold',
     totalReactionCounter: 'w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1',

@@ -19,6 +19,8 @@ a {
   box-sizing: border-box;
 }
 
+
+
 @layer components {
   .iconAnimation {
     @apply  h-8 inline-flex hover:text-blue-500
