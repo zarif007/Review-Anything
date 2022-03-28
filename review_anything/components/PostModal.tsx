@@ -225,7 +225,7 @@ const PostModal = () => {
                       rows={3}
                       className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
                       placeholder='Bump Review Here' 
-                      onChange={e => post['review'] = e.target.value}
+                      onChange={e => post['review'] = e.target.value.trim()}
                     />
                   </div>
                 </div>

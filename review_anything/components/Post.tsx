@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import postInterface from '../interfaces/Post'
 import { FcComments, FcApproval, FcCancel } from "react-icons/fc";
 import { BsFillStarFill } from "react-icons/bs";
@@ -9,6 +9,8 @@ import { useSession } from 'next-auth/react';
 const Post : React.FC<postInterface> = ( post ) => {
 
   const { data: session } = useSession();
+
+  const [reviewLineLimit, setReviewLineLimit] = useState<number>(2);
 
   const styles = {
     wrapper: 'text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm mt-4 md:m-2 md:mt-6',
@@ -25,6 +27,7 @@ const Post : React.FC<postInterface> = ( post ) => {
     icons: 'btn border flex justify-center items-center border-gray-900 w-full',
     iconText: 'text-blue-400 text-sm font-semibold',
     genreWrapper: 'bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white',
+    showButton: 'text-sm text-blue-500 pt-0 cursor-pointer',
   }
 
   const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating } = post
@@ -63,7 +66,23 @@ const Post : React.FC<postInterface> = ( post ) => {
 
       {/* Review  */}
       <div className={styles.captionWrapper}>
-        <p className={styles.caption}>{review}</p>
+        <p className={`${styles.caption}`}>{
+          review.split('\n').slice(0, reviewLineLimit).map(rs => {
+            return(
+              <>
+                {rs}
+                <br />
+              </>
+            )
+          })
+        }{
+          review.split('\n').length > 2 && (
+            reviewLineLimit === 2 ? <p className={styles.showButton}
+            onClick={() => setReviewLineLimit(review.split('\n').length)}>Show more...</p> : 
+            <p className={styles.showButton}
+            onClick={() => setReviewLineLimit(2)}>Show less...</p>
+          )
+        }</p>
       </div>
 
       {/* Total Reactions  */}
