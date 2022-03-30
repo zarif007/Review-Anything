@@ -18,6 +18,7 @@ const Posts: React.FC = () => {
         let arr: any = [];
         snapshot.docs.map(sp => {
           arr.push(sp.data());
+          console.log(sp.data());
         })
         setPosts(arr);
       }), 

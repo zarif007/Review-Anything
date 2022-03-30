@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import postInterface from '../interfaces/Post'
 import { FcComments, FcApproval, FcCancel } from "react-icons/fc";
-import { BsFillStarFill } from "react-icons/bs";
+import { BsDot, BsFillStarFill } from "react-icons/bs";
 import { RiUserStarFill } from "react-icons/ri";
 import { useSession } from 'next-auth/react';
+import { GoPrimitiveDot } from 'react-icons/go';
 
 
 const Post : React.FC<postInterface> = ( post ) => {
@@ -19,19 +20,19 @@ const Post : React.FC<postInterface> = ( post ) => {
     mainImg: 'object-contain h-96 w-full bg-[#0E0E10]',
     captionWrapper: 'border-gray-900',
     caption: 'p-5 font-semibold',
-    titleCrAndTypeWrapper: 'border-gray-900 flex items-center flex-wrap',
     title: 'p-5 pb-0 font-bold text-2xl text-blue-500 uppercase',
     type: 'bg-[#0E0E10] p-2 border border-blue-900 font-semibold',
     crowdRating: 'bg-gray-900 p-2 border border-blue-900 font-semibold flex items-center space-x-1',
-    totalReactionCounter: 'w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1',
+    totalReactionCounterAndCR: 'w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1 flex space-x-1',
     iconsWrapper: 'flex justify-between',
     icons: 'btn border flex justify-center items-center border-gray-900 w-full',
     iconText: 'text-blue-400 text-sm font-semibold',
     genreWrapper: 'bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white',
     showButton: 'text-sm text-blue-500 pt-0 cursor-pointer',
+    typeAndTimestamp: 'text-xs text-gray-400 sm:flex items-center space-x-1 xs:flex-col',
   }
 
-  const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating } = post
+  const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating, timestamp } = post
   
   return (
     <div className={styles.wrapper}>
@@ -43,7 +44,15 @@ const Post : React.FC<postInterface> = ( post ) => {
             className={styles.userImgIcon}
             src={userImg} alt='dp'
           />
-          <p className='flex-1 font-bold'>{userName}</p>
+          <div className='flex flex-col'>
+            <p className='flex-1 font-bold'>{userName}</p>
+            {/* Type and timestamp  */}
+            <div className={styles.typeAndTimestamp}>
+              <p className=''>few minutes ago</p>
+              <GoPrimitiveDot className='pt-1 hidden sm:inline' />
+              <p>{post.type}</p>
+            </div>
+          </div>
         </div>
         <div className='flex items-center sm:space-x-4 space-x-1'>
           <div className='flex items-center space-x-1'>
@@ -57,18 +66,9 @@ const Post : React.FC<postInterface> = ( post ) => {
       {/* Main Image  */}
       <img src={img} className={styles.mainImg} alt='img' />
 
-      {/* Title, Crowd Rating & Type */}
-      <div className={styles.titleCrAndTypeWrapper}>
+      {/* Title */}
+      <div>
         <h1 className={styles.title}>{title}</h1>
-        <div className='p-5 pb-0'>
-          <span className={styles.type}>{type}</span>
-        </div>
-        <div className='p-5 pb-0 pl-0'>
-          <div className={styles.crowdRating}>
-            <span>Crowd Rating {crowdRating}</span>
-            <BsFillStarFill className='text-yellow-500 h-4' />
-          </div>
-        </div>
       </div>
 
       {/* Review  */}
@@ -93,8 +93,13 @@ const Post : React.FC<postInterface> = ( post ) => {
       </div>
 
       {/* Total Reactions  */}
-      <div className={styles.totalReactionCounter}> 
-        Total Reactions 22,123,266
+      <div className={styles.totalReactionCounterAndCR}> 
+        <span>Total Reactions 22,123,266</span> 
+        <GoPrimitiveDot className='pt-1' />
+        <div className='flex items-center space-x-1'>
+          <span>Crowd Rating: {post.crowdRating}</span>
+          <BsFillStarFill className='text-yellow-500 h-4' />
+        </div>
       </div>
       
       {/* Icons  */}
