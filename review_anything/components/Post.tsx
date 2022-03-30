@@ -19,9 +19,10 @@ const Post : React.FC<postInterface> = ( post ) => {
     mainImg: 'object-contain h-96 w-full bg-[#0E0E10]',
     captionWrapper: 'border-gray-900',
     caption: 'p-5 font-semibold',
-    titleAndTypeWrapper: 'border-gray-900 flex items-center flex-wrap',
+    titleCrAndTypeWrapper: 'border-gray-900 flex items-center flex-wrap',
     title: 'p-5 pb-0 font-bold text-2xl text-blue-500 uppercase',
     type: 'bg-[#0E0E10] p-2 border border-blue-900 font-semibold',
+    crowdRating: 'bg-gray-900 p-2 border border-blue-900 font-semibold flex items-center space-x-1',
     totalReactionCounter: 'w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1',
     iconsWrapper: 'flex justify-between',
     icons: 'btn border flex justify-center items-center border-gray-900 w-full',
@@ -56,11 +57,17 @@ const Post : React.FC<postInterface> = ( post ) => {
       {/* Main Image  */}
       <img src={img} className={styles.mainImg} alt='img' />
 
-      {/* Title & Type */}
-      <div className={styles.titleAndTypeWrapper}>
+      {/* Title, Crowd Rating & Type */}
+      <div className={styles.titleCrAndTypeWrapper}>
         <h1 className={styles.title}>{title}</h1>
         <div className='p-5 pb-0'>
           <span className={styles.type}>{type}</span>
+        </div>
+        <div className='p-5 pb-0 pl-0'>
+          <div className={styles.crowdRating}>
+            <span>Crowd Rating {crowdRating}</span>
+            <BsFillStarFill className='text-yellow-500 h-4' />
+          </div>
         </div>
       </div>
 
