@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { objects } from '../objects'
 
-
 const Pool: React.FC = () => {
 
   const [objs, setObjs] = useState(objects);
