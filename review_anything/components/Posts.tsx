@@ -3,12 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { db } from '../firebase'
 import Post from './Post'
 import postInterface from './../interfaces/Post';
+import { useRecoilState } from 'recoil';
+import { selectedGenre } from '../atoms/genreAtom';
 
 
 
 const Posts: React.FC = () => {
 
   const [posts, setPosts] = useState<postInterface[]>([]);
+
+  const [postsFromDB, setPostsFromDB] = useState<postInterface[]>([]);
+
+  const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
   useEffect(() => 
     onSnapshot(
@@ -18,11 +24,19 @@ const Posts: React.FC = () => {
         let arr: any = [];
         snapshot.docs.map(sp => {
           arr.push(sp.data());
-          console.log(sp.data());
         })
         setPosts(arr);
+        setPostsFromDB(arr);
       }), 
   [db]);
+
+  useEffect(() => {
+
+    const updatedPosts = postsFromDB.filter(post => post.genre === currentGenre);
+
+    setPosts(updatedPosts);
+
+  }, [currentGenre])
 
   return (
     <div className=''>
@@ -30,7 +44,6 @@ const Posts: React.FC = () => {
         posts.map((post: postInterface) => {
           return (
             <Post 
-              key={post.id} 
               id={post.id} 
               userName={post.userName} 
               userImg={post.userImg} 

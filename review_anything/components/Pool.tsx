@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { useRecoilState } from 'recoil';
 import { theme } from '../atoms/themeAtom';
 import { objects } from '../objects'
+import { selectedGenre } from './../atoms/genreAtom';
 
 const Pool: React.FC = () => {
 
   const [objs, setObjs] = useState(objects);
 
   const [isDark, setIsDark] = useRecoilState(theme);
+
+  const [currentGenre, setCurrentGenre] = useRecoilState(selectedGenre);
   
   const styles = {
     wrapper: `${isDark ? 'bg-slate-900 border-gray-900' : 'bg-blue-200 border-blue-100'} bg-opacity-25 border-2 rounded-sm mr-2`,
@@ -36,7 +39,13 @@ const Pool: React.FC = () => {
         {
           objs.map(obj => {
             return (
-              <div className={styles.object} >{obj.value}</div>
+              <div 
+                className={styles.object} 
+                key={obj.value} 
+                onClick={() => setCurrentGenre(obj.value)}
+              >
+                {obj.value}
+              </div>
             )
           })
         }
