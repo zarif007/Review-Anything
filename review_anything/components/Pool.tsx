@@ -10,11 +10,11 @@ const Pool: React.FC = () => {
   const [isDark, setIsDark] = useRecoilState(theme);
   
   const styles = {
-    wrapper: `${isDark ? 'bg-slate-900 border-gray-900' : 'bg-slate-200 border-blue-100'} bg-opacity-25 border-2 rounded-sm mr-2`,
+    wrapper: `${isDark ? 'bg-slate-900 border-gray-900' : 'bg-blue-200 border-blue-100'} bg-opacity-25 border-2 rounded-sm mr-2`,
     objWrapper: `flex flex-wrap p-2`,
     object: `bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white`,
     showMoreButton: `text-blue-500 text-md font-semibold cursor-pointer pt-3 pl-2`,
-    input: `p-1 w-full focus:outline-none ring-2 ${isDark ? 'bg-black text-white' : 'bg-gray-200 text-black'} rounded-sm` ,
+    input: `p-1 w-full focus:outline-none ${isDark ? 'bg-black text-white' : 'bg-gray-100 text-black'} rounded-sm font-semibold` ,
   }
 
   const handleSearch = (e: any) => {

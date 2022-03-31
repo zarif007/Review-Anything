@@ -18,13 +18,13 @@ const Post : React.FC<postInterface> = ( post ) => {
   const [reviewLineLimit, setReviewLineLimit] = useState<number>(2);
 
   const styles = {
-    wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#fefefa] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
+    wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
     topWrapper: `flex items-center p-3 border-b ${isDark ? 'border-gray-900' : 'border-blue-100'} justify-between`,
     userName: `flex-1 font-bold ${isDark ? 'text-white' : 'text-gray-800'}`,
     userImgIcon: `rounded-full h-12 w-12 object-contain border ${isDark ? 'border-gray-800' : 'border-blue-100'} p-1 mr-3`,
-    mainImg: `object-contain h-96 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F9F6EE]'}`,
+    mainImg: `object-contain h-96 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,
     captionWrapper: `${isDark ? 'border-gray-900' : 'border-blue-100'}`,
-    caption: `p-5 font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`,
+    caption: `p-5 pt-2 font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`,
     title: `p-5 pb-0 font-bold text-2xl text-blue-500 uppercase`,
     rating: `font-bold text-lg ${isDark ? 'text-white' : 'text-gray-800'}`,
     type: ` p-2 border border-blue-900 font-semibold`,
