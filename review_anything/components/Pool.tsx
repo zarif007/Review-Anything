@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
+import { useRecoilState } from 'recoil';
+import { theme } from '../atoms/themeAtom';
 import { objects } from '../objects'
 
 const Pool: React.FC = () => {
 
   const [objs, setObjs] = useState(objects);
+
+  const [isDark, setIsDark] = useRecoilState(theme);
   
   const styles = {
-    wrapper: 'bg-slate-900 bg-opacity-25 border-2 border-gray-900 rounded-sm mr-2',
-    objWrapper: 'flex flex-wrap p-2',
-    object: 'bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white',
-    showMoreButton: 'text-blue-500 text-md font-semibold cursor-pointer pt-3 pl-2',
+    wrapper: `${isDark ? 'bg-slate-900 border-gray-900' : 'bg-slate-200 border-blue-100'} bg-opacity-25 border-2 rounded-sm mr-2`,
+    objWrapper: `flex flex-wrap p-2`,
+    object: `bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white`,
+    showMoreButton: `text-blue-500 text-md font-semibold cursor-pointer pt-3 pl-2`,
+    input: `p-1 w-full focus:outline-none ring-2 ${isDark ? 'bg-black text-white' : 'bg-gray-200 text-black'} rounded-sm` ,
   }
 
   const handleSearch = (e: any) => {
@@ -22,7 +27,7 @@ const Pool: React.FC = () => {
     <div className={styles.wrapper}>
       <div className='mx-auto p-3 '>
         <input 
-          className='p-1 w-full focus:outline-none ring-2 bg-black rounded-sm' 
+          className={styles.input}
           placeholder='Search...' 
           onChange={handleSearch}  
         />

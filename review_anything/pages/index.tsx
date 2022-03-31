@@ -33,8 +33,8 @@ const Home: NextPage = () => {
           border -> bg-gray-900
 
         Light => 
-          BG -> white
-          POST -> #FAF9F6
+          BG -> #F9F6EE
+          POST -> #fefefa
           Shadow -> #a1a1aa
         */}
 

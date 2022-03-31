@@ -18,22 +18,24 @@ const Post : React.FC<postInterface> = ( post ) => {
   const [reviewLineLimit, setReviewLineLimit] = useState<number>(2);
 
   const styles = {
-    wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#fefefa] shadow-[#a1a1aa] border-gray-200'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
-    topWrapper: `flex items-center p-3 border-b ${isDark ? 'border-gray-900' : 'border-gray-200'} justify-between`,
-    userImgIcon: `rounded-full h-12 w-12 object-contain border border-gray-800 p-1 mr-3`,
+    wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#fefefa] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
+    topWrapper: `flex items-center p-3 border-b ${isDark ? 'border-gray-900' : 'border-blue-100'} justify-between`,
+    userName: `flex-1 font-bold ${isDark ? 'text-white' : 'text-gray-800'}`,
+    userImgIcon: `rounded-full h-12 w-12 object-contain border ${isDark ? 'border-gray-800' : 'border-blue-100'} p-1 mr-3`,
     mainImg: `object-contain h-96 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F9F6EE]'}`,
-    captionWrapper: `${isDark ? 'border-gray-900' : 'border-gray-200'}`,
-    caption: `p-5 font-semibold`,
+    captionWrapper: `${isDark ? 'border-gray-900' : 'border-blue-100'}`,
+    caption: `p-5 font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`,
     title: `p-5 pb-0 font-bold text-2xl text-blue-500 uppercase`,
+    rating: `font-bold text-lg ${isDark ? 'text-white' : 'text-gray-800'}`,
     type: ` p-2 border border-blue-900 font-semibold`,
     crowdRating: `bg-gray-900 p-2 border border-blue-900 font-semibold flex items-center space-x-1`,
     totalReactionCounterAndCR: `w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1 flex space-x-1`,
     iconsWrapper: `flex justify-between`,
-    icons: `btn border flex justify-center items-center ${isDark ? 'border-gray-900' : 'border-gray-200'} w-full`,
+    icons: `${isDark ? 'btn' : 'btn-lt'} border flex justify-center items-center ${isDark ? 'border-gray-900' : 'border-blue-100'} w-full`,
     iconText: `text-blue-400 text-sm font-semibold`,
     genreWrapper: `bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white`,
     showButton: `text-sm text-blue-500 pt-0 cursor-pointer`,
-    typeAndTimestamp: `text-xs text-gray-400 sm:flex items-center space-x-1 xs:flex-col`,
+    typeAndTimestamp: `text-xs text-gray-400 sm:flex items-center sm:space-x-1 xs:flex-col`,
   }
 
   const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating, timestamp } = post
@@ -49,7 +51,7 @@ const Post : React.FC<postInterface> = ( post ) => {
             src={userImg} alt='dp'
           />
           <div className='flex flex-col'>
-            <p className='flex-1 font-bold'>{userName}</p>
+            <p className={styles.userName}>{userName}</p>
             {/* Type and timestamp  */}
             <div className={styles.typeAndTimestamp}>
               <p className=''>few minutes ago</p>
@@ -60,7 +62,7 @@ const Post : React.FC<postInterface> = ( post ) => {
         </div>
         <div className='flex items-center sm:space-x-4 space-x-1'>
           <div className='flex items-center space-x-1'>
-            <div className='font-bold text-lg'>{rating}</div>
+            <div className={styles.rating}>{rating}</div>
             <BsFillStarFill className='text-yellow-500 h-12' />
           </div>
           <div className={styles.genreWrapper}>{genre}</div>

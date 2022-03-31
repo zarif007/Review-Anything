@@ -25,7 +25,7 @@ const Header: React.FC = () => {
   const router = useRouter();
   
   const styles = {
-    nav: `pt-3 shadow-sm ${isDark ? 'bg-[#131313] shadow-black' : 'bg-[#fefefa] shadow-[#a1a1aa]'}  sticky top-0 z-50 pb-2`,
+    nav: `pt-3 shadow-sm ${isDark ? 'bg-[#131313] shadow-black' : 'bg-[#fefefa] shadow-gray-200'}  sticky top-0 z-50 pb-2`,
     wrapper: `flex justify-between max-w-6xl mx-5 lg:mx-auto`,
     logo: `relative h-8 w-8 sm:h-12 sm:w-24 cursor-pointer pt-1`,
     searchWrapper: `relative text-gray-600 focus-within:text-gray-400`,

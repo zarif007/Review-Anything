@@ -5,19 +5,22 @@ import { FaSwimmingPool } from 'react-icons/fa';
 import { useRecoilState } from 'recoil';
 import { postModalState } from '../atoms/postModalAtom';
 import { useSession } from 'next-auth/react';
+import { theme } from '../atoms/themeAtom';
 
 const BottomNav: React.FC = () => {
 
     const [open, setOpen] = useRecoilState(postModalState);
 
+    const [isDark, setIsDark] = useRecoilState(theme);
+
     const { data: session } = useSession();
 
     const styles = {
         wrapper: `w-full h-24`,
-        itemsWrapper: `block fixed inset-x-0 bottom-0 z-50 bg-[#131313] shadow-black border-2 border-gray-900`,
+        itemsWrapper: `block fixed inset-x-0 bottom-0 z-50 ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#fefefa] shadow-gray-200'}  border-2 `,
         iconsWrapper: `w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-1 pb-1`,
-        icon: `h-10 w-6 sm:h-12 sm:w-8 text-gray-200  iconAnimation`,
-        iconText: `tab tab-home block text-xs text-white font-semibold`,
+        icon: `h-10 w-6 sm:h-12 sm:w-8 ${isDark ? 'text-gray-200' : 'text-gray-800'}  iconAnimation`,
+        iconText: `tab tab-home block text-xs ${isDark ? 'text-white' : 'text-black'} font-semibold`,
     }
 
     return (
