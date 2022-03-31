@@ -5,31 +5,35 @@ import { BsDot, BsFillStarFill } from "react-icons/bs";
 import { RiUserStarFill } from "react-icons/ri";
 import { useSession } from 'next-auth/react';
 import { GoPrimitiveDot } from 'react-icons/go';
+import { theme } from '../atoms/themeAtom';
+import { useRecoilState } from 'recoil';
 
 
 const Post : React.FC<postInterface> = ( post ) => {
 
   const { data: session } = useSession();
 
+  const [isDark, setIsDark] = useRecoilState(theme);
+
   const [reviewLineLimit, setReviewLineLimit] = useState<number>(2);
 
   const styles = {
-    wrapper: 'text-white bg-[#131313] shadow-black border-2 border-gray-900 rounded-sm mt-4 md:m-2 md:mt-6',
-    topWrapper: 'flex items-center p-3 border-b border-gray-900 justify-between',
-    userImgIcon: 'rounded-full h-12 w-12 object-contain border border-gray-800 p-1 mr-3',
-    mainImg: 'object-contain h-96 w-full bg-[#0E0E10]',
-    captionWrapper: 'border-gray-900',
-    caption: 'p-5 font-semibold',
-    title: 'p-5 pb-0 font-bold text-2xl text-blue-500 uppercase',
-    type: 'bg-[#0E0E10] p-2 border border-blue-900 font-semibold',
-    crowdRating: 'bg-gray-900 p-2 border border-blue-900 font-semibold flex items-center space-x-1',
-    totalReactionCounterAndCR: 'w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1 flex space-x-1',
-    iconsWrapper: 'flex justify-between',
-    icons: 'btn border flex justify-center items-center border-gray-900 w-full',
-    iconText: 'text-blue-400 text-sm font-semibold',
-    genreWrapper: 'bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white',
-    showButton: 'text-sm text-blue-500 pt-0 cursor-pointer',
-    typeAndTimestamp: 'text-xs text-gray-400 sm:flex items-center space-x-1 xs:flex-col',
+    wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#fefefa] shadow-[#a1a1aa] border-gray-200'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
+    topWrapper: `flex items-center p-3 border-b ${isDark ? 'border-gray-900' : 'border-gray-200'} justify-between`,
+    userImgIcon: `rounded-full h-12 w-12 object-contain border border-gray-800 p-1 mr-3`,
+    mainImg: `object-contain h-96 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F9F6EE]'}`,
+    captionWrapper: `${isDark ? 'border-gray-900' : 'border-gray-200'}`,
+    caption: `p-5 font-semibold`,
+    title: `p-5 pb-0 font-bold text-2xl text-blue-500 uppercase`,
+    type: ` p-2 border border-blue-900 font-semibold`,
+    crowdRating: `bg-gray-900 p-2 border border-blue-900 font-semibold flex items-center space-x-1`,
+    totalReactionCounterAndCR: `w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1 flex space-x-1`,
+    iconsWrapper: `flex justify-between`,
+    icons: `btn border flex justify-center items-center ${isDark ? 'border-gray-900' : 'border-gray-200'} w-full`,
+    iconText: `text-blue-400 text-sm font-semibold`,
+    genreWrapper: `bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white`,
+    showButton: `text-sm text-blue-500 pt-0 cursor-pointer`,
+    typeAndTimestamp: `text-xs text-gray-400 sm:flex items-center space-x-1 xs:flex-col`,
   }
 
   const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating, timestamp } = post

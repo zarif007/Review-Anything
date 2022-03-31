@@ -20,7 +20,7 @@ const Pool: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className='mx-auto p-2 '>
+      <div className='mx-auto p-3 '>
         <input 
           className='p-1 w-full focus:outline-none ring-2 bg-black rounded-sm' 
           placeholder='Search...' 

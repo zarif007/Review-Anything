@@ -182,6 +182,7 @@ const PostModal = () => {
                         setStarRating(rt);
                       }}
                     />
+                    <span className='bg-black p-1 rounded-sm mt-1'>{starRating}</span>
                   </div>
 
                   {/* Selection of Genre and Type part  */}

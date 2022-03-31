@@ -1,5 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useRecoilState } from 'recoil'
+import { theme } from '../atoms/themeAtom'
 import BottomNav from '../components/BottomNav'
 import Feed from '../components/Feed'
 import Header from '../components/Header'
@@ -7,8 +9,15 @@ import PostModal from '../components/PostModal'
 
 
 const Home: NextPage = () => {
+
+  const [isDark, setIsDark] = useRecoilState(theme);
+
+  const styles = {
+    wrapper: `min-h-screen ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F9F6EE]'}`,
+  }
+
   return (
-    <div className='min-h-screen bg-[#0E0E10]'>
+    <div className={styles.wrapper}>
       <Head>
         <title>RAT</title>
         <meta name="description" content="Review Anything" />

@@ -13,7 +13,7 @@ const SignIn: React.FC<{providers: providersInterface}> = ({ providers }) => {
         {Object.values(providers).map((provider: any) => (
           <div key={provider.name}>
             <button onClick={() => {
-                signIn(provider.id, { callbackUrl: '/' })      
+                signIn(provider.id, { callbackUrl: '/' })     
               }} className='hover:bg-[#131313] bg-[#030303] text-white border-2 border-gray-900 p-3 rounded-sm font-semibold flex text-lg space-x-2'>
               <FcGoogle className='h-8 w-8' />
               <span>Sign in with {provider.name}</span>
