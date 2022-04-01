@@ -17,8 +17,8 @@ const Trending = () => {
       trendingText: `font-bold text-2xl p-2`,
       trendingIcon: `h-10 w-6 sm:h-12 sm:w-8 ${isDark ? 'text-gray-200' : 'text-gray-800'} iconAnimation pt-1`,
       postWrapper: `flex flex-col p-2 pb-1`,
-      postImg: `h-10 w-10 sm:h-12 sm:w-12 p-2 rounded-full cursor-pointer pt-2`,
-      postDetailesWrapper: `flex items-center space-x-1  lg:space-x-2 font-semibold md:text-xs lg:text-sm`,
+      postImg: `h-10 w-10 sm:h-12 sm:w-12 sm:h-14 sm:w-14  p-2 rounded-full cursor-pointer pt-2 object-contain`,
+      postDetailesWrapper: `flex items-center space-x-1 lg:space-x-3 font-semibold md:text-xs lg:text-sm`,
       genre: `bg-blue-500 hover:bg-blue-600 p-2 m-1 mt-0 rounded-2xl font-semibold text-xs iconAnimation hover:text-white text-white`,
   }
 
@@ -50,7 +50,7 @@ const Trending = () => {
                     <div className={styles.postWrapper}>
                       <div className='flex space-x-2 items-center pb-2'>
                         <img src={post.img} className={styles.postImg} />
-                        <p className='font-semibold text-blue-600 text-lg'>{post.title}</p>
+                        <p className='font-semibold text-blue-600 text-lg lg:text-2xl'>{post.title}</p>
                       </div>
                       <div className={styles.postDetailesWrapper}>
                         <div className={styles.genre}>{post.genre}</div>

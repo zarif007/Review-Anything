@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil';
 import { postModalState } from '../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
@@ -29,6 +29,8 @@ const PostModal = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
   const [starRating, setStarRating] = useState<string>('0');
 
   const TypeOptions = [
@@ -51,6 +53,12 @@ const PostModal = () => {
     crowdRating: '',
     timestamp: new Date()
   });
+
+  const checkIsDisable = () => {
+    
+    setIsDisabled(post.img === '' || post.title === '' || post.review === '' || 
+      post.genre === '' || post. type === '' || post.rating === '' || isLoading);
+  }
 
   const addImageToPost = (e: any) => {
     const reader = new FileReader();
@@ -138,7 +146,10 @@ const PostModal = () => {
                     onClick={() => filePickerRef?.current?.click()} >
                     <FcAddImage className='h-16 w-16' aria-hidden='true' />
                   </div> : <div>
-                    <img src={selectedFile} alt='img' onClick={() => setSelectedFile(null)}
+                    <img src={selectedFile} alt='img' onClick={() => {
+                      setSelectedFile(null);
+                      setIsDisabled(true);
+                    }}
                       className='w-full object-cover cursor-pointer' />
                   </div>
                 }
@@ -157,8 +168,13 @@ const PostModal = () => {
                     <input
                       ref={filePickerRef}
                       type='file'
+                      accept="image/*"
                       hidden
-                      onChange={addImageToPost} 
+                      onChange={(e: any) => {
+                        addImageToPost(e)
+                        post['img'] = '*';
+                        checkIsDisable()
+                      }} 
                     />
                   </div>
                   
@@ -167,8 +183,12 @@ const PostModal = () => {
                     <textarea 
                       rows={1} 
                       className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
+                      defaultValue={post['title']}
                       placeholder='Give a Title'
-                      onChange={e => post['title'] = e.target.value}
+                      onChange={e => {
+                        post['title'] = e.target.value
+                        checkIsDisable()
+                      }}
                     />
                   </div>
 
@@ -180,6 +200,7 @@ const PostModal = () => {
                         let rt = value?.toString() || '';
                         post['rating'] = rt;
                         setStarRating(rt);
+                        checkIsDisable()
                       }}
                     />
                     <span className='bg-black p-1 rounded-sm mt-1'>{starRating}</span>
@@ -192,6 +213,7 @@ const PostModal = () => {
                         options={objects}
                         className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
                         classNamePrefix="Select Genre"
+                        defaultValue={post['genre'] === '' ? 'Genre' : {value: post['genre'], label: post['genre']}}
                         placeholder='Genre'
                         theme={(theme) => ({
                           ...theme,
@@ -203,7 +225,10 @@ const PostModal = () => {
                             neutral50: 'white',
                           },
                         })}
-                        onChange={(e: any) => post['genre'] = e.value}
+                        onChange={(e: any) => {
+                          post['genre'] = e.value
+                          checkIsDisable()
+                        }}
                         styles={selectStyle}
                       />
 
@@ -212,6 +237,7 @@ const PostModal = () => {
                         options={TypeOptions}
                         className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
                         classNamePrefix="Select Type"
+                        defaultValue={post['type'] === '' ? 'Type' : {value: post['type'], label: post['type']}}
                         placeholder='Type'
                         theme={(theme) => ({
                           ...theme,
@@ -223,7 +249,10 @@ const PostModal = () => {
                             neutral50: '#1A1A1A',
                           },
                         })}
-                        onChange={(e: any) => post['type'] = e.value}
+                        onChange={(e: any) => {
+                          post['type'] = e.value
+                          checkIsDisable()
+                        }}
                         styles={selectStyle}
                       />
                   </div>
@@ -234,15 +263,20 @@ const PostModal = () => {
                       rows={3}
                       className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
                       placeholder='Bump Review Here' 
-                      onChange={e => post['review'] = e.target.value.trim()}
+                      defaultValue={post['review']}
+                      onChange={e => {
+                        post['review'] = e.target.value.trim()
+                        checkIsDisable()
+                      }}
                     />
                   </div>
                 </div>
                 
                 <div className='mt-5 sm:mt-6'>
-                  <button onClick={uploadPost} disabled={isLoading}
-                    className='bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold'
+                  <button onClick={uploadPost} 
+                    className='bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold disabled:bg-blue-400 disabled:cursor-not-allowed'
                     type='button'
+                    disabled={isDisabled}
                   >
                     Post
                   </button>
