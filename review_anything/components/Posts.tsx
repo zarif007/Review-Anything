@@ -14,7 +14,7 @@ const Posts: React.FC = () => {
 
   const [postsFromDB, setPostsFromDB] = useState<postInterface[]>([]);
 
-  const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
+  const [currentGenre] = useRecoilState<string>(selectedGenre);
 
   useEffect(() => 
     onSnapshot(

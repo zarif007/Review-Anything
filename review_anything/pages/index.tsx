@@ -10,7 +10,7 @@ import PostModal from '../components/PostModal'
 
 const Home: NextPage = () => {
 
-  const [isDark, setIsDark] = useRecoilState(theme);
+  const [isDark] = useRecoilState(theme);
 
   const styles = {
     wrapper: `min-h-screen ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,

@@ -6,11 +6,11 @@ import { selectedGenre } from './../atoms/genreAtom';
 
 const Pool: React.FC = () => {
 
-  const [objs, setObjs] = useState(objects);
+  const [objs, setObjs] = useState<{value: string, label: string}[]>(objects);
 
-  const [isDark, setIsDark] = useRecoilState(theme);
+  const [isDark] = useRecoilState(theme);
 
-  const [currentGenre, setCurrentGenre] = useRecoilState(selectedGenre);
+  const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
   
   const styles = {
     wrapper: `${isDark ? 'bg-slate-900 border-gray-900' : 'bg-blue-200 border-blue-100'} bg-opacity-25 border-2 rounded-sm mr-2`,

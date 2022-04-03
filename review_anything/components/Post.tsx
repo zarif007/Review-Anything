@@ -7,15 +7,18 @@ import { useSession } from 'next-auth/react';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
+import { selectedGenre } from '../atoms/genreAtom';
 
 
 const Post : React.FC<postInterface> = ( post ) => {
 
   const { data: session } = useSession();
 
-  const [isDark, setIsDark] = useRecoilState<boolean>(theme);
+  const [isDark] = useRecoilState<boolean>(theme);
 
   const [reviewLineLimit, setReviewLineLimit] = useState<number>(2);
+
+  const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
   const styles = {
     wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
@@ -65,7 +68,11 @@ const Post : React.FC<postInterface> = ( post ) => {
             <div className={styles.rating}>{rating}</div>
             <BsFillStarFill className='text-yellow-500 h-12' />
           </div>
-          <div className={styles.genreWrapper}>{genre}</div>
+          <div 
+            onClick={() => setCurrentGenre(genre)}
+            className={styles.genreWrapper}>
+              {genre}
+          </div>
         </div>
       </div>
 
@@ -100,7 +107,7 @@ const Post : React.FC<postInterface> = ( post ) => {
 
       {/* Total Reactions  */}
       <div className={styles.totalReactionCounterAndCR}> 
-        <span>Total Reactions 22,123,266</span> 
+        <span>Total Interatctions 22,123,266</span> 
         <GoPrimitiveDot className='pt-1' />
         <div className='flex items-center space-x-1'>
           <span>Crowd Rating: {post.crowdRating}</span>

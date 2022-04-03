@@ -8,9 +8,9 @@ import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
 
 
-const Trending = () => {
+const Trending: React.FC = () => {
 
-  const [isDark, setIsDark] = useRecoilState(theme);
+  const [isDark] = useRecoilState(theme);
 
   const styles = {
       wrapper: `border-2 ${isDark ? 'border-gray-900 text-gray-300' : 'border-gray-200 text-gray-800'} mr-2`,
