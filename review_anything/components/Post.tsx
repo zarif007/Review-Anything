@@ -13,7 +13,7 @@ const Post : React.FC<postInterface> = ( post ) => {
 
   const { data: session } = useSession();
 
-  const [isDark, setIsDark] = useRecoilState(theme);
+  const [isDark, setIsDark] = useRecoilState<boolean>(theme);
 
   const [reviewLineLimit, setReviewLineLimit] = useState<number>(2);
 
