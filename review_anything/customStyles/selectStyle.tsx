@@ -1,21 +1,23 @@
+
+
 export const selectStyle = {
     valueContainer: (base: any) => ({
       ...base,
-      background: 'black',
+      background: `black`,
     }),
     control: (base: any, state: any) => ({
       ...base,
-      border: 'black',
-      background: 'black',
+      border: `black`,
+      background: `black`,
     }),
     menuList: (styles: any) => ({
       ...styles,
-      background: 'black'
+      background: `black`
     }),
     placeholder: (defaultStyles: any) => {
       return {
           ...defaultStyles,
-          color: 'white',
+          color: `white`,
       }
     }
 }

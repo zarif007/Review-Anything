@@ -9,15 +9,17 @@ import { db } from '../firebase'
 import postInterface from '../interfaces/Post';
 import StarsRating from "react-star-rate";
 import Select from 'react-select'
-import { selectStyle } from '../customStyles/selectStyle';
 import { useSession } from 'next-auth/react';
 import { objects } from '../objects';
+import { theme } from '../atoms/themeAtom';
 
 
 
 const PostModal = () => {
 
-  const [open, setOpen] = useRecoilState(postModalState);
+  const [open, setOpen] = useRecoilState<boolean>(postModalState);
+
+  const [isDark] = useRecoilState(theme);
 
   const { data: session } = useSession();
 
@@ -33,12 +35,49 @@ const PostModal = () => {
 
   const [starRating, setStarRating] = useState<string>('0');
 
+  const styles = {
+    wrapper: `flex items-end justify-center min-h-[800px] sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
+    dialogOverlay: `fixed inset-0 bg-gray-800 opacity-75 transition-opacity`,
+    postWrapper: `inline-block align-bottom ${isDark ? 'bg-[#131313]' : 'bg-[#FFFAFA]'} rounded-lg px-4 pt-5 pb-4 text-left
+      overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm md:max-w-lg w-full
+      sm:p-6 text-white `,
+    imageWrapper: `mx-auto flex items-center justify-center h-16 w-16 rounded-full cursor-pointer`,
+    uploadTitle: `text-lg leading-6 font-medium ${isDark ? 'text-gray-200' : 'text-gray-900'} pb-3`,
+    titleInput: `border-none focus:ring-0 w-full text-center ${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-gray-900'} mt-4 scrollbar-hide`,
+    select: `basic-multi-select ${isDark ? 'text-white' : 'text-black'} font-semibold focus:ring-0 w-full`,
+    review: `border-none focus:ring-0 w-full text-center ${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-gray-900'} mt-4 scrollbar-hide`,
+    postButton: `bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold 
+      disabled:bg-blue-400 disabled:cursor-not-allowed`,
+    ratingViewer: `${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-black'} p-1 rounded-sm mt-1`,
+  }
+
   const TypeOptions = [
     { value: 'Paid🤑', label: 'Paid🤑' },
     { value: 'Non-Paid✨', label: 'Non-Paid✨' },
     { value: 'Non-Paid(I swear)🔥', label: 'Non-Paid(I swear)🔥' }
   ]
 
+  const selectStyle = {
+    valueContainer: (base: any) => ({
+      ...base,
+      background: `${isDark ? 'black' : '#F5F5F5'}`,
+    }),
+    control: (base: any, state: any) => ({
+      ...base,
+      border: `${isDark ? 'black' : '#F5F5F5'}`,
+      background: `${isDark ? 'black' : '#F5F5F5'}`,
+    }),
+    menuList: (styles: any) => ({
+      ...styles,
+      background: `${isDark ? 'black' : '#F5F5F5'}`
+    }),
+    placeholder: (defaultStyles: any) => {
+      return {
+          ...defaultStyles,
+          color: `${isDark ? 'white' : 'black'}`,
+      }
+    }
+  } 
 
   const [post, setPost] = useState<postInterface>({
     id: '66',
@@ -107,7 +146,7 @@ const PostModal = () => {
         className='fixed z-10 inset-0 overflow-y-auto'
         onClose={setOpen}
       >
-        <div className='flex items-end justify-center min-h-[800px] sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0'>
+        <div className={styles.wrapper}>
           <Transition.Child 
             as={Fragment}
             enter='ease-out duration-300'
@@ -117,7 +156,7 @@ const PostModal = () => {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <Dialog.Overlay className='fixed inset-0 bg-gray-800 opacity-75 transition-opacity' />
+            <Dialog.Overlay className={styles.dialogOverlay} />
           </Transition.Child>
           <span className='hidden sm:inline-block sm:align-middle sm:h-screen' aria-hidden='true'>
             &#8203;
@@ -133,16 +172,14 @@ const PostModal = () => {
           >
 
             {/* Post Upload Part   */}
-            <div className='inline-block align-bottom bg-[#131313] rounded-lg px-4 pt-5 pb-4 text-left
-              overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm md:max-w-lg w-full
-              sm:p-6 text-white '>
+            <div className={styles.postWrapper}>
 
               
               <div className=''>
                 {/* Image Upload Part  */}
                 {
                   !selectedFile ? <div 
-                    className='mx-auto flex items-center justify-center h-16 w-16 rounded-full cursor-pointer'
+                    className={styles.imageWrapper}
                     onClick={() => filePickerRef?.current?.click()} >
                     <FcAddImage className='h-16 w-16' aria-hidden='true' />
                   </div> : <div>
@@ -159,7 +196,7 @@ const PostModal = () => {
                     !selectedFile && <div className='mt-3 text-center sm:mt-5'>
                       <Dialog.Title 
                       as='h3'
-                      className='text-lg leading-6 font-medium text-gray-200 pb-3' >
+                      className={styles.uploadTitle} >
                         Upload a Photo
                       </Dialog.Title>
                     </div>
@@ -182,7 +219,7 @@ const PostModal = () => {
                   <div>
                     <textarea 
                       rows={1} 
-                      className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
+                      className={styles.titleInput}
                       defaultValue={post['title']}
                       placeholder='Give a Title'
                       onChange={e => {
@@ -203,7 +240,7 @@ const PostModal = () => {
                         checkIsDisable()
                       }}
                     />
-                    <span className='bg-black p-1 rounded-sm mt-1'>{starRating}</span>
+                    <span className={styles.ratingViewer}>{starRating}</span>
                   </div>
 
                   {/* Selection of Genre and Type part  */}
@@ -211,9 +248,10 @@ const PostModal = () => {
                     <Select
                         name="genre"
                         options={objects}
-                        className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
+                        className={styles.select}
                         classNamePrefix="Select Genre"
-                        defaultValue={post['genre'] === '' ? 'Genre' : {value: post['genre'], label: post['genre']}}
+                        defaultValue={post['genre'] === '' ? 
+                          'Genre' : {value: post['genre'], label: post['genre']}}
                         placeholder='Genre'
                         theme={(theme) => ({
                           ...theme,
@@ -222,7 +260,7 @@ const PostModal = () => {
                             ...theme.colors,
                             primary25: 'liteblue',
                             primary: 'black',
-                            neutral50: 'white',
+                            neutral50: '#1A1A1A',
                           },
                         })}
                         onChange={(e: any) => {
@@ -235,9 +273,10 @@ const PostModal = () => {
                     <Select
                         name="type"
                         options={TypeOptions}
-                        className="basic-multi-select text-white font-semibold focus:ring-0 w-full"
+                        className={styles.select}
                         classNamePrefix="Select Type"
-                        defaultValue={post['type'] === '' ? 'Type' : {value: post['type'], label: post['type']}}
+                        defaultValue={post['type'] === '' ? 
+                          'Type' : {value: post['type'], label: post['type']}}
                         placeholder='Type'
                         theme={(theme) => ({
                           ...theme,
@@ -261,7 +300,7 @@ const PostModal = () => {
                   <div>
                     <textarea
                       rows={3}
-                      className='border-none focus:ring-0 w-full text-center bg-black mt-4 scrollbar-hide' 
+                      className={styles.review}
                       placeholder='Bump Review Here' 
                       defaultValue={post['review']}
                       onChange={e => {
@@ -274,7 +313,7 @@ const PostModal = () => {
                 
                 <div className='mt-5 sm:mt-6'>
                   <button onClick={uploadPost} 
-                    className='bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold disabled:bg-blue-400 disabled:cursor-not-allowed'
+                    className={styles.postButton}
                     type='button'
                     disabled={isDisabled}
                   >
