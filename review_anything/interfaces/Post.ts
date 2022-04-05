@@ -1,5 +1,5 @@
 export default interface postInterface {
-  id: string,
+  id?: string,
   userName: string,
   userImg: string,
   img: string,

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useRecoilState } from 'recoil';
+import { poolModalState } from '../atoms/poolModalAtom';
 import { theme } from '../atoms/themeAtom';
 import { objects } from '../objects'
 import { selectedGenre } from './../atoms/genreAtom';
@@ -11,6 +12,8 @@ const Pool: React.FC = () => {
   const [isDark] = useRecoilState(theme);
 
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
+
+  const [open, setOpen] = useRecoilState<boolean>(poolModalState);
   
   const styles = {
     wrapper: `${isDark ? 'bg-slate-900 border-gray-900' : 'bg-blue-200 border-blue-100'} bg-opacity-25 border-2 rounded-sm mr-2`,
@@ -37,7 +40,7 @@ const Pool: React.FC = () => {
       </div>
       <div className={styles.objWrapper}>
         {
-          objs.map(obj => {
+          objs.slice(0, 20).map(obj => {
             return (
               <div 
                 className={styles.object} 
@@ -49,7 +52,10 @@ const Pool: React.FC = () => {
             )
           })
         }
-        <p className={styles.showMoreButton}>Show more...</p>
+        <p className={styles.showMoreButton}
+        onClick={() => setOpen(true)} >
+          Show more...
+        </p>
       </div>
     </div>
   )

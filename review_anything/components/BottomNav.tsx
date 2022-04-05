@@ -6,12 +6,15 @@ import { useRecoilState } from 'recoil';
 import { postModalState } from '../atoms/postModalAtom';
 import { useSession } from 'next-auth/react';
 import { theme } from '../atoms/themeAtom';
+import { poolModalState } from '../atoms/poolModalAtom';
 
 const BottomNav: React.FC = () => {
 
-    const [open, setOpen] = useRecoilState(postModalState);
+    const [postOpen, setPostOpen] = useRecoilState(postModalState);
 
-    const [isDark, setIsDark] = useRecoilState(theme);
+    const [poolOpen, setPoolOpen] = useRecoilState<boolean>(poolModalState);
+
+    const [isDark] = useRecoilState(theme);
 
     const { data: session } = useSession();
 
@@ -33,12 +36,12 @@ const BottomNav: React.FC = () => {
                             <span className={styles.iconText}>Trending</span>
                         </div>
                         {
-                            session?.user && <div className={styles.iconsWrapper} onClick={() => setOpen(true)} >
+                            session?.user && <div className={styles.iconsWrapper} onClick={() => setPostOpen(true)} >
                                 <IoAddCircleSharp className={styles.icon} />
                                 <span className={styles.iconText}>Add</span>
                             </div> 
                         }
-                        <div className={styles.iconsWrapper}>
+                        <div className={styles.iconsWrapper} onClick={() => setPoolOpen(true)}>
                             <FaSwimmingPool className={styles.icon} />
                             <span className={styles.iconText}>Pool</span>
                         </div>

@@ -5,7 +5,8 @@ import { theme } from '../atoms/themeAtom'
 import BottomNav from '../components/BottomNav'
 import Feed from '../components/Feed'
 import Header from '../components/Header'
-import PostModal from '../components/PostModal'
+import PoolModal from '../components/modals/PoolModal'
+import PostModal from '../components/modals/PostModal'
 
 
 const Home: NextPage = () => {
@@ -45,6 +46,7 @@ const Home: NextPage = () => {
         <BottomNav />
       </div>
       <PostModal />
+      <PoolModal />
     </div>
   )
 }

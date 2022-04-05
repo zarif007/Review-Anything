@@ -1,17 +1,17 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil';
-import { postModalState } from '../atoms/postModalAtom';
+import { postModalState } from '../../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
 import { FcAddImage } from 'react-icons/fc';
 import Axios from 'axios';
 import { addDoc, collection, serverTimestamp } from '@firebase/firestore'
-import { db } from '../firebase'
-import postInterface from '../interfaces/Post';
+import { db } from '../../firebase'
+import postInterface from '../../interfaces/Post';
 import StarsRating from "react-star-rate";
 import Select from 'react-select'
 import { useSession } from 'next-auth/react';
-import { objects } from '../objects';
-import { theme } from '../atoms/themeAtom';
+import { objects } from '../../objects';
+import { theme } from '../../atoms/themeAtom';
 
 
 
@@ -36,7 +36,7 @@ const PostModal = () => {
   const [starRating, setStarRating] = useState<string>('0');
 
   const styles = {
-    wrapper: `flex items-end justify-center min-h-[800px] sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
+    wrapper: `flex items-center justify-center min-h-[800px] sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
     dialogOverlay: `fixed inset-0 bg-gray-800 opacity-75 transition-opacity`,
     postWrapper: `inline-block align-bottom ${isDark ? 'bg-[#131313]' : 'bg-[#FFFAFA]'} rounded-lg px-4 pt-5 pb-4 text-left
       overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm md:max-w-lg w-full
@@ -80,7 +80,6 @@ const PostModal = () => {
   } 
 
   const [post, setPost] = useState<postInterface>({
-    id: '66',
     userName: '',
     userImg: '',
     img: '',
@@ -131,6 +130,19 @@ const PostModal = () => {
       .then(response => {
         post['img'] = response.data.secure_url;
         const docRef = addDoc(collection(db, 'posts'), post);
+
+        setPost({
+          userName: '',
+          userImg: '',
+          img: '',
+          title: '',
+          review: '',
+          genre: '',
+          type: '',
+          rating: '',
+          crowdRating: '',
+          timestamp: new Date()
+        })
       });
     
 
@@ -143,7 +155,7 @@ const PostModal = () => {
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
-        className='fixed z-10 inset-0 overflow-y-auto'
+        className='fixed mt-10 z-10 inset-0 overflow-y-auto'
         onClose={setOpen}
       >
         <div className={styles.wrapper}>
