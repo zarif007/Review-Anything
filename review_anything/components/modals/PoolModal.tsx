@@ -30,7 +30,7 @@ const PoolModal = () => {
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
-        className='fixed mt-20 z-10 inset-0 overflow-y-auto'
+        className='fixed mt-20 mb-20 md:mb-2 z-10 inset-0 overflow-y-auto'
         onClose={setOpen}
       >
         <div className={styles.wrapper}>

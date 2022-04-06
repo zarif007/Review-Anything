@@ -24,6 +24,8 @@ const Pool: React.FC = () => {
   }
 
   const handleSearch = (e: any) => {
+    setObjs([]);
+    
     const updatedObjs = objects.filter(object => object.value.toLowerCase().includes(e.target.value.toLowerCase()));
 
     setObjs(updatedObjs);
@@ -40,11 +42,11 @@ const Pool: React.FC = () => {
       </div>
       <div className={styles.objWrapper}>
         {
-          objs.slice(0, 20).map(obj => {
+          objs.slice(0, 20).map((obj, index) => {
             return (
               <div 
                 className={styles.object} 
-                key={obj.value} 
+                key={index} 
                 onClick={() => setCurrentGenre(obj.value)}
               >
                 {obj.value}
