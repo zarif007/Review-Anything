@@ -7,16 +7,16 @@ import { theme } from '../../atoms/themeAtom';
 import { objects } from '../../objects';
 
 const PoolModal = () => {
-  const [isDark] = useRecoilState(theme);
+  const [isDark] = useRecoilState<boolean>(theme);
 
   const [open, setOpen] = useRecoilState<boolean>(poolModalState);
 
-  const [objs, setObjs] = useState<{value: string, label: string}[]>(objects);
+  const [objs] = useState<{value: string, label: string}[]>(objects);
 
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
   const styles = {
-    wrapper: `flex items-center justify-center min-h-[800px] sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
+    wrapper: `flex items-center justify-center min-h-screen sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
     dialogOverlay: `fixed inset-0 bg-gray-800 opacity-75 transition-opacity`,
     genreWrapper: `inline-block align-bottom ${isDark ? 'bg-[#0E0E10]' : 'bg-[#FFFAFA]'} rounded-lg text-left
         overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm md:max-w-lg w-full

@@ -14,7 +14,6 @@ import { objects } from '../../objects';
 import { theme } from '../../atoms/themeAtom';
 
 
-
 const PostModal = () => {
 
   const [open, setOpen] = useRecoilState<boolean>(postModalState);
@@ -34,7 +33,7 @@ const PostModal = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const [starRating, setStarRating] = useState<string>('0');
-
+  
   const styles = {
     wrapper: `flex items-center justify-center min-h-[800px] sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
     dialogOverlay: `fixed inset-0 bg-gray-800 opacity-75 transition-opacity`,
@@ -45,7 +44,7 @@ const PostModal = () => {
     uploadTitle: `text-lg leading-6 font-medium ${isDark ? 'text-gray-200' : 'text-gray-900'} pb-3`,
     titleInput: `border-none focus:ring-0 w-full text-center ${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-gray-900'} mt-4 scrollbar-hide`,
     select: `basic-multi-select ${isDark ? 'text-white' : 'text-black'} font-semibold focus:ring-0 w-full`,
-    review: `border-none focus:ring-0 w-full text-center ${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-gray-900'} mt-4 scrollbar-hide`,
+    review: `border-none focus:ring-0 w-full ${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-gray-900'} mt-4 scrollbar-hide`,
     postButton: `bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold 
       disabled:bg-blue-400 disabled:cursor-not-allowed`,
     ratingViewer: `${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-black'} p-1 rounded-sm mt-1`,
@@ -159,7 +158,7 @@ const PostModal = () => {
         onClose={setOpen}
       >
         <div className={styles.wrapper}>
-          <Transition.Child 
+          <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
             enterFrom='opacity-0'
@@ -173,7 +172,7 @@ const PostModal = () => {
           <span className='hidden sm:inline-block sm:align-middle sm:h-screen' aria-hidden='true'>
             &#8203;
           </span>
-          <Transition.Child 
+          <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
             enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
@@ -186,11 +185,10 @@ const PostModal = () => {
             {/* Post Upload Part   */}
             <div className={styles.postWrapper}>
 
-              
               <div className=''>
                 {/* Image Upload Part  */}
                 {
-                  !selectedFile ? <div 
+                  !selectedFile ? <div
                     className={styles.imageWrapper}
                     onClick={() => filePickerRef?.current?.click()} >
                     <FcAddImage className='h-16 w-16' aria-hidden='true' />
@@ -202,17 +200,17 @@ const PostModal = () => {
                       className='w-full object-cover cursor-pointer' />
                   </div>
                 }
-                
+
                 <div>
                   {
                     !selectedFile && <div className='mt-3 text-center sm:mt-5'>
-                      <Dialog.Title 
+                      <Dialog.Title
                       as='h3'
                       className={styles.uploadTitle} >
                         Upload a Photo
                       </Dialog.Title>
                     </div>
-                  } 
+                  }
                   <div>
                     <input
                       ref={filePickerRef}
@@ -223,26 +221,26 @@ const PostModal = () => {
                         addImageToPost(e)
                         post['img'] = '*';
                         checkIsDisable()
-                      }} 
+                      }}
                     />
                   </div>
-                  
+
                   {/* Title  */}
                   <div>
-                    <textarea 
-                      rows={1} 
+                    <textarea
+                      rows={1}
                       className={styles.titleInput}
                       defaultValue={post['title']}
                       placeholder='Give a Title'
                       onChange={e => {
-                        post['title'] = e.target.value
+                        post['title'] = e.target.value.trim()
                         checkIsDisable()
                       }}
                     />
                   </div>
 
                   {/* Rating  */}
-                  <div className='flex items-center justify-center pb-1'> 
+                  <div className='flex items-center justify-center pb-1'>
                     <StarsRating
                       value={parseFloat(starRating)}
                       onChange={value => {
@@ -262,12 +260,12 @@ const PostModal = () => {
                         options={objects}
                         className={styles.select}
                         classNamePrefix="Select Genre"
-                        defaultValue={post['genre'] === '' ? 
+                        defaultValue={post['genre'] === '' ?
                           'Genre' : {value: post['genre'], label: post['genre']}}
                         placeholder='Genre'
                         theme={(theme) => ({
                           ...theme,
-                          borderRadius: 0,  
+                          borderRadius: 0,
                           colors: {
                             ...theme.colors,
                             primary25: 'liteblue',
@@ -287,12 +285,12 @@ const PostModal = () => {
                         options={TypeOptions}
                         className={styles.select}
                         classNamePrefix="Select Type"
-                        defaultValue={post['type'] === '' ? 
+                        defaultValue={post['type'] === '' ?
                           'Type' : {value: post['type'], label: post['type']}}
                         placeholder='Type'
                         theme={(theme) => ({
                           ...theme,
-                          borderRadius: 0,  
+                          borderRadius: 0,
                           colors: {
                             ...theme.colors,
                             primary25: 'liteblue',
@@ -307,13 +305,13 @@ const PostModal = () => {
                         styles={selectStyle}
                       />
                   </div>
-                  
+
                   {/* Review Part  */}
                   <div>
                     <textarea
                       rows={3}
                       className={styles.review}
-                      placeholder='Bump Review Here' 
+                      placeholder='Bump Review Here'
                       defaultValue={post['review']}
                       onChange={e => {
                         post['review'] = e.target.value.trim()
@@ -322,9 +320,9 @@ const PostModal = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className='mt-5 sm:mt-6'>
-                  <button onClick={uploadPost} 
+                  <button onClick={uploadPost}
                     className={styles.postButton}
                     type='button'
                     disabled={isDisabled}
@@ -338,7 +336,9 @@ const PostModal = () => {
         </div>
       </Dialog>
     </Transition.Root>
-  )
+
+
+  );
 }
 
 export default PostModal
