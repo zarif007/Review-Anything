@@ -8,7 +8,8 @@ import { GoPrimitiveDot } from 'react-icons/go';
 import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../atoms/genreAtom';
-
+import Moment from 'react-moment';
+import { formatDateTime } from '../formatDateTime';
 
 const Post : React.FC<postInterface> = ( post ) => {
 
@@ -42,7 +43,7 @@ const Post : React.FC<postInterface> = ( post ) => {
   }
 
   const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating, timestamp } = post
-  
+
   return (
     <div className={styles.wrapper}>
       
@@ -57,7 +58,14 @@ const Post : React.FC<postInterface> = ( post ) => {
             <p className={styles.userName}>{userName}</p>
             {/* Type and timestamp  */}
             <div className={styles.typeAndTimestamp}>
-              <p className=''>few minutes ago</p>
+              <p className=''>
+                <Moment toNow ago>
+                  {
+                    timestamp.toDate().toISOString() 
+                  }
+                </Moment>
+                <span> ago</span>
+              </p>
               <GoPrimitiveDot className='pt-1 hidden sm:inline' />
               <p>{post.type}</p>
             </div>

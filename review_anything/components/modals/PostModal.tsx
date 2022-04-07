@@ -154,7 +154,7 @@ const PostModal = () => {
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
-        className='fixed mt-10 z-10 inset-0 overflow-y-auto'
+        className='fixed mt-20 z-10 inset-0 overflow-y-auto'
         onClose={setOpen}
       >
         <div className={styles.wrapper}>
