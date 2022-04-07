@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useEffect, useRef, useState } from 'react'
+import { RiHeartAddFill } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../../atoms/genreAtom';
 import { poolModalState } from '../../atoms/poolModalAtom';
@@ -57,29 +58,32 @@ const PoolModal = () => {
             leaveFrom='opacity-100 translate-y-0 sm:scale-100'
             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
           >
-
+            
             {/* Genre Upload Part   */}
             <div className={styles.genreWrapper}>
-                <div className={styles.secondWrapper}>
-                    <div className={styles.objWrapper}>
-                        {
-                        objs.map(obj => {
-                            return (
-                                <div 
-                                    className={styles.object} 
-                                    key={obj.value} 
-                                    onClick={() => {
-                                        setCurrentGenre(obj.value)
-                                        setOpen(false);
-                                    }}
-                                >
-                                    {obj.value}
-                                </div>
-                                )
-                            })
-                        }
-                    </div>
+              <div className={styles.secondWrapper}>
+                <h3 className='md:hidden flex justify-center m-2 cursor-pointer'>
+                  <RiHeartAddFill className='ml-2 w-6 h-6 text-red-500' />
+                </h3>
+                <div className={styles.objWrapper}>
+                    {
+                    objs.map(obj => {
+                        return (
+                            <div 
+                                className={styles.object} 
+                                key={obj.value} 
+                                onClick={() => {
+                                    setCurrentGenre(obj.value)
+                                    setOpen(false);
+                                }}
+                            >
+                                {obj.value}
+                            </div>
+                            )
+                        })
+                    }
                 </div>
+              </div>
             </div>
           </Transition.Child>
         </div>

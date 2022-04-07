@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import postInterface from '../interfaces/Post'
 import { FcComments, FcApproval, FcCancel } from "react-icons/fc";
-import { BsDot, BsFillStarFill } from "react-icons/bs";
+import { BsFillStarFill, BsThreeDotsVertical } from "react-icons/bs";
 import { RiUserStarFill } from "react-icons/ri";
 import { useSession } from 'next-auth/react';
 import { GoPrimitiveDot } from 'react-icons/go';
@@ -9,7 +9,6 @@ import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../atoms/genreAtom';
 import Moment from 'react-moment';
-import { formatDateTime } from '../formatDateTime';
 
 const Post : React.FC<postInterface> = ( post ) => {
 
@@ -40,6 +39,7 @@ const Post : React.FC<postInterface> = ( post ) => {
     genreWrapper: `bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white`,
     showButton: `text-sm text-blue-500 pt-0 cursor-pointer`,
     typeAndTimestamp: `text-xs text-gray-400 sm:flex items-center sm:space-x-1 xs:flex-col`,
+    settingsIcon: `mr-5 font-extrabold text-lg cursor-pointer ${isDark ? 'text-white' : 'text-black'}`,
   }
 
   const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating, timestamp } = post
@@ -61,7 +61,7 @@ const Post : React.FC<postInterface> = ( post ) => {
               <p className=''>
                 <Moment toNow ago>
                   {
-                    timestamp.toDate().toISOString() 
+                    timestamp?.toDate().toISOString() 
                   }
                 </Moment>
                 <span> ago</span>
@@ -88,8 +88,12 @@ const Post : React.FC<postInterface> = ( post ) => {
       <img src={img} className={styles.mainImg} alt='img' />
 
       {/* Title */}
-      <div>
+      <div className='flex items-center justify-between'>
         <h1 className={styles.title}>{title}</h1>
+        <div className={styles.settingsIcon}> 
+          <BsThreeDotsVertical />
+        </div>
+        
       </div>
 
       {/* Review  */}

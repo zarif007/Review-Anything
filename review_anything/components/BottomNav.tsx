@@ -10,11 +10,11 @@ import { poolModalState } from '../atoms/poolModalAtom';
 
 const BottomNav: React.FC = () => {
 
-    const [postOpen, setPostOpen] = useRecoilState(postModalState);
+    const [postOpen, setPostOpen] = useRecoilState<boolean>(postModalState);
 
     const [poolOpen, setPoolOpen] = useRecoilState<boolean>(poolModalState);
 
-    const [isDark] = useRecoilState(theme);
+    const [isDark] = useRecoilState<boolean>(theme);
 
     const { data: session } = useSession();
 
