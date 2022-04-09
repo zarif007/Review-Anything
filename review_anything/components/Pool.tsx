@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { RiHeartAddFill } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
+import { genrePreference } from '../atoms/genrePreferenceModal';
 import { poolModalState } from '../atoms/poolModalAtom';
 import { theme } from '../atoms/themeAtom';
 import { objects } from '../objects'
@@ -15,6 +16,9 @@ const Pool: React.FC = () => {
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
   const [open, setOpen] = useRecoilState<boolean>(poolModalState);
+
+  const [genrePreferenceOpen, setGenrePreferenceOpen] = useRecoilState<boolean>(genrePreference);
+
   
   const styles = {
     wrapper: `${isDark ? 'bg-slate-900 border-gray-900' : 'bg-blue-200 border-blue-100'} bg-opacity-25 border-2 rounded-sm mr-2`,
@@ -58,7 +62,8 @@ const Pool: React.FC = () => {
         
         <div className='flex justify-between items-center cursor-pointer pt-2'>
           <div>
-            <RiHeartAddFill className='ml-2 w-6 h-6 text-red-500' />
+            <RiHeartAddFill className='ml-2 w-6 h-6 text-red-500'
+              onClick={() => setGenrePreferenceOpen(true)} />
           </div>
           <p className={styles.showMoreButton}
             onClick={() => setOpen(true)} >

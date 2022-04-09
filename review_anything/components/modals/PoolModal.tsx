@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { RiHeartAddFill } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../../atoms/genreAtom';
+import { genrePreference } from '../../atoms/genrePreferenceModal';
 import { poolModalState } from '../../atoms/poolModalAtom';
 import { theme } from '../../atoms/themeAtom';
 import { objects } from '../../objects';
@@ -12,9 +13,11 @@ const PoolModal = () => {
 
   const [open, setOpen] = useRecoilState<boolean>(poolModalState);
 
-  const [objs] = useState<{value: string, label: string}[]>(objects);
-
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
+
+  const [genrePreferenceOpen, setGenrePreferenceOpen] = useRecoilState<boolean>(genrePreference);
+
+  const [objs] = useState<{value: string, label: string}[]>(objects);
 
   const styles = {
     wrapper: `flex items-center justify-center min-h-screen sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
@@ -28,11 +31,11 @@ const PoolModal = () => {
   }
   
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={open || genrePreferenceOpen} as={Fragment}>
       <Dialog
         as="div"
         className='fixed mt-20 mb-20 md:mb-2 z-10 inset-0 overflow-y-auto'
-        onClose={setOpen}
+        onClose={open ? setOpen : setGenrePreferenceOpen}
       >
         <div className={styles.wrapper}>
           <Transition.Child 
@@ -62,27 +65,34 @@ const PoolModal = () => {
             {/* Genre Upload Part   */}
             <div className={styles.genreWrapper}>
               <div className={styles.secondWrapper}>
-                <h3 className='md:hidden flex justify-center m-2 cursor-pointer'>
-                  <RiHeartAddFill className='ml-2 w-6 h-6 text-red-500' />
-                </h3>
-                <div className={styles.objWrapper}>
-                    {
-                    objs.map(obj => {
-                        return (
-                            <div 
-                                className={styles.object} 
-                                key={obj.value} 
-                                onClick={() => {
-                                    setCurrentGenre(obj.value)
-                                    setOpen(false);
-                                }}
-                            >
-                                {obj.value}
-                            </div>
-                            )
-                        })
-                    }
-                </div>
+                {
+                  genrePreferenceOpen ? <h1>hi</h1> :
+
+                  <>
+                    <h3 className='md:hidden flex justify-center m-2 cursor-pointer'>
+                      <RiHeartAddFill className='ml-2 w-6 h-6 text-red-500' />
+                    </h3>
+                    <div className={styles.objWrapper}>
+                        {
+                        objs.map(obj => {
+                            return (
+                                <div 
+                                    className={styles.object} 
+                                    key={obj.value} 
+                                    onClick={() => {
+                                        setCurrentGenre(obj.value)
+                                        setOpen(false);
+                                    }}
+                                >
+                                    {obj.value}
+                                </div>
+                                )
+                            })
+                        }
+                    </div>
+                  </>
+                }
+                
               </div>
             </div>
           </Transition.Child>
