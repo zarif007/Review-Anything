@@ -10,7 +10,7 @@ import postInterface from '../../interfaces/Post';
 import StarsRating from "react-star-rate";
 import Select from 'react-select'
 import { useSession } from 'next-auth/react';
-import { objects } from '../../objects';
+import { genres } from '../../genres';
 import { theme } from '../../atoms/themeAtom';
 
 
@@ -257,7 +257,7 @@ const PostModal = () => {
                   <div className='flex justify-between space-x-2'>
                     <Select
                         name="genre"
-                        options={objects}
+                        options={genres}
                         className={styles.select}
                         classNamePrefix="Select Genre"
                         defaultValue={post['genre'] === '' ?

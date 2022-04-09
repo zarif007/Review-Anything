@@ -1,4 +1,4 @@
-export const objects: {value: string, label: string}[] = [
+export const genres: {value: string, label: string}[] = [
   {value: 'Animal🐘', label: 'Animal🐘'},
   {value: 'Cat🐱', label: 'Cat🐱'},
   {value: 'Dog🐶', label: 'Dog🐶'},

@@ -4,12 +4,12 @@ import { useRecoilState } from 'recoil';
 import { genrePreference } from '../atoms/genrePreferenceModal';
 import { poolModalState } from '../atoms/poolModalAtom';
 import { theme } from '../atoms/themeAtom';
-import { objects } from '../objects'
+import { genres } from '../genres'
 import { selectedGenre } from './../atoms/genreAtom';
 
 const Pool: React.FC = () => {
 
-  const [objs, setObjs] = useState<{value: string, label: string}[]>(objects);
+  const [gns, setGns] = useState<{value: string, label: string}[]>(genres);
 
   const [isDark] = useRecoilState(theme);
 
@@ -29,11 +29,11 @@ const Pool: React.FC = () => {
   }
 
   const handleSearch = (e: any) => {
-    setObjs([]);
+    setGns([]);
     
-    const updatedObjs = objects.filter(object => object.value.toLowerCase().includes(e.target.value.toLowerCase()));
+    const updatedObjs = genres.filter(g => g.value.toLowerCase().includes(e.target.value.toLowerCase()));
 
-    setObjs(updatedObjs);
+    setGns(updatedObjs);
   }
 
   return (
@@ -47,7 +47,7 @@ const Pool: React.FC = () => {
       </div>
       <div className={styles.objWrapper}>
         {
-          objs.slice(0, 20).map((obj, index) => {
+          gns.slice(0, 20).map((obj, index) => {
             return (
               <div 
                 className={styles.object} 
@@ -60,7 +60,7 @@ const Pool: React.FC = () => {
           })
         }
         
-        <div className='flex justify-between items-center cursor-pointer pt-2'>
+        <div className='flex justify-between items-center cursor-pointer pt-2 space-x-1'>
           <div>
             <RiHeartAddFill className='ml-2 w-6 h-6 text-red-500'
               onClick={() => setGenrePreferenceOpen(true)} />

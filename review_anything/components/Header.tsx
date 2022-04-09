@@ -60,7 +60,7 @@ const Header: React.FC = () => {
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
-                stroke-linejoin="round"
+                strokeLinejoin="round"
                 strokeWidth="2"
                 viewBox="0 0 24 24"
                 className="w-6 h-6"

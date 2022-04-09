@@ -46,9 +46,9 @@ const Trending: React.FC = () => {
       </div>
       <div className='mb-8'>
         {
-            posts.slice(0, 3).map((post: postInterface) => {
+            posts.slice(0, 3).map((post: postInterface, index) => {
                 return (
-                    <div className={styles.postWrapper}>
+                    <div className={styles.postWrapper} key={index} >
                       <div className='flex space-x-2 items-center pb-2'>
                         <img src={post.img} className={styles.postImg} />
                         <p className={styles.postTitle}>{post.title}</p>
