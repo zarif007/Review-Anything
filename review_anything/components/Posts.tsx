@@ -51,17 +51,7 @@ const Posts: React.FC = () => {
           return (
             <Post 
               key={index}
-              id={post.id} 
-              userName={post.userName} 
-              userImg={post.userImg} 
-              img={post.img} 
-              title={post.title}
-              review={post.review}
-              genre={post.genre}
-              type={post.type}
-              rating={post.rating}
-              crowdRating={post.crowdRating}
-              timestamp={post.timestamp}
+              post={post}
             />
           )
         })

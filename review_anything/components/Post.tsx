@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../atoms/genreAtom';
 import Moment from 'react-moment';
 
-const Post : React.FC<postInterface> = ( post ) => {
+const Post : React.FC<any> = ( { post } ) => {
 
   const { data: session } = useSession();
 
@@ -99,7 +99,7 @@ const Post : React.FC<postInterface> = ( post ) => {
       {/* Review  */}
       <div className={styles.captionWrapper}>
         <p className={`${styles.caption}`}>{
-          review.split('\n').slice(0, reviewLineLimit).map(rs => {
+          review.split('\n').slice(0, reviewLineLimit).map((rs: string) => {
             return(
               <>
                 {rs}

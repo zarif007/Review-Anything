@@ -123,9 +123,9 @@ const PostModal = () => {
     const formData = new FormData();
 
     formData.append('file', selectedImage);
-    formData.append('upload_preset', 'review-at');
+    formData.append('upload_preset', process.env.NEXT_PUBLIC_CN_STORAGE_NAME || '');
 
-    Axios.post('https://api.cloudinary.com/v1_1/dypopqvai/image/upload', formData)
+    Axios.post(process.env.NEXT_PUBLIC_CN_QUERY_URL || '', formData)
       .then(response => {
         post['img'] = response.data.secure_url;
         const docRef = addDoc(collection(db, 'posts'), post);
