@@ -32,7 +32,13 @@ const Posts: React.FC = () => {
 
   useEffect(() => {
 
-    const updatedPosts = postsFromDB.filter(post => post.genre === currentGenre);
+    let updatedPosts: postInterface[] = [];
+
+    if(currentGenre === ''){
+      updatedPosts = postsFromDB;
+    } else {
+      updatedPosts = postsFromDB.filter(post => post.genre === currentGenre);
+    }
 
     setPosts(updatedPosts);
 

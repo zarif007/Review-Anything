@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { postModalState } from '../atoms/postModalAtom';
 import { theme } from './../atoms/themeAtom';
+import { selectedGenre } from "../atoms/genreAtom";
 
 
 
@@ -19,6 +20,8 @@ const Header: React.FC = () => {
   const { data: session } = useSession();
 
   const [open, setOpen] = useRecoilState(postModalState);
+
+  const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
   const [isDark, setIsDark] = useRecoilState(theme);
 
@@ -43,7 +46,10 @@ const Header: React.FC = () => {
       <div className={styles.wrapper} >
 
         {/* Logo  */}
-        <div className={styles.logo} onClick={() => router.push('/')}>
+        <div className={styles.logo} onClick={() => {
+          setCurrentGenre('');
+          router.push('/');
+        }}>
           <div className="sm:hidden">
             <Image src={sm_logo} objectFit="contain" />
           </div>
