@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { RiHeartAddFill } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../../atoms/genreAtom';
-import { genrePreference } from '../../atoms/genrePreferenceModal';
+import { genrePreference } from '../../atoms/genrePreferenceModalAtom';
 import { poolModalState } from '../../atoms/poolModalAtom';
 import { theme } from '../../atoms/themeAtom';
 import { genres } from '../../genres';

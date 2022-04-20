@@ -93,8 +93,8 @@ const PostModal = () => {
 
   const checkIsDisable = () => {
     
-    setIsDisabled(post.img === '' || post.title === '' || post.review === '' || 
-      post.genre === '' || post. type === '' || post.rating === '' || isLoading);
+    setIsDisabled(!post.img || !post.title || !post.review || 
+      !post.genre || !post.type || !post.rating || isLoading);
   }
 
   const addImageToPost = (e: any) => {

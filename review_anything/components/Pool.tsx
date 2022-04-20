@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { RiHeartAddFill } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
-import { genrePreference } from '../atoms/genrePreferenceModal';
+import { genrePreference } from '../atoms/genrePreferenceModalAtom';
 import { poolModalState } from '../atoms/poolModalAtom';
 import { theme } from '../atoms/themeAtom';
 import { genres } from '../genres'
