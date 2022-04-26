@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../images/logo.png";
 import sm_logo from "../images/sm_logo.png";
 import { IoNotificationsSharp, IoAddCircleSharp, IoLogOut } from "react-icons/io5";
@@ -18,6 +18,9 @@ import { selectedGenre } from "../atoms/genreAtom";
 const Header: React.FC = () => {
 
   const { data: session } = useSession();
+
+  useEffect(() => console.log(session), [] );
+
 
   const [open, setOpen] = useRecoilState(postModalState);
 
