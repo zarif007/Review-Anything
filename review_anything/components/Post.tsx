@@ -43,7 +43,7 @@ const Post : React.FC<any> = ( { post } ) => {
     settingsIcon: `mr-5 font-extrabold text-lg cursor-pointer ${isDark ? 'text-white' : 'text-black'}`,
   }
 
-  const { id, userImg, userName, img, title, review, genre, type, rating, crowdRating, timestamp } = post
+  const { id, user, img, title, review, genre, type, rating, crowdRating, timestamp } = post
 
   return (
     <div className={styles.wrapper}>
@@ -53,10 +53,10 @@ const Post : React.FC<any> = ( { post } ) => {
         <div className='flex items-center'>
           <img 
             className={styles.userImgIcon}
-            src={userImg} alt='dp'
+            src={user.image} alt='dp'
           />
           <div className='flex flex-col'>
-            <p className={styles.userName}>{userName}</p>
+            <p className={styles.userName}>{user.username}</p>
             {/* Type and timestamp  */}
             <div className={styles.typeAndTimestamp}>
               <p className=''>

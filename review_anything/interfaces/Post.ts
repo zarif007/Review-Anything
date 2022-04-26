@@ -1,7 +1,10 @@
 export default interface postInterface {
   id?: string,
-  userName: string,
-  userImg: string,
+  user: {
+    email: string,
+    username: string,
+    image: string, 
+  },
   img: string,
   title: string,
   review: string,

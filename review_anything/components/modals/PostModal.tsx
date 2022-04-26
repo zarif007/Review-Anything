@@ -79,8 +79,11 @@ const PostModal = () => {
   } 
 
   const [post, setPost] = useState<postInterface>({
-    userName: '',
-    userImg: '',
+    user: {
+      username: '',
+      email: '',
+      image: ''
+    },
     img: '',
     title: '',
     review: '',
@@ -115,8 +118,11 @@ const PostModal = () => {
 
     setIsLoading(true);
 
-    post['userImg'] = session?.user?.image || '';
-    post['userName'] = session?.user?.name || '';
+    post['user'] = {
+      username: session?.user?.name || '',
+      image: session?.user?.image || '',
+      email: session?.user?.email || '',
+    }
     post['crowdRating'] = starRating;
     post['timestamp'] = serverTimestamp()
 
@@ -131,8 +137,11 @@ const PostModal = () => {
         const docRef = addDoc(collection(db, 'posts'), post);
 
         setPost({
-          userName: '',
-          userImg: '',
+          user: {
+            username: '',
+            email: '',
+            image: ''
+          },
           img: '',
           title: '',
           review: '',
