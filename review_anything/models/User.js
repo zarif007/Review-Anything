@@ -21,5 +21,4 @@ export const UserSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.models.Note || mongoose.model('User', 
-UserSchema);
+module.exports = mongoose.models.Note || mongoose.model('User', UserSchema);

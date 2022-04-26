@@ -12,6 +12,7 @@ import Select from 'react-select'
 import { useSession } from 'next-auth/react';
 import { genres } from '../../genres';
 import { theme } from '../../atoms/themeAtom';
+import axios from 'axios';
 
 
 const PostModal = () => {
@@ -135,6 +136,9 @@ const PostModal = () => {
       .then(response => {
         post['img'] = response.data.secure_url;
         const docRef = addDoc(collection(db, 'posts'), post);
+
+        axios.post('http://localhost:3000/api/posts', post)
+          .then(res => console.log(res));
 
         setPost({
           user: {

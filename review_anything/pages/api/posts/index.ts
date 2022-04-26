@@ -11,6 +11,8 @@ export default async (
     res: NextApiResponse) => {
         
     const { method } = req;
+    
+    const {user, img, title, review, genre, type, rating, crowdRating} = req.body;
         
     switch(method){
         case 'GET':
@@ -23,8 +25,8 @@ export default async (
             break;
         case 'POST':
             try{
-                const note = await Post.create(req.body);
-                res.status(201).json({ success: true, data: note })
+                const post = await Post.create({user, img, title, review, genre, type, rating, crowdRating});
+                res.status(201).json({ success: true, data: post })
             } catch (error) {
                 res.status(400).json({ success: false })
             }

@@ -73,15 +73,6 @@ const PostSchema = new mongoose.Schema({
         trim: true,
         maxlength: [50, ],
     },
-    timestamp: {
-        type: Date,
-        require: [false, 'crowdRating needed'],
-        unique: false,
-        trim: true,
-        maxlength: [50, ],
-    },
-    
-});
+}, { timestamps: true });
 
-module.exports = mongoose.models.Post || mongoose.model('Post', 
-PostSchema);
+module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema);
