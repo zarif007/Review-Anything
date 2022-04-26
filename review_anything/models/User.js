@@ -1,31 +1,24 @@
-export const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Shema({
+export const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         require: [true, 'Email needed'],
-        unique: true,
         trim: true,
-        maxLength: [50, ],
+        maxlength: [50, ],
     },
     image: {
         type: String,
         require: [true, 'Image URL needed'],
         trim: true,
-        maxLength: [500, ],
+        maxlength: [500, ],
     },
     name: {
         type: String,
         require: [true, 'Name needed'],
         trim: true,
-        maxLength: [50, ],
+        maxlength: [50, ],
     },
-    username: {
-        type: String,
-        require: [true, ],
-        trim: true,
-        maxLength: [50, 'UserName needed'],
-    }
 })
 
 module.exports = mongoose.models.Note || mongoose.model('User', 

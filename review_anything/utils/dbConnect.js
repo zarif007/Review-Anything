@@ -1,20 +1,36 @@
 import mongoose from "mongoose";
 
-const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.5cvzz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.5cvzz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
-const connection = {};
-
-const dbConnect = async () => {
-    if(connection.isConnected) {
-        return;
+if (!MONGODB_URI) {
+    throw new Error(
+      'Please define the MONGODB_URI environment variable inside .env.local'
+    )
+  }
+  
+  let cached = global.mongoose
+  
+  if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null }
+  }
+  
+  async function dbConnect () {
+    if (cached.conn) {
+      return cached.conn
     }
-
-    const db = await mongoose.connect(uri, {
+  
+    if (!cached.promise) {
+      const opts = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-    });
-
-    connection.isConnected = db.connections[0].readyState;
-} 
-
-export default dbConnect;
+      }
+  
+      cached.promise = await mongoose.connect(MONGODB_URI, opts).then(mongoose => {
+        return mongoose
+      })
+    }
+    cached.conn = await cached.promise
+    return cached.conn
+  }
+  
+  export default dbConnect
