@@ -4,8 +4,6 @@ import { postModalState } from '../../atoms/postModalAtom';
 import { Dialog, Transition } from '@headlessui/react'
 import { FcAddImage } from 'react-icons/fc';
 import Axios from 'axios';
-import { addDoc, collection, serverTimestamp } from '@firebase/firestore'
-import { db } from '../../firebase'
 import postInterface from '../../interfaces/Post';
 import StarsRating from "react-star-rate";
 import Select from 'react-select'
@@ -13,11 +11,14 @@ import { useSession } from 'next-auth/react';
 import { genres } from '../../genres';
 import { theme } from '../../atoms/themeAtom';
 import axios from 'axios';
+import { postsState } from '../../atoms/postsAtom';
 
 
 const PostModal = () => {
 
   const [open, setOpen] = useRecoilState<boolean>(postModalState);
+
+  const [posts, setPosts] = useRecoilState(postsState);
 
   const [isDark] = useRecoilState(theme);
 
@@ -92,7 +93,6 @@ const PostModal = () => {
     type: '',
     rating: '',
     crowdRating: '',
-    timestamp: new Date()
   });
 
   const checkIsDisable = () => {
@@ -100,6 +100,10 @@ const PostModal = () => {
     setIsDisabled(!post.img || !post.title || !post.review || 
       !post.genre || !post.type || !post.rating || isLoading);
   }
+
+  useEffect(() => {
+    checkIsDisable()
+  }, [post])
 
   const addImageToPost = (e: any) => {
     const reader = new FileReader();
@@ -125,7 +129,6 @@ const PostModal = () => {
       email: session?.user?.email || '',
     }
     post['crowdRating'] = starRating;
-    post['timestamp'] = serverTimestamp()
 
     const formData = new FormData();
 
@@ -135,10 +138,9 @@ const PostModal = () => {
     Axios.post(process.env.NEXT_PUBLIC_CN_QUERY_URL || '', formData)
       .then(response => {
         post['img'] = response.data.secure_url;
-        const docRef = addDoc(collection(db, 'posts'), post);
 
         axios.post('http://localhost:3000/api/posts', post)
-          .then(res => console.log(res));
+          .then(res => setPosts([res.data.data, ...posts]));
 
         setPost({
           user: {
@@ -153,7 +155,6 @@ const PostModal = () => {
           type: '',
           rating: '',
           crowdRating: '',
-          timestamp: new Date()
         })
       });
     
@@ -161,6 +162,7 @@ const PostModal = () => {
     setOpen(false)
     setIsLoading(false)
     setSelectedFile(null)
+    setStarRating('0')
   }
 
   return (

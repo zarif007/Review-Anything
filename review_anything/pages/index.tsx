@@ -10,10 +10,11 @@ import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
 import { postsState } from './../atoms/postsAtom';
 import { useEffect } from 'react';
+import { domain } from '../domain'
 
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data } = await axios.get('http://localhost:3000/api/posts');
+  const { data } = await axios.get(`${domain}posts`);
 
   return {
     props: { 
@@ -31,10 +32,7 @@ const Home: NextPage = ({ data }: any) => {
 
   useEffect(() => {
     setPosts(data.data);
-
     console.log(posts);
-
-
   }, [data])
   
   const styles = {

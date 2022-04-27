@@ -43,7 +43,7 @@ const Post : React.FC<any> = ( { post } ) => {
     settingsIcon: `mr-5 font-extrabold text-lg cursor-pointer ${isDark ? 'text-white' : 'text-black'}`,
   }
 
-  const { id, user, img, title, review, genre, type, rating, crowdRating, timestamp } = post
+  const { _id, user, img, title, review, genre, type, rating, crowdRating, createdAt } = post
 
   return (
     <div className={styles.wrapper}>
@@ -61,9 +61,7 @@ const Post : React.FC<any> = ( { post } ) => {
             <div className={styles.typeAndTimestamp}>
               <p className=''>
                 <Moment toNow ago>
-                  {
-                    timestamp?.toDate().toISOString() 
-                  }
+                  {createdAt}
                 </Moment>
                 <span> ago</span>
               </p>

@@ -2,5 +2,20 @@ import { atom } from "recoil";
 
 export const postsState = atom({
     key: 'postsState',
-    default: [], 
+    default: [
+        {
+            user: {
+              username: '',
+              email: '',
+              image: ''
+            },
+            img: '',
+            title: '',
+            review: '',
+            genre: '',
+            type: '',
+            rating: '',
+            crowdRating: '',
+          }
+    ], 
 })

@@ -12,5 +12,5 @@ export default interface postInterface {
   type: string,
   rating: string,
   crowdRating: string,
-  timestamp: any,
+  createdAt?: any,
 }
