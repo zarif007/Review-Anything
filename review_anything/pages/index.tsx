@@ -1,4 +1,5 @@
-import type { NextPage } from 'next'
+import axios from 'axios'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { useRecoilState } from 'recoil'
 import { theme } from '../atoms/themeAtom'
@@ -7,12 +8,35 @@ import Feed from '../components/Feed'
 import Header from '../components/Header'
 import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
+import { postsState } from './../atoms/postsAtom';
+import { useEffect } from 'react';
 
 
-const Home: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { data } = await axios.get('http://localhost:3000/api/posts');
+
+  return {
+    props: { 
+      data,
+     },
+  };
+};
+
+
+const Home: NextPage = ({ data }: any) => {
 
   const [isDark] = useRecoilState(theme);
 
+  const [posts, setPosts] = useRecoilState(postsState);
+
+  useEffect(() => {
+    setPosts(data.data);
+
+    console.log(posts);
+
+
+  }, [data])
+  
   const styles = {
     wrapper: `min-h-screen ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,
   }

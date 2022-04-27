@@ -5,16 +5,38 @@ import Post from './Post'
 import postInterface from './../interfaces/Post';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../atoms/genreAtom';
+import axios from 'axios';
 
 
+const getPosts = async () => {
+  const data = await axios.get('http://localhost:3000/api/posts');
 
-const Posts: React.FC = () => {
+  return data
+}
 
+export async function getServerSideProps() {
+  
+  const data = await getPosts();
+  
+  return {
+    props: {
+      data: 1,
+    }
+  }
+}
+
+
+const Posts: React.FC<any> = ({ data }) => {
+  
   const [posts, setPosts] = useState<postInterface[]>([]);
 
   const [postsFromDB, setPostsFromDB] = useState<postInterface[]>([]);
 
   const [currentGenre] = useRecoilState<string>(selectedGenre);
+
+  useEffect(() => {
+    console.log(data);
+  }, [])
 
   useEffect(() => 
     onSnapshot(
