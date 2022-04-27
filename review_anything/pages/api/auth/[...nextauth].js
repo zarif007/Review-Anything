@@ -1,5 +1,7 @@
+import axios from "axios";
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { domain } from './../../../domain';
 
 export default NextAuth({
   providers: [
@@ -16,6 +18,9 @@ export default NextAuth({
     async session({ session, token, user }) {
       session.user.username = session.user.name.split(' ').join('').toLocaleLowerCase();
       session.user.uid = token.sub;
+
+      axios.post(`${domain}users`, session.user);
+
       return session
     }
   },

@@ -32,7 +32,6 @@ const Home: NextPage = ({ data }: any) => {
 
   useEffect(() => {
     setPosts(data.data);
-    console.log(posts);
   }, [data])
   
   const styles = {

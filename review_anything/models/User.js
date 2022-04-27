@@ -4,6 +4,7 @@ export const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         require: [true, 'Email needed'],
+        unique: true,
         trim: true,
         maxlength: [50, ],
     },
@@ -18,6 +19,11 @@ export const UserSchema = new mongoose.Schema({
         require: [true, 'Name needed'],
         trim: true,
         maxlength: [50, ],
+    },
+    preference: {
+        type: [String],
+        require: [true, 'preference needed'],
+        trim: true,
     },
 })
 

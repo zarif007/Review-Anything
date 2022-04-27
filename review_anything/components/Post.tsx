@@ -11,7 +11,7 @@ import { selectedGenre } from '../atoms/genreAtom';
 import Moment from 'react-moment';
 
 
-const Post : React.FC<any> = ( { post } ) => {
+const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const { data: session } = useSession();
 
