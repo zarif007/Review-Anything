@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-export const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         require: [true, 'Email needed'],
@@ -25,6 +25,6 @@ export const UserSchema = new mongoose.Schema({
         require: [true, 'preference needed'],
         trim: true,
     },
-})
+});
 
-module.exports = mongoose.models.Note || mongoose.model('User', UserSchema);
+module.exports = mongoose.models.User || mongoose.model('User', UserSchema);

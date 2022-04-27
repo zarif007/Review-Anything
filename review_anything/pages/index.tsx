@@ -11,6 +11,7 @@ import PostModal from '../components/modals/PostModal'
 import { postsState } from './../atoms/postsAtom';
 import { useEffect } from 'react';
 import { domain } from '../domain'
+import postInterface from '../interfaces/Post'
 
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -26,9 +27,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const Home: NextPage = ({ data }: any) => {
 
-  const [isDark] = useRecoilState(theme);
+  const [isDark] = useRecoilState<boolean>(theme);
 
-  const [posts, setPosts] = useRecoilState(postsState);
+  const [posts, setPosts] = useRecoilState<postInterface[]>(postsState);
 
   useEffect(() => {
     setPosts(data.data);

@@ -8,10 +8,19 @@ import { postsState } from './../atoms/postsAtom';
 
 const Posts: React.FC = () => {
   
-  const [postsFromDB] = useRecoilState<postInterface[]>(postsState);
   const [posts, setPosts] = useRecoilState<postInterface[]>(postsState);
 
+  const [postsFromDB, setPostsFromDB] = useState<postInterface[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<postInterface[]>([]);
+
   const [currentGenre] = useRecoilState<string>(selectedGenre);
+
+  useEffect(() => {
+
+    setPostsFromDB(posts);
+    setFilteredPosts(posts);
+  }, [posts]);
+
 
   useEffect(() => {
 
@@ -23,14 +32,14 @@ const Posts: React.FC = () => {
       updatedPosts = postsFromDB.filter(post => post.genre === currentGenre);
     }
 
-    setPosts(updatedPosts);
+    setFilteredPosts(updatedPosts);
 
   }, [currentGenre])
 
   return (
     <div className=''>
       {
-        posts.map((post: postInterface, index) => {
+        filteredPosts.map((post: postInterface, index) => {
           return (
             <Post 
               key={index}
