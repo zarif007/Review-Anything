@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../images/logo.png";
 import sm_logo from "../images/sm_logo.png";
 import { IoNotificationsSharp, IoAddCircleSharp, IoLogOut } from "react-icons/io5";
@@ -13,12 +13,15 @@ import { postModalState } from '../atoms/postModalAtom';
 import { theme } from './../atoms/themeAtom';
 import { selectedGenre } from "../atoms/genreAtom";
 import axios from "axios";
+import { domain } from "../domain";
 
 
 
 const Header: React.FC = () => {
 
   const { data: session } = useSession();
+
+  const [user, setUser] = useState({theme: true});
 
   const [open, setOpen] = useRecoilState(postModalState);
 
@@ -27,6 +30,24 @@ const Header: React.FC = () => {
   const [isDark, setIsDark] = useRecoilState(theme);
 
   const router = useRouter();
+
+  const getUser = async () => {
+    await axios.get(`${domain}users/${session?.user?.email}`)
+      .then(res => {
+        setUser(res.data.data[0]);
+      });
+  }
+
+  useEffect(() => {
+    getUser();
+  }, [session]);
+
+  useEffect(() => {
+    if(user !== undefined) {
+      setIsDark(user.theme)
+      console.log(user)
+    }
+  }, [user])
   
   const styles = {
     nav: `pt-3 shadow-sm ${isDark ? 'bg-[#131313] shadow-black' : 'bg-[#FFFAFA] shadow-gray-200'}  sticky top-0 z-50 pb-2`,

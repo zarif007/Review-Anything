@@ -18,7 +18,7 @@ export default async (
     const theme = 1;
 
     try{
-        const updateDoc = {$set: {...user, preference, theme}};
+        const updateDoc = {$set: user};
         const result = await User.updateOne({email: user.email}, updateDoc, { upsert: true });
         console.log(result);
         res.status(201).json({ success: true, data: result })
