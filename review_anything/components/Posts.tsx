@@ -24,7 +24,7 @@ const Posts: React.FC = () => {
 
   useEffect(() => {
 
-    let updatedPosts : postInterface[] = [];
+    let updatedPosts: postInterface[] = [];
 
     if(currentGenre === ''){
       updatedPosts = postsFromDB;

@@ -66,7 +66,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
                 <span> ago</span>
               </p>
               <GoPrimitiveDot className='pt-1 hidden sm:inline' />
-              <p>{post.type}</p>
+              <p>{type}</p>
             </div>
           </div>
         </div>

@@ -20,6 +20,11 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         maxlength: [50, ],
     },
+    theme: {
+        type: Boolean,
+        require: [true, 'Name needed'],
+        trim: true,
+    },
     preference: {
         type: [String],
         require: [true, 'preference needed'],

@@ -11,12 +11,17 @@ export default async (
         
     const { method } = req;
 
-    const { name, email, image, username } = req.body;
+    const user = req.body;
+
     const preference: string[] = [];
 
+    const theme = 1;
+
     try{
-        const user = await User.updateOne({ name, email, image, username, preference }, { upsert: true });
-        res.status(201).json({ success: true, data: user })
+        const updateDoc = {$set: {...user, preference, theme}};
+        const result = await User.updateOne({email: user.email}, updateDoc, { upsert: true });
+        console.log(result);
+        res.status(201).json({ success: true, data: result })
     } catch (error) {
         res.status(400).json({ success: false })
     }
