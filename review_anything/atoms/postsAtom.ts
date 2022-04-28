@@ -15,7 +15,10 @@ export const postsState = atom({
             genre: '',
             type: '',
             rating: '',
-            crowdRating: '',
+            interactions: {
+              approvedBy: '',
+              crowdRatings: '',
+            }
           }
     ], 
 })

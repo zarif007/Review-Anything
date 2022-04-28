@@ -59,7 +59,7 @@ const Trending: React.FC = () => {
                           <p className=''>{post.rating}</p>
                           <BsFillStarFill className='text-yellow-500 h-6' />
                         </div>
-                        <p>{post.review.slice(0, 18)}...</p>
+                        <p>{post.review.slice(0, 15)}...</p>
                       </div>
                     </div>
                 )

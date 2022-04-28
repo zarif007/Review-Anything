@@ -12,7 +12,7 @@ export default async (
         
     const { method } = req;
     
-    const {user, img, title, review, genre, type, rating, crowdRating} = req.body;
+    const {user, img, title, review, genre, type, rating, interactions} = req.body;
         
     switch(method){
         case 'GET':
@@ -25,7 +25,7 @@ export default async (
             break;
         case 'POST':
             try{
-                const post = await Post.create({user, img, title, review, genre, type, rating, crowdRating});
+                const post = await Post.create({user, img, title, review, genre, type, rating, interactions});
                 res.status(201).json({ success: true, data: post })
             } catch (error) {
                 res.status(400).json({ success: false })

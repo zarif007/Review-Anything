@@ -66,13 +66,16 @@ const PostSchema = new mongoose.Schema({
         trim: true,
         maxlength: [50, ],
     },
-    crowdRating: {
-        type: String,
-        require: [true, 'crowdRating needed'],
-        unique: false,
-        trim: true,
-        maxlength: [50, ],
-    },
+    interactions: {
+        approvedBy: {
+            type: [String],
+            require: [true, 'Approve need'],
+        },
+        crowdRatings: {
+            type: [Object],
+            require: [true, 'crowdRating needed'],
+        },
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema);

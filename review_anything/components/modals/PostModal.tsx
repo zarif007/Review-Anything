@@ -92,7 +92,10 @@ const PostModal = () => {
     genre: '',
     type: '',
     rating: '',
-    crowdRating: '',
+    interactions: {
+      approvedBy: [],
+      crowdRatings: [],
+    }
   });
 
   const checkIsDisable = () => {
@@ -128,7 +131,8 @@ const PostModal = () => {
       image: session?.user?.image || '',
       email: session?.user?.email || '',
     }
-    post['crowdRating'] = starRating;
+    post['interactions'].approvedBy.push(post.user.email);
+    post['interactions'].crowdRatings.push({user: post.user.email, rating: starRating});
 
     const formData = new FormData();
 
@@ -154,7 +158,10 @@ const PostModal = () => {
           genre: '',
           type: '',
           rating: '',
-          crowdRating: '',
+          interactions: {
+            approvedBy: [],
+            crowdRatings: [],
+          },
         })
       });
     

@@ -11,6 +11,9 @@ export default interface postInterface {
   genre: string,
   type: string,
   rating: string,
-  crowdRating: string,
+  interactions: {
+    approvedBy: string[],
+    crowdRatings: object[],
+  }
   createdAt?: any,
 }

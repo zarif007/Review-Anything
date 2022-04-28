@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import postInterface from '../interfaces/Post'
 import { FcComments, FcApproval, FcCancel } from "react-icons/fc";
 import { BsFillStarFill, BsThreeDotsVertical } from "react-icons/bs";
@@ -20,6 +20,8 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
   const [reviewLineLimit, setReviewLineLimit] = useState<number>(2);
 
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
+
+  const [crowdInfo, setCrowdInfo] = useState<{total: number, rating: number}>({total: 0, rating: 0});
 
   const styles = {
     wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
@@ -43,7 +45,28 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     settingsIcon: `mr-5 font-extrabold text-lg cursor-pointer ${isDark ? 'text-white' : 'text-black'}`,
   }
 
-  const { _id, user, img, title, review, genre, type, rating, crowdRating, createdAt } = post
+  const { _id, user, img, title, review, genre, type, rating, interactions , createdAt } = post;
+
+  useEffect(() => {
+
+    let sum = 0, total = interactions.approvedBy.length + 
+                  interactions.crowdRatings.length;
+
+    if(interactions.crowdRatings){
+      interactions.crowdRatings.map((cr: any) => {
+        sum += parseFloat(cr.rating);
+      });
+    }
+
+    const crowdRating = ((interactions.approvedBy.length * 
+                      parseFloat(rating) + sum) / total);
+    
+    crowdInfo['total'] = total - 1;
+    crowdInfo['rating'] = crowdRating;
+
+    console.log(crowdInfo);
+
+  }, [interactions])
 
   return (
     <div className={styles.wrapper}>
@@ -118,10 +141,10 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
       {/* Total Reactions  */}
       <div className={styles.totalReactionCounterAndCR}> 
-        <span>Total Interatctions 22,123,266</span> 
+        <span>Total Interatctions {crowdInfo['total']}</span> 
         <GoPrimitiveDot className='pt-1' />
         <div className='flex items-center space-x-1'>
-          <span>Crowd Rating: {post.crowdRating}</span>
+          <span>Crowd Rating: {crowdInfo['rating']}</span>
           <BsFillStarFill className='text-yellow-500 h-4' />
         </div>
       </div>
@@ -136,7 +159,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
           <div className={styles.icons}>
             
             <RiUserStarFill className='text-green-400 mr-2' />
-            <span className={styles.iconText}> {crowdRating}</span>
+            <span className={styles.iconText}>5</span>
           </div>
           <div className={styles.icons}>
             <FcComments />
