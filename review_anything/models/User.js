@@ -23,11 +23,11 @@ const UserSchema = new mongoose.Schema({
     theme: {
         type: Boolean,
         default: true,
-        require: [true, 'Name needed'],
+        require: [true, 'theme needed'],
         trim: true,
     },
     preference: {
-        type: [String],
+        type: [Object],
         default: [],
         require: [true, 'preference needed'],
         trim: true,

@@ -1,4 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { RiHeartAddFill } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
@@ -6,10 +8,15 @@ import { selectedGenre } from '../../atoms/genreAtom';
 import { genrePreference } from '../../atoms/genrePreferenceModalAtom';
 import { poolModalState } from '../../atoms/poolModalAtom';
 import { theme } from '../../atoms/themeAtom';
+import { domain } from '../../domain';
 import { genres } from '../../genres';
 
 const PoolModal = () => {
+  const { data: session } = useSession();
+
   const [isDark] = useRecoilState<boolean>(theme);
+
+  const [user, setUser] = useState({preference: [{label: '', value: ''}]});
 
   const [open, setOpen] = useRecoilState<boolean>(poolModalState);
 
@@ -36,6 +43,23 @@ const PoolModal = () => {
     input: `p-1 w-full focus:outline-none ${isDark ? 'bg-black text-white' : 'bg-gray-100 text-black'} rounded-sm font-semibold`
   }
 
+  const getUser = async () => {
+    await axios.get(`${domain}users/${session?.user?.email}`)
+      .then(res => {
+        setUser(res.data.data[0]);
+      });
+  }
+
+  useEffect(() => {
+    getUser();
+  }, [session]);
+
+  useEffect(() => {
+    if(user !== undefined) {
+      setUserPreferedGenres(user.preference);
+    }
+  }, [user]);
+
   const handleSearch = (e: any) => {
     setGns([]);
     
@@ -45,6 +69,13 @@ const PoolModal = () => {
 
     setGns(updatedObjs);
   }
+
+  useEffect(() => {
+    let updatedUser = user;
+    updatedUser.preference = userPreferedGenres;
+
+    axios.put(`${domain}users/${session?.user?.email}`, updatedUser);
+  }, [userPreferedGenres])
 
   return (
     <Transition.Root show={open || genrePreferenceOpen} as={Fragment}>

@@ -44,10 +44,17 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     if(user !== undefined) {
-      setIsDark(user.theme)
-      console.log(user)
+      setIsDark(user.theme);
     }
-  }, [user])
+  }, [user]);
+
+  const setTheme = () => {
+    setIsDark(!isDark);
+    let updatedUser = user;
+    updatedUser.theme = !isDark;
+    
+    axios.put(`${domain}users/${session?.user?.email}`, updatedUser);
+  } 
   
   const styles = {
     nav: `pt-3 shadow-sm ${isDark ? 'bg-[#131313] shadow-black' : 'bg-[#FFFAFA] shadow-gray-200'}  sticky top-0 z-50 pb-2`,
@@ -109,7 +116,7 @@ const Header: React.FC = () => {
         {
         session?.user ? 
           <div className={styles.iconsWrapper}>
-            <div onClick={() => setIsDark(!isDark)}>
+            <div onClick={setTheme}>
               {
                 isDark ? <FaSun className={styles.icon} /> : <BsFillMoonStarsFill className={styles.icon} />
               }

@@ -26,12 +26,11 @@ export default async (
             break;
         case 'PUT':
             try {
-                console.log(req.body)
                 const user = await User.updateOne({email: id}, {$set: req.body}, {
                     new: true,
                     runValidators: true
                 });
-
+                
                 if (!user) {
                     return res.status(400).json({ success: false });
                 }

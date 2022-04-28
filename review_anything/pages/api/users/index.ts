@@ -13,14 +13,8 @@ export default async (
 
     const user = req.body;
 
-    const preference: string[] = [];
-
-    const theme = 1;
-
     try{
-        const updateDoc = {$set: user};
-        const result = await User.updateOne({email: user.email}, updateDoc, { upsert: true });
-        console.log(result);
+        const result = await User.updateOne({email: user.email}, {$set: user}, { upsert: true });
         res.status(201).json({ success: true, data: result })
     } catch (error) {
         res.status(400).json({ success: false })
