@@ -21,7 +21,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
-  const [crowdInfo, setCrowdInfo] = useState<{total: number, rating: number}>({total: 0, rating: 0});
+  const [crowdInfo, setCrowdInfo] = useState<{total: number, rating: number, approval: number}>({total: 0, rating: 0, approval: 0});
 
   const styles = {
     wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
@@ -47,6 +47,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const { _id, user, img, title, review, genre, type, rating, interactions , createdAt } = post;
 
+  // Calculating Crowd Interactions 
   useEffect(() => {
 
     let sum = 0, total = interactions.approvedBy.length + 
@@ -60,9 +61,10 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
     const crowdRating = ((interactions.approvedBy.length * 
                       parseFloat(rating) + sum) / total);
-    
+
     crowdInfo['total'] = total - 1;
     crowdInfo['rating'] = crowdRating;
+    crowdInfo['approval'] = (interactions.approvedBy.length / total) * 100;
 
     console.log(crowdInfo);
 
@@ -154,10 +156,9 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         session?.user && <div className={styles.iconsWrapper}>
           <div className={styles.icons}>
             <FcApproval className='mr-2' />
-            <span className={styles.iconText}> (67%)</span>
+            <span className={styles.iconText}>{crowdInfo['approval']}%</span>
           </div>
           <div className={styles.icons}>
-            
             <RiUserStarFill className='text-green-400 mr-2' />
             <span className={styles.iconText}>5</span>
           </div>
