@@ -8,7 +8,7 @@ import { postsState } from './../atoms/postsAtom';
 
 const Posts: React.FC = () => {
   
-  const [posts, setPosts] = useRecoilState<postInterface[]>(postsState);
+  const [posts, setPosts] = useRecoilState<any[]>(postsState);
 
   const [postsFromDB, setPostsFromDB] = useState<postInterface[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<postInterface[]>([]);

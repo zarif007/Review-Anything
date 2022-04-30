@@ -18,7 +18,7 @@ export const postsState = atom({
             interactions: {
               approvedBy: '',
               crowdRatings: '',
-            }
+            },
           }
     ], 
 })
