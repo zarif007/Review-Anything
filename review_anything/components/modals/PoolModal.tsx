@@ -71,11 +71,13 @@ const PoolModal = () => {
   }
 
   useEffect(() => {
-    let updatedUser = user;
-    updatedUser.preference = userPreferedGenres;
+    if(user){
+      let updatedUser = user;
+      updatedUser.preference = userPreferedGenres;
 
-    axios.put(`${domain}users/${session?.user?.email}`, updatedUser);
-  }, [userPreferedGenres])
+      axios.put(`${domain}users/${session?.user?.email}`, updatedUser);
+    }
+  }, [userPreferedGenres, user])
 
   return (
     <Transition.Root show={open || genrePreferenceOpen} as={Fragment}>

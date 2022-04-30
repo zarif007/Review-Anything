@@ -9,6 +9,8 @@ import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../atoms/genreAtom';
 import Moment from 'react-moment';
+import axios from 'axios';
+import { domain } from './../domain';
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -23,7 +25,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [crowdInfo, setCrowdInfo] = useState<{total: number, rating: number, approval: number}>({total: 0, rating: 0, approval: 0});
 
-  const [hasReacted, setHasReacted] = useState<boolean>(false);
+  const [hasRated, setHasRated] = useState<string>('');
   const [hasApproved, setHasApproved] = useState<boolean>(false);
 
   const styles = {
@@ -48,11 +50,18 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     settingsIcon: `mr-5 font-extrabold text-lg cursor-pointer ${isDark ? 'text-white' : 'text-black'}`,
   }
 
-  const { _id, user, img, title, review, genre, type, rating, interactions , createdAt } = post;
+  let { _id, user, img, title, review, genre, type, rating, interactions , createdAt } = post;
+
+  useEffect(() => {
+    interactions.approvedBy.find(it => it === session?.user?.email !== undefined ? 
+                                      setHasApproved(true) : setHasApproved(false));
+
+    interactions.crowdRatings.find((it: any) => it.user === session?.user?.email !== undefined ?
+                                      setHasRated(it.rating) : setHasRated(''));
+  }, [session])
 
   // Calculating Crowd Interactions 
-  useEffect(() => {
-
+  const calculateInteractions = () => {
     let sum = 0, total = interactions.approvedBy.length + 
                   interactions.crowdRatings.length;
 
@@ -65,17 +74,41 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     const crowdRating = ((interactions.approvedBy.length * 
                       parseFloat(rating) + sum) / total);
 
-    crowdInfo['total'] = total - 1;
-    crowdInfo['rating'] = crowdRating;
-    crowdInfo['approval'] = (interactions.approvedBy.length / total) * 100;
-    
-    interactions.approvedBy.find(it => it === session?.user?.email) !== undefined ? 
-                                      setHasApproved(true) : setHasApproved(false);
+    const updatedCrowdInfo: any = {};
 
-    interactions.crowdRatings.find((it: any) => it.user === session?.user?.email) !== undefined ?
-                                      setHasReacted(true) : setHasReacted(false);
- 
-  }, [interactions])
+    updatedCrowdInfo['total'] = total - 1;
+    updatedCrowdInfo['rating'] = crowdRating;
+    updatedCrowdInfo['approval'] = (interactions.approvedBy.length / total) * 100;
+
+    setCrowdInfo(updatedCrowdInfo);
+  }
+
+  useEffect(() => {
+    calculateInteractions();
+  }, []);
+
+  const handleApprovedButton = () => {
+     if(hasApproved){
+       const updated: string[] = interactions.approvedBy.filter(it => it !== session?.user?.email);
+       interactions = {
+         approvedBy: updated,
+         crowdRatings: interactions.crowdRatings,
+       };
+     } else if(session?.user?.email) {
+        const updated: string[] = interactions.approvedBy.filter(it => it !== session?.user?.email);
+        interactions = {
+          approvedBy: [...updated, session?.user?.email],
+          crowdRatings: interactions.crowdRatings,
+        };
+     }
+
+     const updatedPost = {user, img, title, review, genre, type, rating, interactions};
+
+     axios.put(`${domain}/posts/${_id}`, updatedPost);
+
+     calculateInteractions();
+     setHasApproved(!hasApproved);
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -163,13 +196,15 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       {/* Icons  */}
       {
         session?.user && <div className={styles.iconsWrapper}>
-          <div className={`${styles.icons} ${hasApproved && 'bg-gray-900'}`}>
-            <FcApproval className='mr-2' />
-            <span className={styles.iconText}>{crowdInfo['approval']}%</span>
+          <div 
+            className={`${styles.icons} ${hasApproved && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}
+            onClick={handleApprovedButton}>
+              <FcApproval className='mr-2' />
+            <span className={styles.iconText}>{crowdInfo['approval'].toFixed(0)}%</span>
           </div>
-          <div className={`${styles.icons} ${hasApproved && 'bg-gray-900'}`}>
+          <div className={`${styles.icons} ${hasRated && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}>
             <RiUserStarFill className='text-green-400 mr-2' />
-            <span className={styles.iconText}>5</span>
+            <span className={styles.iconText}>{hasRated !== '' && hasRated}</span>
           </div>
           <div className={styles.icons}>
             <FcComments />

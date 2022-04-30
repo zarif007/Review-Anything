@@ -127,7 +127,7 @@ const Header: React.FC = () => {
                 className="h-10 w-6 sm:h-12 sm:w-8 pr-2" 
               />ADD
             </button>
-            <div className="flex flex-row mr-3">
+            <div className="flex flex-row mr-3 btn">
               <IoNotificationsSharp className={styles.icon} />
               <span className={styles.notificationWrapper}>10</span>
             </div>
