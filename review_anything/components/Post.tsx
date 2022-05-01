@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import postInterface from '../interfaces/Post'
-import { FcComments, FcApproval, FcCancel } from "react-icons/fc";
+import { FcComments, FcApproval } from "react-icons/fc";
 import { BsFillStarFill, BsThreeDotsVertical } from "react-icons/bs";
 import { RiUserStarFill } from "react-icons/ri";
 import { useSession } from 'next-auth/react';
@@ -26,7 +26,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [crowdInfo, setCrowdInfo] = useState<{total: number, rating: number, approval: number}>({total: 0, rating: 0, approval: 0});
 
-  const [hasRated, setHasRated] = useState<string>('');
+  const [hasRated, setHasRated] = useState<number>(-1);
   const [hasApproved, setHasApproved] = useState<boolean>(false);
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -52,7 +52,14 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     typeAndTimestamp: `text-xs text-gray-400 sm:flex items-center sm:space-x-1 xs:flex-col`,
     settingsIcon: `mr-5 font-extrabold text-lg cursor-pointer ${isDark ? 'text-white' : 'text-black'}`,
 
-    ratingViewer: `${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-black'} p-1 rounded-sm mt-1`
+    ratingViewer: `${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-black'} p-1 rounded-sm mt-1`,
+
+    modalTopWrapper: `justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`,
+    modalFirstWrapper: `relative w-auto my-6 mx-auto max-w-full min-w-[25%]`,
+    modalSecondWrapper: `border-0 rounded-lg shadow-lg relative flex flex-col w-full ${isDark ? 'bg-[#131313]' : 'bg-[#F5F5F5]'} outline-none focus:outline-none`,
+    modalHeaderText: `p-4 pb-0 font-semibold text-xl ${isDark ? 'text-white' : 'text-black'} uppercase`,
+    modalButton: `background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`,
+    modalOuterSpace: `opacity-75 fixed inset-0 z-40 bg-black`,
   }
 
   let { _id, user, img, title, review, genre, type, rating, interactions , createdAt } = post;
@@ -116,16 +123,50 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         approvedBy: [...updatedApprovedBy, session?.user?.email],
         crowdRatings: interactions.crowdRatings.filter((it: any) => it.user !== session?.user?.email),
       };
-      setHasRated('');
+      setHasRated(-1);
     }
 
-    console.log(interactions);
     const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
     axios.put(`${domain}/posts/${_id}`, updatedPost);
 
     calculateInteractions();
     setHasApproved(!hasApproved);
+  }
+
+  const handleAddRating = () => {
+    setShowModal(false);
+
+    const updatedCrowdRatings = interactions.crowdRatings.filter((it: any) => it.user !== session?.user?.email);
+
+    interactions = {
+      approvedBy: interactions.approvedBy.filter(it => it !== session?.user?.email),
+      crowdRatings: [...updatedCrowdRatings, {user: session?.user?.email, rating: starRating}],
+    }
+
+    const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
+
+    axios.put(`${domain}/posts/${_id}`, updatedPost);
+
+    calculateInteractions();
+    setHasApproved(false);
+    setHasRated(starRating);
+  }
+
+  const handleRemoveRating = () => {
+
+    interactions = {
+      approvedBy: interactions.approvedBy.filter(it => it !== session?.user?.email),
+      crowdRatings: interactions.crowdRatings.filter((it: any) => it.user !== session?.user?.email),
+    }
+
+    const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
+
+    axios.put(`${domain}/posts/${_id}`, updatedPost);
+
+    calculateInteractions();
+    setHasApproved(false);
+    setHasRated(-1);
   }
 
   return (
@@ -182,39 +223,46 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       
       {/* Crowd rating taker Modal  */}
       {
-          showModal && (
-              <>
-                  <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                      <div className="relative w-auto my-6 mx-auto max-w-full min-w-[25%]">
-                          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-[#131313] outline-none focus:outline-none">
-                              <span className="p-4 pb-0 font-semibold text-xl text-white uppercase">
-                                  What rating you think {title} should be
-                              </span>
-                              <div className='flex items-center justify-center p-1'>
-                                <StarsRating
-                                  value={starRating}
-                                  onChange={value => {
-                                    let rt = value || 0;
-                                    setStarRating(rt);
-                                  }}
-                                />
-                                <span className={styles.ratingViewer}>{starRating}</span>
-                              </div>
-                              <div className="flex items-center justify-end p-2">
-                                  <button
-                                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                      type="button"
-                                      onClick={() => setShowModal(false)}
-                                  >
-                                      Close
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
+        showModal && (
+          <>
+            <div className={styles.modalTopWrapper}>
+              <div className={styles.modalFirstWrapper}>
+                <div className={styles.modalSecondWrapper}>
+                  <span className={styles.modalHeaderText}>
+                    What rating you think {title} should be
+                  </span>
+                  <div className='flex items-center justify-center p-1'>
+                    <StarsRating
+                      value={starRating}
+                      onChange={value => {
+                        let rt = value || 0;
+                        setStarRating(rt);
+                      }}
+                    />
+                    <span className={styles.ratingViewer}>{starRating}</span>
                   </div>
-                  <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
-              </>
-          )
+                  <div className="flex items-center justify-end p-2">
+                    <button
+                      className={`${styles.modalButton} text-blue-500`}
+                      type="button"
+                      onClick={handleAddRating}
+                    >
+                      Done
+                    </button>
+                    <button
+                      className={`${styles.modalButton} text-red-500`}
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalOuterSpace}></div>
+          </>
+        )
       }
 
       {/* Review  */}
@@ -257,10 +305,11 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
               <FcApproval className='mr-2' />
             <span className={styles.iconText}>{crowdInfo['approval'].toFixed(0)}%</span>
           </div>
-          <div className={`${styles.icons} ${hasRated && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}
-          onClick={() => setShowModal(true)}>
-            <RiUserStarFill className='text-green-400 mr-2' />
-            <span className={styles.iconText}>{hasRated !== '' && hasRated}</span>
+          <div 
+            className={`${styles.icons} ${hasRated !== -1 && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}
+            onClick={() => hasRated !== -1 ? handleRemoveRating() : setShowModal(true)}>
+              <RiUserStarFill className='text-green-400 mr-2' />
+              <span className={styles.iconText}>{hasRated !== -1 && hasRated}</span>
           </div>
           <div className={styles.icons}>
             <FcComments />
