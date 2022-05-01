@@ -29,7 +29,7 @@ const Home: NextPage = ({ data }: any) => {
 
   const [isDark] = useRecoilState<boolean>(theme);
 
-  const [posts, setPosts] = useRecoilState<postInterface[]>(postsState);
+  const [posts, setPosts] = useRecoilState(postsState);
 
   useEffect(() => {
     setPosts(data.data);

@@ -11,6 +11,7 @@ import { selectedGenre } from '../atoms/genreAtom';
 import Moment from 'react-moment';
 import axios from 'axios';
 import { domain } from './../domain';
+import StarsRating from 'react-star-rate';
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -27,6 +28,10 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [hasRated, setHasRated] = useState<string>('');
   const [hasApproved, setHasApproved] = useState<boolean>(false);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [starRating, setStarRating] = useState('0');
 
   const styles = {
     wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
@@ -48,16 +53,25 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     showButton: `text-sm text-blue-500 pt-0 cursor-pointer`,
     typeAndTimestamp: `text-xs text-gray-400 sm:flex items-center sm:space-x-1 xs:flex-col`,
     settingsIcon: `mr-5 font-extrabold text-lg cursor-pointer ${isDark ? 'text-white' : 'text-black'}`,
+
+    ratingViewer: `${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-black'} p-1 rounded-sm mt-1`
   }
 
   let { _id, user, img, title, review, genre, type, rating, interactions , createdAt } = post;
 
+  // Storing current user's interaction on this post
   useEffect(() => {
-    interactions.approvedBy.find(it => it === session?.user?.email !== undefined ? 
-                                      setHasApproved(true) : setHasApproved(false));
+    interactions.approvedBy.find(it => {
+      if(it === session?.user?.email){
+        setHasApproved(true);
+      }
+    });
 
-    interactions.crowdRatings.find((it: any) => it.user === session?.user?.email !== undefined ?
-                                      setHasRated(it.rating) : setHasRated(''));
+    interactions.crowdRatings.find((it: any) => {
+      if(it.user === session?.user?.email){
+        setHasRated(it.rating)
+      }
+    });
   }, [session])
 
   // Calculating Crowd Interactions 
@@ -71,14 +85,16 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       });
     }
 
-    const crowdRating = ((interactions.approvedBy.length * 
+    const crowdRating = total === 0 ? 0 :((interactions.approvedBy.length * 
                       parseFloat(rating) + sum) / total);
 
-    const updatedCrowdInfo: any = {};
+    const updatedCrowdInfo: {total: number, rating: number, approval: number} = {total: 0, 
+                                                                                  rating: 0, 
+                                                                                  approval: 0};
 
-    updatedCrowdInfo['total'] = total - 1;
+    updatedCrowdInfo['total'] = total;
     updatedCrowdInfo['rating'] = crowdRating;
-    updatedCrowdInfo['approval'] = (interactions.approvedBy.length / total) * 100;
+    updatedCrowdInfo['approval'] = total === 0 ? 0 : (interactions.approvedBy.length / total) * 100;
 
     setCrowdInfo(updatedCrowdInfo);
   }
@@ -88,26 +104,28 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
   }, []);
 
   const handleApprovedButton = () => {
-     if(hasApproved){
-       const updated: string[] = interactions.approvedBy.filter(it => it !== session?.user?.email);
-       interactions = {
-         approvedBy: updated,
-         crowdRatings: interactions.crowdRatings,
-       };
-     } else if(session?.user?.email) {
-        const updated: string[] = interactions.approvedBy.filter(it => it !== session?.user?.email);
-        interactions = {
-          approvedBy: [...updated, session?.user?.email],
-          crowdRatings: interactions.crowdRatings,
-        };
-     }
+    const updatedApprovedBy: string[] = interactions.approvedBy.filter(it => it !== session?.user?.email);
 
-     const updatedPost = {user, img, title, review, genre, type, rating, interactions};
+    if(hasApproved){
+      interactions = {
+        approvedBy: updatedApprovedBy,
+        crowdRatings: interactions.crowdRatings,
+      };
+    } else if(session?.user?.email) {
+      interactions = {
+        approvedBy: [...updatedApprovedBy, session?.user?.email],
+        crowdRatings: interactions.crowdRatings.filter((it: any) => it.user !== session?.user?.email),
+      };
+      setHasRated('');
+    }
 
-     axios.put(`${domain}/posts/${_id}`, updatedPost);
+    console.log(interactions);
+    const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
-     calculateInteractions();
-     setHasApproved(!hasApproved);
+    axios.put(`${domain}/posts/${_id}`, updatedPost);
+
+    calculateInteractions();
+    setHasApproved(!hasApproved);
   }
 
   return (
@@ -115,7 +133,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       
       {/* Top part  */}
       <div className={styles.topWrapper}>
-        <div className='flex items-center'>
+        <div className='flex items-center '>
           <img 
             className={styles.userImgIcon}
             src={user.image} alt='dp'
@@ -161,6 +179,43 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         }
         
       </div>
+      
+      {/* Crowd rating taker Modal  */}
+      {
+          showModal && (
+              <>
+                  <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                      <div className="relative w-auto my-6 mx-auto max-w-full min-w-[25%]">
+                          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-[#131313] outline-none focus:outline-none">
+                              <span className="p-4 pb-0 font-semibold text-xl text-white uppercase">
+                                  What rating you think {title} should be
+                              </span>
+                              <div className='flex items-center justify-center p-1'>
+                                <StarsRating
+                                  value={parseFloat(starRating)}
+                                  onChange={value => {
+                                    let rt = value?.toString() || '';
+                                    setStarRating(rt);
+                                  }}
+                                />
+                                <span className={styles.ratingViewer}>{starRating}</span>
+                              </div>
+                              <div className="flex items-center justify-end p-2">
+                                  <button
+                                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                      type="button"
+                                      onClick={() => setShowModal(false)}
+                                  >
+                                      Close
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="opacity-75 fixed inset-0 z-40 bg-black"></div>
+              </>
+          )
+      }
 
       {/* Review  */}
       <div className={styles.captionWrapper}>
@@ -188,7 +243,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         <span>Total Interatctions {crowdInfo['total']}</span> 
         <GoPrimitiveDot className='pt-1' />
         <div className='flex items-center space-x-1'>
-          <span>Crowd Rating: {crowdInfo['rating']}</span>
+          <span>Crowd Rating: {crowdInfo['rating'].toFixed(1)}</span>
           <BsFillStarFill className='text-yellow-500 h-4' />
         </div>
       </div>
@@ -202,7 +257,8 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
               <FcApproval className='mr-2' />
             <span className={styles.iconText}>{crowdInfo['approval'].toFixed(0)}%</span>
           </div>
-          <div className={`${styles.icons} ${hasRated && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}>
+          <div className={`${styles.icons} ${hasRated && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}
+          onClick={() => setShowModal(true)}>
             <RiUserStarFill className='text-green-400 mr-2' />
             <span className={styles.iconText}>{hasRated !== '' && hasRated}</span>
           </div>

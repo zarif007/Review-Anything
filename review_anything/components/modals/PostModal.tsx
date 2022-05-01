@@ -132,7 +132,6 @@ const PostModal = () => {
       email: session?.user?.email || '',
     }
     post['interactions'].approvedBy.push(post.user.email);
-    post['interactions'].crowdRatings.push({user: post.user.email, rating: starRating});
 
     const formData = new FormData();
 
