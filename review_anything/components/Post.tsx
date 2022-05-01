@@ -31,8 +31,6 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const [starRating, setStarRating] = useState('0');
-
   const styles = {
     wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
     topWrapper: `flex items-center p-3 border-b ${isDark ? 'border-gray-900' : 'border-blue-100'} justify-between`,
@@ -58,6 +56,8 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
   }
 
   let { _id, user, img, title, review, genre, type, rating, interactions , createdAt } = post;
+
+  const [starRating, setStarRating] = useState<number>(parseFloat(rating));
 
   // Storing current user's interaction on this post
   useEffect(() => {
@@ -192,9 +192,9 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
                               </span>
                               <div className='flex items-center justify-center p-1'>
                                 <StarsRating
-                                  value={parseFloat(starRating)}
+                                  value={starRating}
                                   onChange={value => {
-                                    let rt = value?.toString() || '';
+                                    let rt = value || 0;
                                     setStarRating(rt);
                                   }}
                                 />
