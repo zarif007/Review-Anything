@@ -11,14 +11,11 @@ import { useSession } from 'next-auth/react';
 import { genres } from '../../genres';
 import { theme } from '../../atoms/themeAtom';
 import axios from 'axios';
-import { postsState } from '../../atoms/postsAtom';
 
 
 const PostModal = () => {
 
   const [open, setOpen] = useRecoilState<boolean>(postModalState);
-
-  const [posts, setPosts] = useRecoilState(postsState);
 
   const [isDark] = useRecoilState(theme);
 
@@ -142,8 +139,7 @@ const PostModal = () => {
       .then(response => {
         post['img'] = response.data.secure_url;
 
-        axios.post('http://localhost:3000/api/posts', post)
-          .then(res => setPosts([res.data.data, ...posts]));
+        axios.post('http://localhost:3000/api/posts', post);
 
         setPost({
           user: {

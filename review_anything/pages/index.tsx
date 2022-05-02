@@ -8,11 +8,7 @@ import Feed from '../components/Feed'
 import Header from '../components/Header'
 import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
-import { postsState } from './../atoms/postsAtom';
-import { useEffect } from 'react';
 import { domain } from '../domain'
-import postInterface from '../interfaces/Post'
-import { genres } from './../genres';
 
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -26,16 +22,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 
-const Home: NextPage = ({ data }: any) => {
+const Home: NextPage = ({ data }: any ) => {
 
   const [isDark] = useRecoilState<boolean>(theme);
 
-  const [posts, setPosts] = useRecoilState(postsState);
 
-  useEffect(() => {
-    setPosts(data.data);
-  }, [data])
-  
   const styles = {
     wrapper: `min-h-screen ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,
   }
@@ -49,7 +40,7 @@ const Home: NextPage = ({ data }: any) => {
       </Head>
       <Header />
 
-    
+
 
         {/* 
         Dark => 
@@ -65,7 +56,7 @@ const Home: NextPage = ({ data }: any) => {
         */}
 
       <div className='overflow-hidden'>
-        <Feed />
+        <Feed posts={data.data} />
       </div>
       <div className='inline md:hidden'>
         <BottomNav />

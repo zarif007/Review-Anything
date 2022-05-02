@@ -3,13 +3,10 @@ import Post from './Post'
 import postInterface from './../interfaces/Post';
 import { useRecoilState } from 'recoil';
 import { selectedGenre } from '../atoms/genreAtom';
-import { postsState } from './../atoms/postsAtom';
 
 
-const Posts: React.FC = () => {
+const Posts: React.FC<{ posts: postInterface[] }> = ( {posts} ) => {
   
-  const [posts, setPosts] = useRecoilState<any[]>(postsState);
-
   const [postsFromDB, setPostsFromDB] = useState<postInterface[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<postInterface[]>([]);
 
@@ -27,7 +24,7 @@ const Posts: React.FC = () => {
     let updatedPosts: postInterface[] = [];
 
     if(currentGenre === ''){
-      updatedPosts = postsFromDB;
+      updatedPosts = posts;
     } else {
       updatedPosts = postsFromDB.filter(post => post.genre === currentGenre);
     }
@@ -39,10 +36,18 @@ const Posts: React.FC = () => {
   return (
     <div className=''>
       {
-        filteredPosts.map((post: postInterface, index) => {
+        currentGenre !== '' ? filteredPosts.map((post: postInterface) => {
           return (
             <Post 
-              key={index}
+              key={post._id}
+              post={post}
+            />
+          )
+        }) : 
+        posts.map((post: postInterface) => {
+          return (
+            <Post 
+              key={post._id}
               post={post}
             />
           )
