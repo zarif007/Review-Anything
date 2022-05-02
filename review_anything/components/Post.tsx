@@ -309,7 +309,12 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
             className={`${styles.icons} ${hasRated !== -1 && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}
             onClick={() => hasRated !== -1 ? handleRemoveRating() : setShowModal(true)}>
               <RiUserStarFill className='text-green-400 mr-2' />
-              <span className={styles.iconText}>{hasRated !== -1 && hasRated}</span>
+              <span className={styles.iconText}>{hasRated !== -1 && (
+                <div className='flex items-center'>
+                  {hasRated}
+                  <BsFillStarFill className='text-yellow-500 h-4' />
+                </div>
+              )}</span>
           </div>
           <div className={styles.icons}>
             <FcComments />

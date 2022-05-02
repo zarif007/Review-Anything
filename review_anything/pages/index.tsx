@@ -12,6 +12,7 @@ import { postsState } from './../atoms/postsAtom';
 import { useEffect } from 'react';
 import { domain } from '../domain'
 import postInterface from '../interfaces/Post'
+import { genres } from './../genres';
 
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -47,6 +48,8 @@ const Home: NextPage = ({ data }: any) => {
         <link rel="icon" href="/sm_logo.ico" />
       </Head>
       <Header />
+
+    
 
         {/* 
         Dark => 
