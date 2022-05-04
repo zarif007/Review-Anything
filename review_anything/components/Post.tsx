@@ -270,10 +270,11 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         <p className={`${styles.caption}`}>{
           review.split('\n').slice(0, reviewLineLimit).map((rs: string) => {
             return(
-              <>
-                {rs}
-                <br />
-              </>
+              <div
+                onClick={() => setReviewLineLimit(review.split('\n').length)}>
+                  {rs}
+                  <br />
+              </div>
             )
           })
         }{
