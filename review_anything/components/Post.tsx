@@ -45,7 +45,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     crowdRating: `bg-gray-900 p-2 border border-blue-900 font-semibold flex items-center space-x-1`,
     totalReactionCounterAndCR: `w-full text-blue-400 pl-5 font-semibold text-xs pt-1 pb-1 flex space-x-1`,
     iconsWrapper: `flex justify-between`,
-    icons: `${isDark ? 'btn border-gray-900' : 'btn-lt border-blue-100'} border flex justify-center items-center w-full`,
+    icons: ` ${isDark ? 'btn border-gray-900' : 'btn-lt border-blue-100'} border flex justify-center items-center w-full border-b-0`,
     iconText: `text-blue-400 text-sm font-semibold`,
     genreWrapper: `bg-blue-500 hover:bg-blue-600 p-2 m-1 rounded-2xl font-semibold text-sm iconAnimation hover:text-white`,
     showButton: `text-sm text-blue-500 pt-0 cursor-pointer`,
@@ -301,7 +301,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       {
         session?.user && <div className={styles.iconsWrapper}>
           <div 
-            className={`${styles.icons} ${hasApproved && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}
+            className={`${styles.icons} ${hasApproved && (isDark ? 'bg-gray-900' : 'bg-blue-100')} border-l-0`}
             onClick={handleApprovedButton}>
               <FcApproval className='mr-2' />
             <span className={styles.iconText}>{crowdInfo['approval'].toFixed(0)}%</span>
@@ -317,7 +317,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
                 </div>
               )}</span>
           </div>
-          <div className={styles.icons}>
+          <div className={`${styles.icons} border-r-0`}>
             <FcComments />
           </div>
         </div>
