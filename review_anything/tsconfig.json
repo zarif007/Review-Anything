@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/auth/signin.js", "utils/dbConnect.js", "models/User.js", "models/Post.js", "domain.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/auth/signin.js", "utils/dbConnect.js", "models/User.js", "models/Post.js", "domain.js", "pages/api/socket.js"],
   "exclude": ["node_modules"]
 }

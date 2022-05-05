@@ -6,10 +6,44 @@ import { db } from '../firebase';
 import { BsFillStarFill } from 'react-icons/bs';
 import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
+import io from 'Socket.IO-client'
+
+
+let socket: any
 
 
 const Trending: React.FC = () => {
 
+  const [ot, setOt] = useState<postInterface[]>([]);
+
+  const [posts, setPosts] = useState<postInterface[]>([]);
+
+  useEffect(() => {
+    socketInitializer();
+  }, [])
+
+  useEffect(() => {
+    if(socket)
+      handleGo(posts);
+  }, [socket, posts])
+
+  
+  const socketInitializer = async () => {
+    await fetch('/api/socket');
+    socket = io()
+
+    socket.on('connect', () => {
+      console.log('connected')
+    })
+
+    socket.on('update-input', (msg: any) => {
+
+      setOt(msg)
+      console.log(msg)
+    })
+  }
+
+    
   const [isDark] = useRecoilState(theme);
 
   const styles = {
@@ -23,7 +57,9 @@ const Trending: React.FC = () => {
       genre: `bg-blue-500 hover:bg-blue-600 p-2 m-1 mt-0 rounded-2xl font-semibold text-xs iconAnimation hover:text-white text-white`,
   }
 
-  const [posts, setPosts] = useState<postInterface[]>([]);
+  const handleGo = (sr: any) => {
+    socket.emit('input-change', sr)
+  }
 
   useEffect(() => 
     onSnapshot(
@@ -35,38 +71,39 @@ const Trending: React.FC = () => {
           arr.push(sp.data());
         })
         setPosts(arr);
+        handleGo(arr)
       }), 
   [db]);
 
   return (
     <div className={styles.wrapper}>
       <div className='flex'>
-        <p className={styles.trendingText}>Trending</p> 
-        <BiTrendingUp className={styles.trendingIcon} />  
+        <p className={styles.trendingText}>Trending</p>
+        <BiTrendingUp className={styles.trendingIcon} />
       </div>
       <div className='mb-8'>
         {
-            posts.slice(0, 3).map((post: postInterface, index) => {
-                return (
-                    <div className={styles.postWrapper} key={index} >
-                      <div className='flex space-x-2 items-center pb-2'>
-                        <img src={post.img} className={styles.postImg} />
-                        <p className={styles.postTitle}>{post.title}</p>
-                      </div>
-                      <div className={styles.postDetailesWrapper}>
-                        <div className={styles.genre}>{post.genre}</div>
-                        <div className='flex space-x-0 lg:space-x-1 items-center'>
-                          <p className=''>{post.rating}</p>
-                          <BsFillStarFill className='text-yellow-500 h-6' />
-                        </div>
-                        <p>{post.review.slice(0, 15)}...</p>
-                      </div>
-                    </div>
-                )
-            })
+          ot && ot.slice(0, 3).map((post: postInterface) => {
+            return (
+              <div className={styles.postWrapper} >
+                <div className='flex space-x-2 items-center pb-2'>
+                  <img src={post.img} className={styles.postImg} />
+                  <p className={styles.postTitle}>{post.title}</p>
+                </div>
+                <div className={styles.postDetailesWrapper}>
+                  <div className={styles.genre}>{post.genre}</div>
+                  <div className='flex space-x-0 lg:space-x-1 items-center'>
+                    <p className=''>{post.rating}</p>
+                    <BsFillStarFill className='text-yellow-500 h-6' />
+                  </div>
+                  <p>{post.review.slice(0, 15)}...</p>
+                </div>
+              </div>
+            )
+          })
         }
       </div>
-      
+
     </div>
   )
 }
