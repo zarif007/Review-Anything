@@ -7,27 +7,28 @@ import { BsFillStarFill } from 'react-icons/bs';
 import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
 import io from 'Socket.IO-client'
+import axios from 'axios';
+import { domain } from '../domain';
 
-
-let socket: any
-
+let socket: any;
 
 const Trending: React.FC = () => {
 
-  const [ot, setOt] = useState<postInterface[]>([]);
-
   const [posts, setPosts] = useState<postInterface[]>([]);
 
+  const getTrending = () => {
+    axios.get(`${domain}/trending`)
+      .then(res => {
+        setPosts(res.data.data);
+      });
+  }
+  
   useEffect(() => {
     socketInitializer();
+    getTrending()
   }, [])
 
-  useEffect(() => {
-    if(socket)
-      handleGo(posts);
-  }, [socket, posts])
 
-  
   const socketInitializer = async () => {
     await fetch('/api/socket');
     socket = io()
@@ -37,9 +38,8 @@ const Trending: React.FC = () => {
     })
 
     socket.on('update-input', (msg: any) => {
-
-      setOt(msg)
-      console.log(msg)
+      const up: postInterface[] = msg;
+      setPosts(up);
     })
   }
 
@@ -57,23 +57,6 @@ const Trending: React.FC = () => {
       genre: `bg-blue-500 hover:bg-blue-600 p-2 m-1 mt-0 rounded-2xl font-semibold text-xs iconAnimation hover:text-white text-white`,
   }
 
-  const handleGo = (sr: any) => {
-    socket.emit('input-change', sr)
-  }
-
-  useEffect(() => 
-    onSnapshot(
-      query(collection(db, 'posts'), 
-      orderBy('timestamp', 'desc')), 
-      snapshot => {
-        let arr: any = [];
-        snapshot.docs.map(sp => {
-          arr.push(sp.data());
-        })
-        setPosts(arr);
-        handleGo(arr)
-      }), 
-  [db]);
 
   return (
     <div className={styles.wrapper}>
@@ -82,8 +65,9 @@ const Trending: React.FC = () => {
         <BiTrendingUp className={styles.trendingIcon} />
       </div>
       <div className='mb-8'>
-        {
-          ot && ot.slice(0, 3).map((post: postInterface) => {
+        { 
+          !socket ? <>Loading...</> : 
+          posts.slice(0, 3).map((post: postInterface) => {
             return (
               <div className={styles.postWrapper} >
                 <div className='flex space-x-2 items-center pb-2'>

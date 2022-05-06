@@ -11,6 +11,10 @@ import { useSession } from 'next-auth/react';
 import { genres } from '../../genres';
 import { theme } from '../../atoms/themeAtom';
 import axios from 'axios';
+import io from 'Socket.IO-client'
+import { domain } from './../../domain';
+
+let socket: any;
 
 
 const PostModal = () => {
@@ -32,6 +36,16 @@ const PostModal = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const [starRating, setStarRating] = useState<string>('0');
+
+  useEffect(() => {
+    socketInitializer();
+  }, [])
+
+
+  const socketInitializer = async () => {
+    await fetch('/api/socket');
+    socket = io()
+  }
   
   const styles = {
     wrapper: `flex items-center justify-center min-h-[800px] sm:min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`,
@@ -139,8 +153,14 @@ const PostModal = () => {
       .then(response => {
         post['img'] = response.data.secure_url;
 
-        axios.post('http://localhost:3000/api/posts', post);
+        axios.post(`${domain}/posts`, post);
 
+        axios.get(`${domain}/trending`)
+          .then(res => {
+            socket.emit('input-change', res.data.data)
+          });
+
+        
         setPost({
           user: {
             username: '',

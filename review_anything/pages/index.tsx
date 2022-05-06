@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
+import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { theme } from '../atoms/themeAtom'
 import BottomNav from '../components/BottomNav'
@@ -9,7 +10,6 @@ import Header from '../components/Header'
 import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
 import { domain } from '../domain'
-
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const { data } = await axios.get(`${domain}posts`);
@@ -25,7 +25,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const Home: NextPage = ({ data }: any ) => {
 
   const [isDark] = useRecoilState<boolean>(theme);
-
 
   const styles = {
     wrapper: `min-h-screen ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,
