@@ -17,7 +17,7 @@ export default async (
     switch(method){
         case 'GET':
             try{
-                const posts = await Post.find({});
+                const posts = await Post.find().sort({_id:-1});
                 res.status(200).json({ success: true, data: posts })
             } catch (error) {
                 res.status(400).json({ success: false })
