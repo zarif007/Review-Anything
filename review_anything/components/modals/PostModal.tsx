@@ -13,6 +13,7 @@ import { theme } from '../../atoms/themeAtom';
 import axios from 'axios';
 import io from 'Socket.IO-client'
 import { domain } from './../../domain';
+import SelectComp from '../SelectComp';
 
 let socket: any;
 
@@ -292,55 +293,8 @@ const PostModal = () => {
 
                   {/* Selection of Genre and Type part  */}
                   <div className='flex justify-between space-x-2'>
-                    <Select
-                        name="genre"
-                        options={genres}
-                        className={styles.select}
-                        classNamePrefix="Select Genre"
-                        defaultValue={post['genre'] === '' ?
-                          'Genre' : {value: post['genre'], label: post['genre']}}
-                        placeholder='Genre'
-                        theme={(theme) => ({
-                          ...theme,
-                          borderRadius: 0,
-                          colors: {
-                            ...theme.colors,
-                            primary25: 'liteblue',
-                            primary: 'black',
-                            neutral50: '#1A1A1A',
-                          },
-                        })}
-                        onChange={(e: any) => {
-                          post['genre'] = e.value
-                          checkIsDisable()
-                        }}
-                        styles={selectStyle}
-                      />
-
-                    <Select
-                        name="type"
-                        options={TypeOptions}
-                        className={styles.select}
-                        classNamePrefix="Select Type"
-                        defaultValue={post['type'] === '' ?
-                          'Type' : {value: post['type'], label: post['type']}}
-                        placeholder='Type'
-                        theme={(theme) => ({
-                          ...theme,
-                          borderRadius: 0,
-                          colors: {
-                            ...theme.colors,
-                            primary25: 'liteblue',
-                            primary: 'black',
-                            neutral50: '#1A1A1A',
-                          },
-                        })}
-                        onChange={(e: any) => {
-                          post['type'] = e.value
-                          checkIsDisable()
-                        }}
-                        styles={selectStyle}
-                      />
+                    <SelectComp type='genres' post={post} checkIsDisable={checkIsDisable} />
+                    <SelectComp type='type' post={post} checkIsDisable={checkIsDisable} />
                   </div>
 
                   {/* Review Part  */}
