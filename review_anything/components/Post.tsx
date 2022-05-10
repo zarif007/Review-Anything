@@ -12,6 +12,7 @@ import Moment from 'react-moment';
 import axios from 'axios';
 import { domain } from './../domain';
 import StarsRating from 'react-star-rate';
+import Link from 'next/link';
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -39,7 +40,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     mainImg: `object-contain h-96 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,
     captionWrapper: `${isDark ? 'border-gray-900' : 'border-blue-100'}`,
     caption: `p-5 pt-2 font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`,
-    title: `p-5 pb-0 font-bold text-2xl text-blue-500 uppercase`,
+    title: `p-5 pb-0 font-bold text-2xl text-blue-500 uppercase cursor-pointer`,
     rating: `font-bold text-lg ${isDark ? 'text-white' : 'text-gray-800'}`,
     type: ` p-2 border border-blue-900 font-semibold`,
     crowdRating: `bg-gray-900 p-2 border border-blue-900 font-semibold flex items-center space-x-1`,
@@ -177,10 +178,10 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         <div className='flex items-center '>
           <img 
             className={styles.userImgIcon}
-            src={user.image} alt='dp'
+            src={user?.image} alt='dp'
           />
           <div className='flex flex-col'>
-            <p className={styles.userName}>{user.username}</p>
+            <p className={styles.userName}>{user?.username}</p>
             {/* Type and timestamp  */}
             <div className={styles.typeAndTimestamp}>
               <p className=''>
@@ -212,13 +213,14 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
       {/* Title */}
       <div className='flex items-center justify-between'>
-        <h1 className={styles.title}>{title}</h1>
+        <Link href={`/post/${_id}`}>
+          <h1 className={styles.title}>{title}</h1>
+        </Link> 
         {
-          session?.user?.email === user.email && <div className={styles.settingsIcon}> 
+          session?.user?.email === user?.email && <div className={styles.settingsIcon}> 
             <BsThreeDotsVertical />
           </div>
         }
-        
       </div>
       
       {/* Crowd rating taker Modal  */}
@@ -268,19 +270,19 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       {/* Review  */}
       <div className={styles.captionWrapper}>
         <p className={`${styles.caption}`}>{
-          review.split('\n').slice(0, reviewLineLimit).map((rs: string) => {
+          review?.split('\n').slice(0, reviewLineLimit).map((rs: string) => {
             return(
               <div
-                onClick={() => setReviewLineLimit(review.split('\n').length)}>
+                onClick={() => setReviewLineLimit(review?.split('\n').length)}>
                   {rs}
                   <br />
               </div>
             )
           })
         }{
-          review.split('\n').length > 2 && (
+          review?.split('\n').length > 2 && (
             reviewLineLimit === 2 ? <p className={styles.showButton}
-              onClick={() => setReviewLineLimit(review.split('\n').length)}>Show more...</p> : 
+              onClick={() => setReviewLineLimit(review?.split('\n').length)}>Show more...</p> : 
             <p className={styles.showButton}
               onClick={() => setReviewLineLimit(2)}>Show less...</p>
           )

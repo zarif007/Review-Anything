@@ -57,40 +57,12 @@ const PostModal = () => {
     imageWrapper: `mx-auto flex items-center justify-center h-16 w-16 rounded-full cursor-pointer`,
     uploadTitle: `text-lg leading-6 font-medium ${isDark ? 'text-gray-200' : 'text-gray-900'} pb-3`,
     titleInput: `border-none focus:ring-0 w-full text-center ${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-gray-900'} mt-4 scrollbar-hide`,
-    select: `basic-multi-select ${isDark ? 'text-white' : 'text-black'} font-semibold focus:ring-0 w-full`,
     review: `border-none focus:ring-0 w-full ${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-gray-900'} mt-4 scrollbar-hide`,
     postButton: `bg-blue-600 text-white p-2 rounded-sm w-full hover:bg-blue-700 font-semibold 
       disabled:bg-blue-400 disabled:cursor-not-allowed`,
     ratingViewer: `${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-black'} p-1 rounded-sm mt-1`,
   }
 
-  const TypeOptions = [
-    { value: 'Paid🤑', label: 'Paid🤑' },
-    { value: 'Non-Paid✨', label: 'Non-Paid✨' },
-    { value: 'Non-Paid(I swear)🔥', label: 'Non-Paid(I swear)🔥' }
-  ]
-
-  const selectStyle = {
-    valueContainer: (base: any) => ({
-      ...base,
-      background: `${isDark ? 'black' : '#F5F5F5'}`,
-    }),
-    control: (base: any, state: any) => ({
-      ...base,
-      border: `${isDark ? 'black' : '#F5F5F5'}`,
-      background: `${isDark ? 'black' : '#F5F5F5'}`,
-    }),
-    menuList: (styles: any) => ({
-      ...styles,
-      background: `${isDark ? 'black' : '#F5F5F5'}`
-    }),
-    placeholder: (defaultStyles: any) => {
-      return {
-          ...defaultStyles,
-          color: `${isDark ? 'white' : 'black'}`,
-      }
-    }
-  } 
 
   const [post, setPost] = useState<postInterface>({
     user: {

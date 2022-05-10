@@ -62,6 +62,7 @@ const Home: NextPage = ({ data }: any ) => {
       </div>
       <PostModal />
       <PoolModal />
+      
     </div>
   )
 }

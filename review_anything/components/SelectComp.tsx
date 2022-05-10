@@ -3,10 +3,9 @@ import Select from 'react-select'
 import { useRecoilState } from 'recoil';
 import { theme } from '../atoms/themeAtom';
 import { genres } from './../genres';
+import postInterface from './../interfaces/Post';
 
-const SelectComp = ({ type, post, checkIsDisable }: any) => {
-
-    console.log(type, post, checkIsDisable)
+const SelectComp: React.FC<{ type: string, post: postInterface, checkIsDisable: () => void }> = ({ type, post, checkIsDisable }) => {
 
     const [isDark] = useRecoilState(theme);
 
