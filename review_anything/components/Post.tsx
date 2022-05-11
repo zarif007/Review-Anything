@@ -13,6 +13,7 @@ import axios from 'axios';
 import { domain } from './../domain';
 import StarsRating from 'react-star-rate';
 import Link from 'next/link';
+import crowdInfoInterface from '../interfaces/CrowdInfo';
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -25,7 +26,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
-  const [crowdInfo, setCrowdInfo] = useState<{total: number, rating: number, approval: number}>({total: 0, rating: 0, approval: 0});
+  const [crowdInfo, setCrowdInfo] = useState<crowdInfoInterface>({total: 0, rating: 0, approval: 0});
 
   const [hasRated, setHasRated] = useState<number>(-1);
   const [hasApproved, setHasApproved] = useState<boolean>(false);
@@ -93,16 +94,17 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       });
     }
 
-    const crowdRating = total === 0 ? 0 :((interactions.approvedBy.length * 
+    const crowdRating = total === 0 ? 0 : ((interactions.approvedBy.length * 
                       parseFloat(rating) + sum) / total);
 
-    const updatedCrowdInfo: {total: number, rating: number, approval: number} = {total: 0, 
-                                                                                  rating: 0, 
-                                                                                  approval: 0};
+    const updatedCrowdInfo: crowdInfoInterface = {total: 0, 
+                                                  rating: 0, 
+                                                  approval: 0};
 
-    updatedCrowdInfo['total'] = total;
+    updatedCrowdInfo['total'] = total;  
     updatedCrowdInfo['rating'] = crowdRating;
-    updatedCrowdInfo['approval'] = total === 0 ? 0 : (interactions.approvedBy.length / total) * 100;
+    updatedCrowdInfo['approval'] = total === 0 ? 0 : 
+                                  (interactions.approvedBy.length / total) * 100;
 
     setCrowdInfo(updatedCrowdInfo);
   }
@@ -319,9 +321,11 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
                 </div>
               )}</span>
           </div>
-          <div className={`${styles.icons} border-r-0`}>
-            <FcComments />
-          </div>
+          <Link href={`/post/${_id}`}>
+            <div className={`${styles.icons} border-r-0`}>
+              <FcComments />
+            </div>
+          </Link>
         </div>
       }
     </div>

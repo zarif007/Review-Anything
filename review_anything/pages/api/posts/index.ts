@@ -11,7 +11,7 @@ export default async (
     res: NextApiResponse) => {
         
     const { method } = req;
-    
+
     const {user, img, title, review, genre, type, rating, interactions} = req.body;
         
     switch(method){

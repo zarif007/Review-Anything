@@ -39,8 +39,6 @@ const Home: NextPage = ({ data }: any ) => {
       </Head>
       <Header />
 
-
-
         {/* 
         Dark => 
           BG -> #0E0E10

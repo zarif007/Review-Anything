@@ -35,13 +35,15 @@ const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
 
   return (
     <div className={styles.wrapper}>
+
       <Head>
         <title>{post.title}</title>
-        <meta name="description" content="Review Anything" />
+        <meta name={post.title} content={post.review} />
         <link rel="icon" href="/sm_logo.ico" />
       </Head>
 
       <Header />
+
       <div className='flex mx-auto max-w-3xl justify-around flex-col'>
         <div className='w-full'>
           <Post post={post} />

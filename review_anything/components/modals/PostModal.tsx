@@ -6,9 +6,7 @@ import { FcAddImage } from 'react-icons/fc';
 import Axios from 'axios';
 import postInterface from '../../interfaces/Post';
 import StarsRating from "react-star-rate";
-import Select from 'react-select'
 import { useSession } from 'next-auth/react';
-import { genres } from '../../genres';
 import { theme } from '../../atoms/themeAtom';
 import axios from 'axios';
 import io from 'Socket.IO-client'
@@ -17,6 +15,25 @@ import SelectComp from '../SelectComp';
 
 let socket: any;
 
+const postFormat: postInterface = {
+  user: {
+    username: '',
+    email: '',
+    image: ''
+  },
+  img: '',
+  title: '',
+  review: '',
+  genre: '',
+  type: '',
+  rating: '',
+  interactions: {
+    approvedBy: [],
+    crowdRatings: [],
+  }
+}
+
+const copyPostFormat: postInterface = postFormat;
 
 const PostModal = () => {
 
@@ -64,23 +81,7 @@ const PostModal = () => {
   }
 
 
-  const [post, setPost] = useState<postInterface>({
-    user: {
-      username: '',
-      email: '',
-      image: ''
-    },
-    img: '',
-    title: '',
-    review: '',
-    genre: '',
-    type: '',
-    rating: '',
-    interactions: {
-      approvedBy: [],
-      crowdRatings: [],
-    }
-  });
+  const [post, setPost] = useState<postInterface>(postFormat);
 
   const checkIsDisable = () => {
     
@@ -134,23 +135,7 @@ const PostModal = () => {
           });
 
         
-        setPost({
-          user: {
-            username: '',
-            email: '',
-            image: ''
-          },
-          img: '',
-          title: '',
-          review: '',
-          genre: '',
-          type: '',
-          rating: '',
-          interactions: {
-            approvedBy: [],
-            crowdRatings: [],
-          },
-        })
+        setPost(copyPostFormat)
       });
     
 
