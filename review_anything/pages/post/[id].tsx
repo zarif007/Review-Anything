@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
-import Head from 'next/head';
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useRecoilState } from 'recoil';
 import { theme } from '../../atoms/themeAtom';
 import Header from '../../components/Header';
+import HeaderTags from '../../components/HeaderTags';
 import Post from '../../components/Post';
 import postInterface from '../../interfaces/Post';
 import { domain } from './../../domain';
@@ -36,11 +36,7 @@ const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
   return (
     <div className={styles.wrapper}>
 
-      <Head>
-        <title>{post.title}</title>
-        <meta name={post.title} content={post.review} />
-        <link rel="icon" href="/sm_logo.ico" />
-      </Head>
+      <HeaderTags title={post.title} content={post.review} />
 
       <Header />
 

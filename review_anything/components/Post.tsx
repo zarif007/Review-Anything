@@ -14,6 +14,8 @@ import { domain } from './../domain';
 import StarsRating from 'react-star-rate';
 import Link from 'next/link';
 import crowdInfoInterface from '../interfaces/CrowdInfo';
+import PostOptions from './PostOptions';
+import { SiHaxe } from "react-icons/si";
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -32,6 +34,8 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
   const [hasApproved, setHasApproved] = useState<boolean>(false);
 
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [showPostOptions, setShowPostOptions] = useState<boolean>(false);
 
   const styles = {
     wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
@@ -220,10 +224,18 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         </Link> 
         {
           session?.user?.email === user?.email && <div className={styles.settingsIcon}> 
-            <BsThreeDotsVertical />
+            {
+              showPostOptions ? <SiHaxe onClick={() => setShowPostOptions(false)} /> :
+                <BsThreeDotsVertical onClick={() => setShowPostOptions(true)} />
+            }  
           </div>
         }
       </div>
+
+      {/* Post Options  */}
+      {
+        showPostOptions && <PostOptions />
+      }
       
       {/* Crowd rating taker Modal  */}
       {

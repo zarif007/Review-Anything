@@ -1,12 +1,11 @@
 import axios from 'axios'
 import type { GetServerSideProps, NextPage } from 'next'
-import Head from 'next/head'
-import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { theme } from '../atoms/themeAtom'
 import BottomNav from '../components/BottomNav'
 import Feed from '../components/Feed'
 import Header from '../components/Header'
+import HeaderTags from '../components/HeaderTags'
 import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
 import { domain } from '../domain'
@@ -32,11 +31,9 @@ const Home: NextPage = ({ data }: any ) => {
 
   return (
     <div className={styles.wrapper}>
-      <Head>
-        <title>RAT</title>
-        <meta name="description" content="Review Anything" />
-        <link rel="icon" href="/sm_logo.ico" />
-      </Head>
+
+      <HeaderTags title='RAT' content='Review Anything' />
+
       <Header />
 
         {/* 
