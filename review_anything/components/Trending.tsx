@@ -9,6 +9,7 @@ import { useRecoilState } from 'recoil';
 import io from 'Socket.IO-client'
 import axios from 'axios';
 import { domain } from '../domain';
+import Link from 'next/link';
 
 let socket: any;
 
@@ -51,7 +52,7 @@ const Trending: React.FC = () => {
       trendingText: `font-bold text-2xl p-2 ${isDark ? 'text-gray-100' : 'text-gray-800'}`,
       trendingIcon: `h-10 w-6 sm:h-12 sm:w-8 ${isDark ? 'text-gray-200' : 'text-gray-800'} iconAnimation pt-1`,
       postWrapper: `flex flex-col p-2 pb-1`,
-      postImg: `h-10 w-10 sm:h-12 sm:w-12 sm:h-14 sm:w-14  p-2 rounded-full cursor-pointer pt-2 object-contain`,
+      postImg: `h-10 w-10 sm:h-12 sm:w-12 sm:h-14 sm:w-14  p-2 rounded-full pt-2 object-contain`,
       postTitle: `font-semibold ${isDark ? 'text-blue-600' : 'text-blue-700'} text-lg lg:text-2xl uppercase`,
       postDetailesWrapper: `flex items-center space-x-1 lg:space-x-3 font-semibold md:text-xs lg:text-sm`,
       genre: `bg-blue-500 hover:bg-blue-600 p-2 m-1 mt-0 rounded-2xl font-semibold text-xs iconAnimation hover:text-white text-white`,
@@ -70,10 +71,12 @@ const Trending: React.FC = () => {
           posts.slice(0, 3).map((post: postInterface) => {
             return (
               <div className={styles.postWrapper} >
-                <div className='flex space-x-2 items-center pb-2'>
-                  <img src={post.img} className={styles.postImg} />
-                  <p className={styles.postTitle}>{post.title}</p>
-                </div>
+                <Link href={`/post/${post._id}`}>
+                  <div className='flex space-x-2 items-center pb-2 cursor-pointer'>
+                    <img src={post.img} className={styles.postImg} />
+                    <p className={styles.postTitle}>{post.title}</p>
+                  </div>
+                </Link>
                 <div className={styles.postDetailesWrapper}>
                   <div className={styles.genre}>{post.genre}</div>
                   <div className='flex space-x-0 lg:space-x-1 items-center'>

@@ -33,8 +33,6 @@ const postFormat: postInterface = {
   }
 }
 
-const copyPostFormat: postInterface = postFormat;
-
 const PostModal = () => {
 
   const [open, setOpen] = useRecoilState<boolean>(postModalState);
@@ -135,7 +133,23 @@ const PostModal = () => {
           });
 
         
-        setPost(copyPostFormat)
+        setPost({
+          user: {
+            username: '',
+            email: '',
+            image: ''
+          },
+          img: '',
+          title: '',
+          review: '',
+          genre: '',
+          type: '',
+          rating: '',
+          interactions: {
+            approvedBy: [],
+            crowdRatings: [],
+          }
+        })
       });
     
 
