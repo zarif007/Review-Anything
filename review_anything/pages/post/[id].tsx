@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { theme } from '../../atoms/themeAtom';
 import Header from '../../components/Header';
 import HeaderTags from '../../components/HeaderTags';
+import PostModal from '../../components/modals/PostModal';
 import Post from '../../components/Post';
 import postInterface from '../../interfaces/Post';
 import { domain } from './../../domain';
@@ -46,6 +47,7 @@ const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
         </div>
         <h1>comments</h1>
       </div>
+      <PostModal />
     </div>
   )
 }

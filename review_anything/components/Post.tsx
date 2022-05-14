@@ -42,7 +42,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     topWrapper: `flex items-center p-3 border-b ${isDark ? 'border-gray-900' : 'border-blue-100'} justify-between`,
     userName: `flex-1 font-bold ${isDark ? 'text-white' : 'text-gray-800'}`,
     userImgIcon: `rounded-full h-12 w-12 object-contain border ${isDark ? 'border-gray-800' : 'border-blue-100'} p-1 mr-3`,
-    mainImg: `object-contain h-96 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,
+    mainImg: `object-contain h-96 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'} cursor-pointer`,
     captionWrapper: `${isDark ? 'border-gray-900' : 'border-blue-100'}`,
     caption: `p-5 pt-2 font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`,
     title: `p-5 pb-0 font-bold text-2xl text-blue-500 uppercase cursor-pointer`,
@@ -215,8 +215,10 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       </div>
 
       {/* Main Image  */}
-      <img src={img} className={styles.mainImg} alt='img' />
-
+      <Link href={`/post/${_id}`}>
+        <img src={img} className={styles.mainImg} alt='img' />
+      </Link>
+      
       {/* Title */}
       <div className='flex items-center justify-between'>
         <Link href={`/post/${_id}`}>
