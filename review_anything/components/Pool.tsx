@@ -7,10 +7,6 @@ import { poolModalState } from '../atoms/poolModalAtom';
 import { theme } from '../atoms/themeAtom';
 import { genres } from '../genres'
 import { selectedGenre } from './../atoms/genreAtom';
-import axios from 'axios';
-
-
-
 
 
 const Pool: React.FC = () => {

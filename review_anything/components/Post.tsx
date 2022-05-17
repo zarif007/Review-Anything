@@ -308,22 +308,29 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       {/* Total Reactions  */}
       <div className={styles.totalReactionCounterAndCR}> 
         <span>Total Interatctions {crowdInfo['total']}</span> 
-        <GoPrimitiveDot className='pt-1' />
-        <div className='flex items-center space-x-1'>
-          <span>Crowd Rating: {crowdInfo['rating'].toFixed(1)}</span>
-          <BsFillStarFill className='text-yellow-500 h-4' />
-        </div>
+        {
+          crowdInfo.total > 0 &&
+          <>
+            <GoPrimitiveDot className='pt-1' />
+            <div className='flex items-center space-x-1'>
+              <span>Crowd Rating: {crowdInfo['rating'].toFixed(1)}</span>
+              <BsFillStarFill className='text-yellow-500 h-4' />
+            </div>
+          </>
+        }
       </div>
       
       {/* Icons  */}
       {
         session?.user && <div className={styles.iconsWrapper}>
+
           <div 
             className={`${styles.icons} ${hasApproved && (isDark ? 'bg-gray-900' : 'bg-blue-100')} border-l-0`}
             onClick={handleApprovedButton}>
               <FcApproval className='mr-2' />
             <span className={styles.iconText}>{crowdInfo['approval'].toFixed(0)}%</span>
           </div>
+
           <div 
             className={`${styles.icons} ${hasRated !== -1 && (isDark ? 'bg-gray-900' : 'bg-blue-100')}`}
             onClick={() => hasRated !== -1 ? handleRemoveRating() : setShowModal(true)}>
@@ -335,11 +342,13 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
                 </div>
               )}</span>
           </div>
+
           <Link href={`/post/${_id}`}>
             <div className={`${styles.icons} border-r-0`}>
               <FcComments />
             </div>
           </Link>
+          
         </div>
       }
     </div>
