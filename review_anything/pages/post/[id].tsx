@@ -47,7 +47,7 @@ const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
           <Post post={post} />
         </section>
         <section className='flex w-full md:w-2/6 pt-6 flex-col'>
-          <Comments />
+          <Comments id={id} />
         </section>
       </main>
 
