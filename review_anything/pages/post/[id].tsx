@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useRecoilState } from 'recoil';
 import { theme } from '../../atoms/themeAtom';
+import Comments from '../../components/Comments';
 import Header from '../../components/Header';
 import HeaderTags from '../../components/HeaderTags';
 import PostModal from '../../components/modals/PostModal';
@@ -41,12 +42,15 @@ const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
 
       <Header />
 
-      <div className='flex mx-auto max-w-3xl justify-around flex-col'>
-        <div className='w-full'>
+      <main className='text-white flex mx-auto max-w-6xl justify-around items-stretch flex-col md:flex-row'>
+        <section className='sm:w-full md:w-4/6'> 
           <Post post={post} />
-        </div>
-        <h1>comments</h1>
-      </div>
+        </section>
+        <section className='flex w-full md:w-2/6 pt-6 flex-col'>
+          <Comments />
+        </section>
+      </main>
+
       <PostModal />
     </div>
   )
