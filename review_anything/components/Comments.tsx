@@ -15,19 +15,16 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
 
   const [comments, setComments] = useState<commentInterface[]>([]);
 
-  const userComment = useRef<any>('');
+  const [userComment, setUserCommment] = useState<string>('');
 
   const styles = {
     wrapper: `${
       isDark ? "bg-slate-900 border-gray-900" : "bg-blue-200 border-blue-100"
-    } bg-opacity-25 border-2 rounded-sm md:mr-2 h-100 md:h-[680px]  h-fixed`,
+    } bg-opacity-25 border-2 rounded-sm md:mr-2 h-100 md:h-[728px]  h-fixed`,
     searchWrapper: `text-gray-600 focus-within:text-gray-400`,
-    searchInput: `w-full h-16 mb-0 text-large font-semibold ${
-      isDark
-        ? "text-white bg-[#0c1012] focus:bg-gray-900 border-[#2b3c53]"
-        : "text-black bg-[#FAF9F6] focus:bg-gray-100 border-[#a1a1aa]"
-    } border`,
-    searchIcon: `absolute inset-y-0 left-0 flex items-center pl-2`,
+    inputWrapper: `pb-0 flex justify-center items-center border ${isDark ? 'bg-slate-900 border-gray-900' : 'bg-blue-200 border-blue-100'} bg-opacity-25`,
+    input: `border-none focus:ring-0 w-full ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5] text-gray-900'} mt-0 scrollbar-hide`,
+    sendIcon: `text-white h-6 w-6 mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`,
   };
 
   const handleCommentAdd = async () => {
@@ -38,12 +35,15 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
             username: session?.user?.name || '',
             image: session?.user?.image || '', 
         },
-        comment: userComment?.current?.value || '',
+        comment: userComment,
         postId: id,
         timestamp: serverTimestamp(),
     }
 
     const docRef = await addDoc(collection(db, 'comment'), data);
+
+    await setUserCommment('');
+    console.log(userComment.split('\n'))
   };
 
   useEffect(() => 
@@ -63,10 +63,11 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
         }
     ), [db]);
 
+
   return (
     <main className={styles.wrapper}>
       <section className="p-2">
-        <h1 className="p-1 text-lg font-semibold">Comments</h1>
+        <h1 className={`p-1 text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Comments</h1>
       </section>
 
       <div className="overflow-y-auto h-72 md:h-5/6 scrollbar-hide">
@@ -79,22 +80,26 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
         }
       </div>
 
-      <section className="pb-0 flex">
+      <section className={styles.inputWrapper}>
         <div className={`${styles.searchWrapper} w-4/5`}>
-          <input
-            ref={userComment}
-            type="search"
-            className={styles.searchInput}
-            placeholder="Add Comment"
-            autoComplete="off"
+          <textarea
+            rows={2}
+            className={styles.input}
+            placeholder='Bump Openion Here'
+            defaultValue={userComment}
+            onChange={e => {
+              setUserCommment(e.target.value.trim());
+            }}
           />
         </div>
-        <div
-          className={`${styles.searchInput} w-1/5 flex justify-center items-center cursor-pointer`}
+
+        <button
+          disabled={userComment.length === 0}
+          className={`w-1/5 flex justify-center items-center cursor-pointer disabled:cursor-not-allowed`}
           onClick={handleCommentAdd}
         >
-          <FiSend className="text-white h-6 w-6" />
-        </div>
+          <FiSend className={styles.sendIcon} />
+        </button>
       </section>
     </main>
   );

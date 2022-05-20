@@ -13,11 +13,11 @@ const Comment: React.FC<{ postComment: commentInterface}> = ({ postComment }) =>
     userDp: `h-6 w-6 sm:h-8 sm:w-8 sm:h-14 sm:w-14 rounded-full pt-2 object-contain`,
     userName: `font-semibold ${isDark ? 'text-blue-400' : 'text-blue-600'} text-md lg:text-xl uppercase`,
     timestamp: `text-xs text-gray-400 sm:flex items-center sm:space-x-1 xs:flex-col`,
-    comment: `flex items-center pl-1 text-lg`,
+    comment: `flex items-center pl-1 text-lg ${isDark ? 'text-white' : 'text-black'} font-semibold`,
   }
 
   const { user, timestamp, comment  } = postComment;
-
+ 
   return (
     <div className={styles.commentWrapper} >
         <div className='flex space-x-2 items-center pb-2 cursor-pointer'>
@@ -30,7 +30,17 @@ const Comment: React.FC<{ postComment: commentInterface}> = ({ postComment }) =>
             </p>
         </div>
         <div className={styles.comment}>
-            <p>{comment}</p>
+            <p>
+              {
+                comment.split('\n').map(cm => {
+                  return (
+                    <div>
+                      {cm}
+                    </div>
+                  )
+                })
+              }
+            </p>
         </div>
     </div>
   )
