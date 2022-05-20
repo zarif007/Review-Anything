@@ -222,7 +222,9 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       {/* Title */}
       <div className='flex items-center justify-between'>
         <Link href={`/post/${_id}`}>
-          <h1 className={styles.title}>{title}</h1>
+          <a target="_blank" rel="noopener noreferrer">
+            <h1 className={styles.title}>{title}</h1>
+          </a>
         </Link> 
         {
           session?.user?.email === user?.email && <div className={styles.settingsIcon}> 
