@@ -15,7 +15,7 @@ import StarsRating from 'react-star-rate';
 import Link from 'next/link';
 import crowdInfoInterface from '../interfaces/CrowdInfo';
 import PostOptions from './PostOptions';
-import { SiHaxe } from "react-icons/si";
+import { GiTireIronCross } from "react-icons/gi";
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -229,7 +229,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         {
           session?.user?.email === user?.email && <div className={styles.settingsIcon}> 
             {
-              showPostOptions ? <SiHaxe onClick={() => setShowPostOptions(false)} /> :
+              showPostOptions ? <GiTireIronCross onClick={() => setShowPostOptions(false)} /> :
                 <BsThreeDotsVertical onClick={() => setShowPostOptions(true)} />
             }  
           </div>

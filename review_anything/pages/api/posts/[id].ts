@@ -10,8 +10,6 @@ export default async (
 
     const { query: { id }, method } = req;
 
-    console.log('ewre', req.cookies);
-
     switch (method) {
         case 'GET':
             try {
