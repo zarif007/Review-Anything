@@ -12,6 +12,7 @@ import axios from 'axios';
 import io from 'Socket.IO-client'
 import { domain } from './../../domain';
 import SelectComp from '../SelectComp';
+import { postOnEditState } from '../../atoms/postOnEditAtom';
 
 let socket: any;
 
@@ -33,9 +34,15 @@ const postFormat: postInterface = {
   }
 }
 
+
 const PostModal = () => {
 
   const [open, setOpen] = useRecoilState<boolean>(postModalState);
+
+  const [postOnEdit, setPostOnEdit] = useRecoilState<postInterface>(postOnEditState);
+
+
+  const [post, setPost] = useState<postInterface>(postFormat);
 
   const [isDark] = useRecoilState(theme);
 
@@ -57,6 +64,30 @@ const PostModal = () => {
     socketInitializer();
   }, [])
 
+  useEffect(() => {
+    setPost({
+      user: {
+        username: postOnEdit.user.username,
+        email: postOnEdit.user.email,
+        image: postOnEdit.user.image,
+      },
+      img: postOnEdit.img,
+      title: postOnEdit.title,
+      review: postOnEdit.review,
+      genre: postOnEdit.genre,
+      type: postOnEdit.type,
+      rating: postOnEdit.rating,
+      interactions: {
+        approvedBy: postOnEdit.interactions.approvedBy,
+        crowdRatings: postOnEdit.interactions.crowdRatings,
+      }
+    });
+
+    setSelectedFile(postOnEdit.img);
+    setStarRating(postOnEdit.rating);
+  }, [postOnEdit]);
+
+
 
   const socketInitializer = async () => {
     await fetch('/api/socket');
@@ -77,9 +108,6 @@ const PostModal = () => {
       disabled:bg-blue-400 disabled:cursor-not-allowed`,
     ratingViewer: `${isDark ? 'bg-black' : 'bg-[#F5F5F5] text-black'} p-1 rounded-sm mt-1`,
   }
-
-
-  const [post, setPost] = useState<postInterface>(postFormat);
 
   const checkIsDisable = () => {
     
@@ -114,7 +142,7 @@ const PostModal = () => {
       image: session?.user?.image || '',
       email: session?.user?.email || '',
     }
-    post['interactions'].approvedBy.push(post.user.email);
+    // post['interactions'].approvedBy.push(post.user.email);
 
     const formData = new FormData();
 
@@ -149,7 +177,7 @@ const PostModal = () => {
             approvedBy: [],
             crowdRatings: [],
           }
-        })
+        });
       });
     
 
@@ -164,7 +192,26 @@ const PostModal = () => {
       <Dialog
         as="div"
         className='fixed mt-20 z-10 inset-0 overflow-y-auto'
-        onClose={setOpen}
+        onClose={() => {
+          setOpen(false);
+          setPostOnEdit({
+            user: {
+              username: '',
+              email: '',
+              image: ''
+            },
+            img: '',
+            title: '',
+            review: '',
+            genre: '',
+            type: '',
+            rating: '',
+            interactions: {
+              approvedBy: [],
+              crowdRatings: [],
+            }
+          })
+        }}
       >
         <div className={styles.wrapper}>
           <Transition.Child
@@ -289,7 +336,9 @@ const PostModal = () => {
                     type='button'
                     disabled={isDisabled}
                   >
-                    Post
+                    {
+                      postOnEdit.title !== '' ? 'Update' : 'Post'
+                    }
                   </button>
                 </div>
               </div>

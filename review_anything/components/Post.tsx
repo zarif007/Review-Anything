@@ -238,7 +238,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
       {/* Post Options  */}
       {
-        showPostOptions && <PostOptions />
+        showPostOptions && <PostOptions post={post} />
       }
       
       {/* Crowd rating taker Modal  */}
