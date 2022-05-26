@@ -13,6 +13,7 @@ import io from 'Socket.IO-client'
 import { domain } from './../../domain';
 import SelectComp from '../SelectComp';
 import { postOnEditState } from '../../atoms/postOnEditAtom';
+import { useRouter } from 'next/router';
 
 let socket: any;
 
@@ -59,6 +60,8 @@ const PostModal = () => {
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const [starRating, setStarRating] = useState<string>('0');
+
+  const router = useRouter()
 
   useEffect(() => {
     socketInitializer();
@@ -137,6 +140,8 @@ const PostModal = () => {
 
     setIsLoading(true);
 
+    setIsDisabled(true);
+
     post['user'] = {
       username: session?.user?.name || '',
       image: session?.user?.image || '',
@@ -149,42 +154,84 @@ const PostModal = () => {
     formData.append('file', selectedImage);
     formData.append('upload_preset', process.env.NEXT_PUBLIC_CN_STORAGE_NAME || '');
 
-    Axios.post(process.env.NEXT_PUBLIC_CN_QUERY_URL || '', formData)
-      .then(response => {
-        post['img'] = response.data.secure_url;
+    let newId = '';
 
-        axios.post(`${domain}/posts`, post);
+    // await Axios.post(process.env.NEXT_PUBLIC_CN_QUERY_URL || '', formData)
+    //   .then(response => {
+    //     post['img'] = response.data.secure_url;
 
-        axios.get(`${domain}/trending`)
-          .then(res => {
-            socket.emit('input-change', res.data.data)
-          });
+
+    //     axios.post(`${domain}/posts`, post)
+    //       .then(res => newId = res.data.data._id )
+
+    //     axios.get(`${domain}/trending`)
+    //       .then(res => {
+    //         socket.emit('input-change', res.data.data)
+    //       });
 
         
-        setPost({
-          user: {
-            username: '',
-            email: '',
-            image: ''
-          },
-          img: '',
-          title: '',
-          review: '',
-          genre: '',
-          type: '',
-          rating: '',
-          interactions: {
-            approvedBy: [],
-            crowdRatings: [],
-          }
-        });
+    //     setPost({
+    //       user: {
+    //         username: '',
+    //         email: '',
+    //         image: ''
+    //       },
+    //       img: '',
+    //       title: '',
+    //       review: '',
+    //       genre: '',
+    //       type: '',
+    //       rating: '',
+    //       interactions: {
+    //         approvedBy: [],
+    //         crowdRatings: [],
+    //       }
+    //     });
+
+    //     setOpen(false)
+    //     setIsLoading(false)
+    //     setSelectedFile(null)
+    //     setStarRating('0')
+    //   });
+
+    await Axios.post(process.env.NEXT_PUBLIC_CN_QUERY_URL || '', formData)
+      .then(response => {
+        post['img'] = response.data.secure_url;
       });
+
+    await axios.post(`${domain}/posts`, post)
+      .then(res => newId = res.data.data._id )
+
+    await axios.get(`${domain}/trending`)
+      .then(res => {
+        socket.emit('input-change', res.data.data)
+      });
+
     
+    setPost({
+      user: {
+        username: '',
+        email: '',
+        image: ''
+      },
+      img: '',
+      title: '',
+      review: '',
+      genre: '',
+      type: '',
+      rating: '',
+      interactions: {
+        approvedBy: [],
+        crowdRatings: [],
+      }
+    });
 
     setOpen(false)
     setIsLoading(false)
     setSelectedFile(null)
     setStarRating('0')
+
+    router.push(`http://localhost:3000/post/${newId}`)
   }
 
   return (
