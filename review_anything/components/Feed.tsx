@@ -2,6 +2,7 @@ import React from 'react'
 import postInterface from '../interfaces/Post'
 import Pool from './Pool'
 import Posts from './Posts'
+import RefreshPage from './refreshPage'
 import Trending from './Trending'
 
 const Feed: React.FC<{ posts: postInterface[] }> = ( {posts} ) => {
@@ -14,8 +15,11 @@ const Feed: React.FC<{ posts: postInterface[] }> = ( {posts} ) => {
         <div className='mb-4'>
             <Pool />
         </div>
-        <div className=''>
+        <div className='mb-4'>
           <Trending />
+        </div>
+        <div className='mr-2'>
+          <RefreshPage />
         </div>
       </section>
     </main>
