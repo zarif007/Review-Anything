@@ -5,7 +5,7 @@ import Posts from './Posts'
 import RefreshPage from './refreshPage'
 import Trending from './Trending'
 
-const Feed: React.FC<{ posts: postInterface[] }> = ( {posts} ) => {
+const Feed: React.FC<{ posts: postInterface[] }> = ( { posts } ) => {
   return (
     <main className='text-white flex mx-auto max-w-6xl justify-around'>
       <section className='sm:w-full md:w-4/6'> 

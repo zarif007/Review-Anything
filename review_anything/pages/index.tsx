@@ -10,6 +10,7 @@ import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
 import { domain } from '../domain'
 
+let dk = false;
 export const getServerSideProps: GetServerSideProps = async () => {
   const { data } = await axios.get(`${domain}posts`);
 
@@ -24,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const Home: NextPage = ({ data }: any ) => {
 
   const [isDark] = useRecoilState<boolean>(theme);
+  dk = isDark;
 
   const styles = {
     wrapper: `min-h-screen ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,

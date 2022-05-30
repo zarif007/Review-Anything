@@ -126,7 +126,7 @@ const PoolModal = () => {
                   genrePreferenceOpen ? 
                     <div>
                       {
-                        userPreferedGenres.length > 0 && 
+                        (userPreferedGenres.length > 0 || userPreferedGenres[0].label !== '') && 
                         <h3 className={styles.preferenceTexts}>
                           Selected Genres
                         </h3>
