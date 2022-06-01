@@ -43,7 +43,6 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
     const docRef = await addDoc(collection(db, 'comment'), data);
 
     await setUserCommment('');
-    console.log(userComment.split('\n'))
   };
 
   useEffect(() => 

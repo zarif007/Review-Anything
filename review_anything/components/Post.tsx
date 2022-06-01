@@ -16,6 +16,8 @@ import Link from 'next/link';
 import crowdInfoInterface from '../interfaces/CrowdInfo';
 import PostOptions from './PostOptions';
 import { GiTireIronCross } from "react-icons/gi";
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase';
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -117,7 +119,23 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     calculateInteractions();
   }, []);
 
-  const handleApprovedButton = () => {
+
+  const setNotification = async () => {
+    if(session?.user?.email === user.email){
+      return;
+    }
+
+    const data = {
+      post,
+      status: 'unread',
+      message: 'Someone interacted to your post',
+      timestamp: serverTimestamp(),
+    }
+
+    const docRef = await addDoc(collection(db, 'notification'), data);
+  }
+
+  const handleApprovedButton = async () => {
     const updatedApprovedBy: string[] = interactions.approvedBy.filter(it => it !== session?.user?.email);
 
     if(hasApproved){
@@ -130,18 +148,20 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
         approvedBy: [...updatedApprovedBy, session?.user?.email],
         crowdRatings: interactions.crowdRatings.filter((it: any) => it.user !== session?.user?.email),
       };
+
+      setNotification();
       setHasRated(-1);
     }
 
     const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
-    axios.put(`${domain}/posts/${_id}`, updatedPost);
+    await axios.put(`${domain}/posts/${_id}`, updatedPost);
 
     calculateInteractions();
     setHasApproved(!hasApproved);
   }
 
-  const handleAddRating = () => {
+  const handleAddRating = async () => {
     setShowModal(false);
 
     const updatedCrowdRatings = interactions.crowdRatings.filter((it: any) => it.user !== session?.user?.email);
@@ -153,7 +173,9 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
     const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
-    axios.put(`${domain}/posts/${_id}`, updatedPost);
+    await axios.put(`${domain}/posts/${_id}`, updatedPost);
+
+    setNotification();
 
     calculateInteractions();
     setHasApproved(false);
