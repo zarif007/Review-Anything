@@ -7,8 +7,10 @@ import { db } from "../firebase";
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import commentInterface from './../interfaces/Comment';
+import postInterface from "../interfaces/Post";
 
-const Comments: React.FC<{ id: any }> = ({ id }) => {
+const Comments: React.FC<{ post: postInterface }> = ( { post } ) => {
+
   const [isDark] = useRecoilState(theme);
 
   const { data: session } = useSession();
@@ -27,6 +29,23 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
     sendIcon: `text-white h-6 w-6 mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`,
   };
 
+  let { _id, user } = post;
+
+  const setNotification = async () => {
+    if(session?.user?.email === user.email){
+      return;
+    }
+
+    const data = {
+      post,
+      status: 'unread',
+      message: 'Someone commented on your post 🚀',
+      timestamp: serverTimestamp(),
+    }
+
+    const docRef = await addDoc(collection(db, 'notification'), data);
+  }
+
   const handleCommentAdd = async () => {
 
     const data: commentInterface = {
@@ -36,11 +55,13 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
             image: session?.user?.image || '', 
         },
         comment: userComment,
-        postId: id,
+        postId: _id || '',
         timestamp: serverTimestamp(),
     }
 
     const docRef = await addDoc(collection(db, 'comment'), data);
+
+    setNotification();
 
     await setUserCommment('');
   };
@@ -54,7 +75,7 @@ const Comments: React.FC<{ id: any }> = ({ id }) => {
             const upDated: commentInterface[] = [];
 
             arr.map((ar: any) => {
-                if(ar.data().postId === id)
+                if(ar.data().postId === _id)
                     upDated.push(ar.data());
             })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import postInterface from '../interfaces/Post'
 import Pool from './Pool'
 import Posts from './Posts'
-import RefreshPage from './refreshPage'
+import RefreshPage from './RefreshPage'
 import Trending from './Trending'
 
 const Feed: React.FC<{ posts: postInterface[] }> = ( { posts } ) => {

@@ -198,7 +198,7 @@ const PostModal = () => {
       .then(response => {
         post['img'] = response.data.secure_url;
       });
-
+    console.log('Loading....')
     await axios.post(`${domain}/posts`, post)
       .then(res => newId = res.data.data._id )
 

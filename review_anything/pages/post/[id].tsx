@@ -7,6 +7,7 @@ import { theme } from '../../atoms/themeAtom';
 import Comments from '../../components/Comments';
 import Header from '../../components/Header';
 import HeaderTags from '../../components/HeaderTags';
+import NotificationModal from '../../components/modals/NotificationModal';
 import PostModal from '../../components/modals/PostModal';
 import Post from '../../components/Post';
 import postInterface from '../../interfaces/Post';
@@ -47,11 +48,12 @@ const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
           <Post post={post} />
         </section>
         <section className='flex w-full md:w-2/6 pt-6 flex-col'>
-          <Comments id={id} />
+          <Comments post={post} />
         </section>
       </main>
 
       <PostModal />
+      <NotificationModal />
     </div>
   )
 }

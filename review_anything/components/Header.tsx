@@ -14,8 +14,10 @@ import { theme } from './../atoms/themeAtom';
 import { selectedGenre } from "../atoms/genreAtom";
 import axios from "axios";
 import { domain } from "../domain";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, doc, onSnapshot, orderBy, query, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import NotificationInterface from "../interfaces/Notification";
+import { notificationModalState } from "../atoms/notificationModal";
 
 
 
@@ -25,11 +27,13 @@ const Header: React.FC = () => {
 
   const [user, setUser] = useState({theme: true});
 
-  const [open, setOpen] = useRecoilState(postModalState);
+  const [openPostModal, setOpenPostModal] = useRecoilState(postModalState);
+
+  const [openNotificationModal, setOpenNotificationModal] = useRecoilState(notificationModalState);
 
   const [currentGenre, setCurrentGenre] = useRecoilState<string>(selectedGenre);
 
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<NotificationInterface[]>([]);
 
   const [isDark, setIsDark] = useRecoilState(theme);
 
@@ -65,17 +69,17 @@ const Header: React.FC = () => {
       query(collection(db, 'notification'), orderBy('timestamp', 'desc')),
         (snapshot: any) => {
             const arr = snapshot.docs;
-            console.log(arr)
-            const updated: any = []
+            const updated: NotificationInterface[] = []
             arr.map((ar: any) => {
               if(ar.data().post.user.email === session?.user?.email && ar.data().status === 'unread'){
-                updated.push(ar.data());
+                const obj: NotificationInterface = ar.data();
+                obj.id = ar.id;
+                updated.push(obj);
               }
             })
             setNotifications(updated)
-            console.log(updated)
         }
-    ), [db]);
+    ), [db, session]);
   
   const styles = {
     nav: `pt-3 shadow-sm ${isDark ? 'bg-[#131313] shadow-black' : 'bg-[#FFFAFA] shadow-gray-200'}  sticky top-0 z-50 pb-2`,
@@ -143,14 +147,18 @@ const Header: React.FC = () => {
               }
             </div>           
             <button className={`${styles.buttons} hidden md:flex`}
-              onClick={() => setOpen(true)}>
+              onClick={() => setOpenPostModal(true)}>
               <IoAddCircleSharp 
                 className="h-10 w-6 sm:h-12 sm:w-8 pr-2" 
               />ADD
             </button>
-            <div className="flex flex-row mr-3 cursor-pointer">
+            <div className="flex flex-row mr-3 cursor-pointer"
+              onClick={() => setOpenNotificationModal(true)}>
               <IoNotificationsSharp className={styles.icon} />
-              <span className={styles.notificationWrapper}>{notifications.length}</span>
+              {
+                notifications.length > 0 &&
+                <span className={styles.notificationWrapper}>{notifications.length}</span>
+              }
             </div>
             <IoLogOut className={styles.icon} onClick={() => signOut()} />
             <img 

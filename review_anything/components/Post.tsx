@@ -128,7 +128,7 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     const data = {
       post,
       status: 'unread',
-      message: 'Someone interacted to your post',
+      message: 'Someone interacted to your post 🤩',
       timestamp: serverTimestamp(),
     }
 
@@ -155,10 +155,10 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
     const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
-    await axios.put(`${domain}/posts/${_id}`, updatedPost);
-
     calculateInteractions();
     setHasApproved(!hasApproved);
+
+    await axios.put(`${domain}/posts/${_id}`, updatedPost);
   }
 
   const handleAddRating = async () => {
@@ -173,16 +173,16 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
     const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
-    await axios.put(`${domain}/posts/${_id}`, updatedPost);
-
     setNotification();
 
     calculateInteractions();
     setHasApproved(false);
     setHasRated(starRating);
+
+    await axios.put(`${domain}/posts/${_id}`, updatedPost);
   }
 
-  const handleRemoveRating = () => {
+  const handleRemoveRating = async () => {
 
     interactions = {
       approvedBy: interactions.approvedBy.filter(it => it !== session?.user?.email),
@@ -191,11 +191,11 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
     const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
-    axios.put(`${domain}/posts/${_id}`, updatedPost);
-
     calculateInteractions();
     setHasApproved(false);
     setHasRated(-1);
+
+    await axios.put(`${domain}/posts/${_id}`, updatedPost);
   }
 
   return (

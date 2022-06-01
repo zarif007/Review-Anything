@@ -8,6 +8,7 @@ import Header from '../components/Header'
 import HeaderTags from '../components/HeaderTags'
 import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
+import NotificationModal from '../components/modals/NotificationModal'
 import { domain } from '../domain'
 
 let dk = false;
@@ -59,7 +60,7 @@ const Home: NextPage = ({ data }: any ) => {
       </div>
       <PostModal />
       <PoolModal />
-      
+      <NotificationModal />
     </div>
   )
 }

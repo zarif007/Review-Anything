@@ -27,6 +27,7 @@ const Comment: React.FC<{ postComment: commentInterface}> = ({ postComment }) =>
               <Moment toNow ago>
                 {timestamp?.toDate().toISOString()}
               </Moment>
+              <span> ago</span>
             </p>
         </div>
         <div className={styles.comment}>
