@@ -206,7 +206,6 @@ const PostModal = () => {
       .then(res => {
         socket.emit('input-change', res.data.data)
       });
-
     
     setPost({
       user: {
