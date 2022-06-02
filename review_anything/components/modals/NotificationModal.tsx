@@ -102,7 +102,7 @@ const NotificationModal = () => {
                         return (
                             <div className={styles.notificationWrapper} key={notification.id}
                                 onClick={() => {
-                                    router.push(`http://localhost:3000//post/${notification.post._id}`)
+                                    router.push(`http://localhost:3000/post/${notification.post._id}`)
                                     setOpen(false);
                                     setNotificationRed(notification.id || '');
                                 }}>

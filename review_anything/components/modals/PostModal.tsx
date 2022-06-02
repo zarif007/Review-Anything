@@ -43,7 +43,6 @@ const PostModal = () => {
 
   const [postOnEdit, setPostOnEdit] = useRecoilState<postInterface>(postOnEditState);
 
-
   const [post, setPost] = useState<postInterface>(postFormat);
 
   const [isDark] = useRecoilState(theme);

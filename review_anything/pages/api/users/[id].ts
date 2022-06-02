@@ -1,5 +1,6 @@
 import dbConnect from '../../../utils/dbConnect';
 import User from '../../../models/User'
+import Post from '../../../models/Post'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 dbConnect();
@@ -19,7 +20,8 @@ export default async (
                     return res.status(400).json({ success: false });
                 }
 
-                res.status(200).json({ success: true, data: user });
+                const usersPost = await Post.find({email: id});
+                res.status(200).json({ success: true, data: user, posts: usersPost });
             } catch (error) {
                 res.status(400).json({ success: false });
             }

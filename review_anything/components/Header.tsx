@@ -25,7 +25,7 @@ const Header: React.FC = () => {
 
   const { data: session } = useSession();
 
-  const [user, setUser] = useState({theme: true});
+  const [user, setUser] = useState({theme: true, _id: ''});
 
   const [openPostModal, setOpenPostModal] = useRecoilState(postModalState);
 
@@ -43,6 +43,7 @@ const Header: React.FC = () => {
     await axios.get(`${domain}users/${session?.user?.email}`)
       .then(res => {
         setUser(res.data.data[0]);
+        console.log(user)
       });
   }
 
@@ -165,6 +166,7 @@ const Header: React.FC = () => {
               src={session?.user?.image || ''}
               alt='dp'
               className={styles.userImage}
+              onClick={() => router.push(`http://localhost:3000/profile/${user?._id}`)}
             />
           </div> : <div className={styles.iconsWrapper}>
             <button className={`${styles.buttons} flex`} onClick={() => signIn()} >
