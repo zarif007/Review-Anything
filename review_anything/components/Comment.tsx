@@ -30,6 +30,7 @@ const Comment: React.FC<{ postComment: commentInterface}> = ({ postComment }) =>
               <span> ago</span>
             </p>
         </div>
+        
         <div className={styles.comment}>
             <p>
               {

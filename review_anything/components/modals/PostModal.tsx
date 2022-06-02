@@ -14,6 +14,7 @@ import { domain } from './../../domain';
 import SelectComp from '../SelectComp';
 import { postOnEditState } from '../../atoms/postOnEditAtom';
 import { useRouter } from 'next/router';
+import { FaGgCircle } from "react-icons/fa";
 
 let socket: any;
 
@@ -156,49 +157,13 @@ const PostModal = () => {
 
     let newId = '';
 
-    // await Axios.post(process.env.NEXT_PUBLIC_CN_QUERY_URL || '', formData)
-    //   .then(response => {
-    //     post['img'] = response.data.secure_url;
-
-
-    //     axios.post(`${domain}/posts`, post)
-    //       .then(res => newId = res.data.data._id )
-
-    //     axios.get(`${domain}/trending`)
-    //       .then(res => {
-    //         socket.emit('input-change', res.data.data)
-    //       });
-
-        
-    //     setPost({
-    //       user: {
-    //         username: '',
-    //         email: '',
-    //         image: ''
-    //       },
-    //       img: '',
-    //       title: '',
-    //       review: '',
-    //       genre: '',
-    //       type: '',
-    //       rating: '',
-    //       interactions: {
-    //         approvedBy: [],
-    //         crowdRatings: [],
-    //       }
-    //     });
-
-    //     setOpen(false)
-    //     setIsLoading(false)
-    //     setSelectedFile(null)
-    //     setStarRating('0')
-    //   });
-
     await Axios.post(process.env.NEXT_PUBLIC_CN_QUERY_URL || '', formData)
       .then(response => {
         post['img'] = response.data.secure_url;
       });
+
     console.log('Loading....')
+
     await axios.post(`${domain}/posts`, post)
       .then(res => newId = res.data.data._id )
 
@@ -378,13 +343,18 @@ const PostModal = () => {
 
                 <div className='mt-5 sm:mt-6'>
                   <button onClick={uploadPost}
-                    className={styles.postButton}
+                    className={`${styles.postButton}`}
                     type='button'
                     disabled={isDisabled}
                   >
                     {
-                      postOnEdit.title !== '' ? 'Update' : 'Post'
+                      !isLoading ? (postOnEdit.title !== '' ? 'Update' : 'Post') : 
+                      <div className='flex space-x-2 justify-center items-center'>
+                        <FaGgCircle className="animate-spin h-5 w-5 mr-3" />
+                        Processing...
+                      </div>
                     }
+                    
                   </button>
                 </div>
               </div>
