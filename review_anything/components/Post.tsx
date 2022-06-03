@@ -18,6 +18,7 @@ import PostOptions from './PostOptions';
 import { GiTireIronCross } from "react-icons/gi";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useRouter } from 'next/router';
 
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
@@ -38,6 +39,9 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [showPostOptions, setShowPostOptions] = useState<boolean>(false);
+  
+
+  const router = useRouter();
 
   const styles = {
     wrapper: `text-white ${isDark ? 'bg-[#131313] shadow-black border-gray-900' : 'bg-[#FFFAFA] shadow-[#a1a1aa] border-blue-100'} border-2 rounded-sm mt-4 md:m-2 md:mt-6`,
@@ -203,7 +207,8 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       
       {/* Top part  */}
       <div className={styles.topWrapper}>
-        <div className='flex items-center '>
+        <div className='flex items-center cursor-pointer'
+          onClick={() => router.push(`http://localhost:3000/profile/${user._id}`)}>
           <img 
             className={styles.userImgIcon}
             src={user?.image} alt='dp'
