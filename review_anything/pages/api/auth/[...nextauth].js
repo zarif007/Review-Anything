@@ -19,7 +19,21 @@ export default NextAuth({
       session.user.username = session.user.name.split(' ').join('').toLocaleLowerCase();
       session.user.uid = token.sub;
 
-      axios.post(`${domain}users`, session.user);
+      const userObj = {
+        email: session.user.email,
+        name: session.user.name,
+        image: session.user.image,
+        preference: [],
+      }
+
+      await axios.get(`${domain}users/${session.user.email}`)
+        .then(res => {
+          if(res.data.success){
+            userObj.preference = res.data.data[0].preference;
+          }
+        })
+
+      await axios.post(`${domain}users`, userObj);
 
       return session
     }

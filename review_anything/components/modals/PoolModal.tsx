@@ -126,15 +126,17 @@ const PoolModal = () => {
                   genrePreferenceOpen ? 
                     <div>
                       {
-                        (userPreferedGenres.length > 0 || userPreferedGenres[0].label !== '') && 
-                        <h3 className={styles.preferenceTexts}>
-                          Selected Genres
-                        </h3>
+                        (userPreferedGenres.length > 0) && 
+                          (userPreferedGenres[0].label !== '') && 
+                            <h3 className={styles.preferenceTexts}>
+                              Selected Genres
+                            </h3>
                       }
 
                       <div className={styles.objWrapper}>
                         {
                           userPreferedGenres.map((obj, index) => {
+                            if(obj.value === '') return;
                             return (
                               <div
                                 className={styles.object}

@@ -14,7 +14,7 @@ export default async (
     switch (method) {
         case 'GET':
             try {
-                const posts = await Post.find({ "user._id": id });
+                const posts = await Post.find({ "user._id": id }).sort({_id:-1});
 
                 const user = await User.findById(id);
 
