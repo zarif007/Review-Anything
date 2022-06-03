@@ -15,11 +15,13 @@ import SelectComp from '../SelectComp';
 import { postOnEditState } from '../../atoms/postOnEditAtom';
 import { useRouter } from 'next/router';
 import { FaGgCircle } from "react-icons/fa";
+import { currentUser } from '../../atoms/currentUserAtom';
 
 let socket: any;
 
 const postFormat: postInterface = {
   user: {
+    _id: '',
     username: '',
     email: '',
     image: ''
@@ -47,6 +49,8 @@ const PostModal = () => {
 
   const [isDark] = useRecoilState(theme);
 
+  const [user, setUser] = useRecoilState(currentUser);
+
   const { data: session } = useSession();
 
   const filePickerRef = useRef<any>(null);
@@ -70,6 +74,7 @@ const PostModal = () => {
   useEffect(() => {
     setPost({
       user: {
+        _id: postOnEdit.user._id,
         username: postOnEdit.user.username,
         email: postOnEdit.user.email,
         image: postOnEdit.user.image,
@@ -115,7 +120,7 @@ const PostModal = () => {
   const checkIsDisable = () => {
     
     setIsDisabled(!post.img || !post.title || !post.review || 
-      !post.genre || !post.type || !post.rating || isLoading);
+      !post.genre || !post.type || !post.rating || isLoading || user === undefined);
   }
 
   useEffect(() => {
@@ -136,16 +141,17 @@ const PostModal = () => {
   }
 
   const uploadPost = async () => {
-    if(isLoading) return;
+    if(isDisabled) return;
 
     setIsLoading(true);
 
     setIsDisabled(true);
 
     post['user'] = {
-      username: session?.user?.name || '',
-      image: session?.user?.image || '',
-      email: session?.user?.email || '',
+      _id: user._id,
+      username: user.name,
+      image: user.image,
+      email: user.email,
     }
     // post['interactions'].approvedBy.push(post.user.email);
 
@@ -173,6 +179,7 @@ const PostModal = () => {
     
     setPost({
       user: {
+        _id: '',
         username: '',
         email: '',
         image: ''
@@ -206,6 +213,7 @@ const PostModal = () => {
           setOpen(false);
           setPostOnEdit({
             user: {
+              _id: '',
               username: '',
               email: '',
               image: ''

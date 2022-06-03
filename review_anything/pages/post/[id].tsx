@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ( { params } ) => {
 
 
 const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
-  
+
   const [isDark] = useRecoilState<boolean>(theme);
   
   const { query: { id } } = useRouter();

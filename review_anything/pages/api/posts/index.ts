@@ -24,6 +24,7 @@ export default async (
             }
             break;
         case 'POST':
+            console.log(req.body)
             try{
                 const post = await Post.create({user, img, title, review, genre, type, rating, interactions});
                 res.status(201).json({ success: true, data: post })

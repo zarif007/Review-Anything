@@ -24,10 +24,10 @@ const Profile = () => {
         infoPrimary: `text-gray-500 text-md`,
     }
 
-    // useEffect(() => {
-    //     axios.get(`${domain}users/${id}`)
-    //         .then(res => console.log('oo', res));
-    // }, [])
+    useEffect(() => {
+        axios.get(`${domain}userspost/${id}`)
+            .then(res => console.log('oo', res));
+    }, [id])
 
 
     return (

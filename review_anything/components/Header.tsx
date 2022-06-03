@@ -18,6 +18,7 @@ import { collection, doc, onSnapshot, orderBy, query, updateDoc } from "firebase
 import { db } from "../firebase";
 import NotificationInterface from "../interfaces/Notification";
 import { notificationModalState } from "../atoms/notificationModal";
+import { currentUser } from "../atoms/currentUserAtom";
 
 
 
@@ -25,7 +26,7 @@ const Header: React.FC = () => {
 
   const { data: session } = useSession();
 
-  const [user, setUser] = useState({theme: true, _id: ''});
+  const [user, setUser] = useRecoilState(currentUser);
 
   const [openPostModal, setOpenPostModal] = useRecoilState(postModalState);
 
@@ -39,11 +40,11 @@ const Header: React.FC = () => {
 
   const router = useRouter();
 
+  // Getting User 
   const getUser = async () => {
     await axios.get(`${domain}users/${session?.user?.email}`)
       .then(res => {
         setUser(res.data.data[0]);
-        console.log(user)
       });
   }
 
@@ -59,7 +60,15 @@ const Header: React.FC = () => {
 
   const setTheme = () => {
     setIsDark(!isDark);
-    let updatedUser = user;
+
+    let updatedUser = {
+      _id: user._id,
+      email: user.email || '',
+      image: user.image,
+      name: user.name,
+      preference: user.preference,
+      theme: user.theme,
+    };
     updatedUser.theme = !isDark;
     
     axios.put(`${domain}users/${session?.user?.email}`, updatedUser);
@@ -166,7 +175,7 @@ const Header: React.FC = () => {
               src={session?.user?.image || ''}
               alt='dp'
               className={styles.userImage}
-              onClick={() => router.push(`http://localhost:3000/profile/${user?._id}`)}
+              onClick={() => router.push(`http://localhost:3000/profile/${user._id}`)}
             />
           </div> : <div className={styles.iconsWrapper}>
             <button className={`${styles.buttons} flex`} onClick={() => signIn()} >

@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
     user: {
+        _id: {
+            type: String,
+            require: [true, 'ID needed'],
+            trim: true,
+            maxlength: [500, ],
+        },
         email: {
             type: String,
             require: [true, 'Email needed'],

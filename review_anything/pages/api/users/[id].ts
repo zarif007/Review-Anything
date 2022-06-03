@@ -14,14 +14,13 @@ export default async (
     switch (method) {
         case 'GET':
             try {
-                const user = await User.find({email: id});
+                const user = await User.find({ email: id});
 
                 if (!user) {
                     return res.status(400).json({ success: false });
                 }
 
-                const usersPost = await Post.find({email: id});
-                res.status(200).json({ success: true, data: user, posts: usersPost });
+                res.status(200).json({ success: true, data: user });
             } catch (error) {
                 res.status(400).json({ success: false });
             }

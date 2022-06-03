@@ -4,8 +4,8 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         require: [true, 'Email needed'],
-        unique: true,
         trim: true,
+        unique: true,
         maxlength: [50, ],
     },
     image: {

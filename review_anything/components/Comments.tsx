@@ -8,10 +8,13 @@ import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp, where 
 import { useSession } from "next-auth/react";
 import commentInterface from './../interfaces/Comment';
 import postInterface from "../interfaces/Post";
+import { currentUser } from "../atoms/currentUserAtom";
 
 const Comments: React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [isDark] = useRecoilState(theme);
+
+  const [cUser, setCUser] = useRecoilState(currentUser);
 
   const { data: session } = useSession();
 
@@ -50,9 +53,10 @@ const Comments: React.FC<{ post: postInterface }> = ( { post } ) => {
 
     const data: commentInterface = {
         user: {
-            email: session?.user?.email || '',
-            username: session?.user?.name || '',
-            image: session?.user?.image || '', 
+            _id: cUser._id,
+            email: cUser.email,
+            username: cUser.name,
+            image: cUser.image, 
         },
         comment: userComment,
         postId: _id || '',

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import postInterface from '../interfaces/Post'
 import { BiTrendingUp } from "react-icons/bi";
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { db } from '../firebase';
 import { BsFillStarFill } from 'react-icons/bs';
 import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
