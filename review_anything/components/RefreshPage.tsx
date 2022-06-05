@@ -5,8 +5,8 @@ const RefreshPage = () => {
   const router = useRouter();
 
   return (
-    <div className="">
-      <button className="w-full bg-blue-500 rounded-sm py-2 font-semibold"
+    <div className="fixed">
+      <button className="w-96 bg-blue-500 rounded-sm py-2 font-semibold"
         onClick={() => router.replace(router.asPath)}>
         Refresh Page
       </button>
