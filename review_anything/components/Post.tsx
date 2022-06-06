@@ -21,6 +21,7 @@ import { db } from '../firebase';
 import { useRouter } from 'next/router';
 import io from 'Socket.IO-client'
 
+
 let socket: any;
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
