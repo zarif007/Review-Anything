@@ -19,7 +19,7 @@ import { GiTireIronCross } from "react-icons/gi";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useRouter } from 'next/router';
-import io from 'socket.io-client'
+import io from 'Socket.IO-client'
 
 let socket: any;
 
