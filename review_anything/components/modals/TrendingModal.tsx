@@ -139,7 +139,6 @@ const TrendingModal = () => {
                   })
                 }
               </div>
-
             </div>
        
           </Transition.Child>
