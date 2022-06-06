@@ -12,10 +12,9 @@ const Feed: React.FC<{ posts: postInterface[] }> = ( { posts } ) => {
         <Posts posts={posts} />
       </section>
       <section className='hidden md:flex w-2/6 pt-6 flex-col'>
-        <div className='mb-1'>
+        <div className='mb-2'>
             <Pool />
         </div>
-        <br />
         <div className='mb-4'>
           <Trending />
         </div>

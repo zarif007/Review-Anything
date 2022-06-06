@@ -19,7 +19,9 @@ import { GiTireIronCross } from "react-icons/gi";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useRouter } from 'next/router';
+import io from 'Socket.IO-client'
 
+let socket: any;
 
 const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
@@ -78,6 +80,15 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [starRating, setStarRating] = useState<number>(parseFloat(rating));
 
+  useEffect(() => {
+    socketInitializer();
+  }, [])
+
+  const socketInitializer = async () => {
+    await fetch('/api/socket');
+    socket = io()
+  }
+
   // Storing current user's interaction on this post
   useEffect(() => {
     interactions.approvedBy.find(it => {
@@ -117,6 +128,11 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
                                   (interactions.approvedBy.length / total) * 100;
 
     setCrowdInfo(updatedCrowdInfo);
+
+    axios.get(`${domain}/trending`)
+    .then(res => {
+      socket.emit('input-change', res.data.data)
+    });
   }
 
   useEffect(() => {

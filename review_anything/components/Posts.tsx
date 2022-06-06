@@ -16,7 +16,10 @@ const Posts: React.FC<{ posts: postInterface[] }> = ( {posts} ) => {
 
     setPostsFromDB(posts);
     setFilteredPosts(posts);
+
   }, [posts]);
+
+  
 
 
   useEffect(() => {
