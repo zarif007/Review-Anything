@@ -7,12 +7,15 @@ import { postModalState } from '../atoms/postModalAtom';
 import { useSession } from 'next-auth/react';
 import { theme } from '../atoms/themeAtom';
 import { poolModalState } from '../atoms/poolModalAtom';
+import { trendingModalState } from './../atoms/trendingModalAtom';
 
 const BottomNav: React.FC = () => {
 
     const [postOpen, setPostOpen] = useRecoilState<boolean>(postModalState);
 
     const [poolOpen, setPoolOpen] = useRecoilState<boolean>(poolModalState);
+
+    const [trendingOpen, setTrendingOpen] = useRecoilState<boolean>(trendingModalState);
 
     const [isDark] = useRecoilState<boolean>(theme);
 
@@ -32,7 +35,7 @@ const BottomNav: React.FC = () => {
                 <section className={styles.itemsWrapper}>
                     <div className="flex justify-between">
                         <div className={styles.iconsWrapper}>
-                            <BiTrendingUp className={styles.icon} />
+                            <BiTrendingUp className={styles.icon} onClick={() => setTrendingOpen(true)} />
                             <span className={styles.iconText}>Trending</span>
                         </div>
                         {

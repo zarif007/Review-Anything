@@ -10,6 +10,7 @@ import PoolModal from '../components/modals/PoolModal'
 import PostModal from '../components/modals/PostModal'
 import NotificationModal from '../components/modals/NotificationModal'
 import { domain } from '../domain'
+import TrendingModal from '../components/modals/TrendingModal'
 
 let dk = false;
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -61,6 +62,7 @@ const Home: NextPage = ({ data }: any ) => {
       <PostModal />
       <PoolModal />
       <NotificationModal />
+      <TrendingModal />
     </div>
   )
 }
