@@ -19,6 +19,7 @@ import { GiTireIronCross } from "react-icons/gi";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useRouter } from 'next/router';
+//@ts-ignore
 import io from 'Socket.IO-client'
 
 
