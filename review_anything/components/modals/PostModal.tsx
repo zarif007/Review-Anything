@@ -9,7 +9,7 @@ import StarsRating from "react-star-rate";
 import { useSession } from 'next-auth/react';
 import { theme } from '../../atoms/themeAtom';
 import axios from 'axios';
-import io from 'Socket.IO-client'
+import io from 'socket.io-client'
 import { domain } from './../../domain';
 import SelectComp from '../SelectComp';
 import { postOnEditState } from '../../atoms/postOnEditAtom';
