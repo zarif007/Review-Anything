@@ -120,7 +120,7 @@ const TrendingModal = () => {
                   !socket ? <>Loading...</> : 
                   posts.slice(0, 3).map((post: postInterface) => {
                     return (
-                      <div className={styles.postWrapper} >
+                      <div className={styles.postWrapper} key={post._id}>
                         <Link href={`/post/${post._id}`}>
                           <div className='flex space-x-2 items-center pb-2 cursor-pointer'>
                             <img src={post.img} className={styles.postImg} />

@@ -67,9 +67,9 @@ const Trending: React.FC = () => {
       <div className='mb-8'>
         { 
           !socket ? <>Loading...</> : 
-          posts.slice(0, 3).map((post: postInterface) => {
+          posts.slice(0, 3).map((post: postInterface, index) => {
             return (
-              <div className={styles.postWrapper} >
+              <div className={styles.postWrapper} key={index}>
                 <Link href={`/post/${post._id}`}>
                   <div className='flex space-x-2 items-center pb-2 cursor-pointer'>
                     <img src={post.img} className={styles.postImg} />

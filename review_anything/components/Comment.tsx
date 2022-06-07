@@ -34,9 +34,9 @@ const Comment: React.FC<{ postComment: commentInterface}> = ({ postComment }) =>
         <div className={styles.comment}>
             <p>
               {
-                comment.split('\n').map(cm => {
+                comment.split('\n').map((cm, index) => {
                   return (
-                    <div>
+                    <div key={index}>
                       {cm}
                     </div>
                   )
