@@ -333,7 +333,6 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       <div className={styles.captionWrapper}>
         <p className={`${styles.caption}`}>{
           review?.split('\n').slice(0, reviewLineLimit).map((rs: string, index) => {
-            console.log(index);
             return(
               <div
                 key={index}
