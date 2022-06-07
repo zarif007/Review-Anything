@@ -96,9 +96,9 @@ const Comments: React.FC<{ post: postInterface }> = ( { post } ) => {
 
       <div className="overflow-y-auto h-72 md:h-5/6 scrollbar-hide">
         {
-            comments.map((comment: commentInterface) => {
+            comments.map((comment: commentInterface, index) => {
                 return (
-                    <Comment postComment={comment} />
+                    <Comment postComment={comment} key={index} />
                 )
             })
         }
