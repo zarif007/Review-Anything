@@ -4,8 +4,7 @@ import { BiTrendingUp } from "react-icons/bi";
 import { BsFillStarFill } from 'react-icons/bs';
 import { theme } from '../atoms/themeAtom';
 import { useRecoilState } from 'recoil';
-//@ts-ignore
-import io from 'Socket.IO-client'
+import io from 'socket.io-client'
 import axios from 'axios';
 import { domain } from '../domain';
 import Link from 'next/link';

@@ -9,8 +9,7 @@ import { trendingModalState } from '../../atoms/trendingModalAtom';
 import { BiTrendingUp } from 'react-icons/bi';
 import postInterface from '../../interfaces/Post';
 import axios from 'axios';
-//@ts-ignore
-import io from 'Socket.IO-client'
+import io from 'socket.io-client'
 import Link from 'next/link';
 import { BsFillStarFill } from 'react-icons/bs';
 
