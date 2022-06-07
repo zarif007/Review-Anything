@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ( { params } ) => {
 };
 
 
-const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
+const PostDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
 
   const [isDark] = useRecoilState<boolean>(theme);
   
@@ -58,4 +58,4 @@ const postDetails: React.FC<{ post: postInterface }> = ( { post } ) => {
   )
 }
 
-export default postDetails
+export default PostDetails
