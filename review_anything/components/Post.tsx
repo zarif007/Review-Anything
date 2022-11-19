@@ -110,6 +110,8 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
     let sum = 0, total = interactions.approvedBy.length + 
                   interactions.crowdRatings.length;
 
+    // console.log(interactions.approvedBy.length, interactions.crowdRatings.length)
+
     if(interactions.crowdRatings){
       interactions.crowdRatings.map((cr: any) => {
         sum += parseFloat(cr.rating);
@@ -174,10 +176,10 @@ const Post : React.FC<{ post: postInterface }> = ( { post } ) => {
       setHasRated(-1);
     }
 
-    const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
-
     calculateInteractions();
     setHasApproved(!hasApproved);
+
+    const updatedPost: postInterface = {user, img, title, review, genre, type, rating, interactions};
 
     await axios.put(`${domain}/posts/${_id}`, updatedPost);
   }

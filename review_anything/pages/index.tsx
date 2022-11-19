@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetServerSideProps, NextPage, GetStaticProps } from 'next'
 import { useRecoilState } from 'recoil'
 import { theme } from '../atoms/themeAtom'
 import BottomNav from '../components/BottomNav'
@@ -12,7 +12,7 @@ import NotificationModal from '../components/modals/NotificationModal'
 import { domain } from '../domain'
 import TrendingModal from '../components/modals/TrendingModal'
 
-let dk = false;
+
 export const getServerSideProps: GetServerSideProps = async () => {
   const { data } = await axios.get(`${domain}posts`);
 
@@ -27,7 +27,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const Home: NextPage = ({ data }: any ) => {
 
   const [isDark] = useRecoilState<boolean>(theme);
-  dk = isDark;
 
   const styles = {
     wrapper: `min-h-screen ${isDark ? 'bg-[#0E0E10]' : 'bg-[#F5F5F5]'}`,
